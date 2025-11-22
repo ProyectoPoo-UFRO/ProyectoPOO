@@ -5,8 +5,7 @@
 - Patricio Ulloa (21799721625)
 - Carlos Ramirez (21995122125)
 
-Este proyecto corresponde al desarrollo de un programa que simula el funcionamiento de una maaquina expendedora de bebidas para la asignatura **Programación Orientada a Objetos (ICC703-1)**.  
-El programa se construye utilizando una arquitectura **Frontend – Backend – Base de Datos**, incorporando tecnologías modernas como **React**, **Java Spring Boot** y **MongoDB**.
+Este proyecto corresponde al desarrollo de un programa que simula el funcionamiento de una maaquina expendedora de bebidas, proyecto realizado para la asignatura **Programación Orientada a Objetos (ICC703-1)**. El programa se construye utilizando una arquitectura **Frontend – Backend – Base de Datos**, incorporando tecnologías modernas como **React**, **Java Spring Boot** y **MongoDB**.
 
 El objetivo principal es crear una página web interactiva, modular y escalable que permita administrar datos, realizar operaciones CRUD, visualizar mapas, manejar usuarios y más.
 
@@ -18,9 +17,9 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 - React
 - JavaScript (ES6+)
 - HTML5 / CSS3
-- Axios para consumo de API REST
-- Librerías UI (Bootstrap / Tailwind opcional)
-- Jest para pruebas
+- Axios para consumo de API REST (**extra**)
+- Librerías UI (Bootstrap / Tailwind opcional) (**extra**)
+- Jest para pruebas (**extra**)
 
 ### **Backend**
 - Java 17
@@ -35,9 +34,8 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 
 ### **Herramientas de Desarrollo**
 - IntelliJ IDEA (Backend)
-- Visual Studio Code (Frontend)
 - Git + GitHub (control de versiones)
-- Node.js
-- Postman (testing de endpoints)
+- Node.js (**extra**)
+- Postman (testing de endpoints) (**extra**)
 
 ---
