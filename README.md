@@ -28,7 +28,6 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 
 ### **Base de Datos**
 - MongoDB (colecciones, documentos y consultas NoSQL)
-- MongoDB Compass / Atlas
 
 ### **Herramientas de Desarrollo**
 - IntelliJ IDEA (Backend)
