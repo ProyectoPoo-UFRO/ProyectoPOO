@@ -1,4 +1,4 @@
-# Proyecto POO – Simulador Expendedora de Bebidas
+# Proyecto POO – Simulador Máquina Expendedora
 
 ## **Equipo de desarollo**
 - Javier Cortés (22284185225)
