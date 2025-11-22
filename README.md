@@ -22,10 +22,8 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 - Jest para pruebas (**extra**)
 
 ### **Backend**
-- Java 17
+- Java
 - Spring Boot (API REST)
-- Maven
-- Controladores, Servicios y Repositorios (arquitectura limpia)
 - JUnit5 para testing
 
 ### **Base de Datos**
@@ -39,3 +37,23 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 - Postman (testing de endpoints) (**extra**)
 
 ---
+## Estructura del Repositorio
+
+ProyectoPoo/
+├── backend/
+│ ├── src/
+│ ├── pom.xml
+│ └── README_backend.md
+│
+├── frontend/
+│ ├── src/
+│ ├── package.json
+│ └── README_frontend.md
+│
+├── docs/
+│ ├── diagramas/
+│ └── informes/
+│
+├── .gitignore
+└── README.md
+
