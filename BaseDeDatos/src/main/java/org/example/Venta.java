@@ -1,10 +1,12 @@
 package org.example;
 
-import  org.bson.types.ObjectId;
+import org.bson.types.ObjectId;
 import java.time.LocalDateTime;
 
+/**
+ * Registra cada transacción de venta.
+ */
 public class Venta {
-
     private ObjectId id;
     private ObjectId productoId;
     private int cantidad;
@@ -12,18 +14,20 @@ public class Venta {
     private double vueltoEntregado;
     private LocalDateTime fecha;
 
-    public Venta(ObjectId id, int i, double montoPagado, double vuelto) {
+    public Venta() {
         this.fecha = LocalDateTime.now();
     }
 
-    public Venta(ObjectId id, ObjectId productoId, int cantidad, double montoPagado, double vueltoEntrado) {
-        this.id = id;
+    // Constructor principal (corregido)
+    public Venta(ObjectId productoId, int cantidad, double montoPagado, double vueltoEntregado) {
         this.productoId = productoId;
         this.cantidad = cantidad;
         this.montoPagado = montoPagado;
         this.vueltoEntregado = vueltoEntregado;
         this.fecha = LocalDateTime.now();
     }
+
+    // --- Getters y Setters (Necesarios para el Mapper) ---
 
     public ObjectId getId() {
         return id;
@@ -57,12 +61,12 @@ public class Venta {
         this.montoPagado = montoPagado;
     }
 
-    public double getVueltoEntrado() {
+    public double getVueltoEntregado() {
         return vueltoEntregado;
     }
 
-    public void setVueltoEntrado(double vueltoEntrado) {
-        this.vueltoEntregado = vueltoEntrado;
+    public void setVueltoEntregado(double vueltoEntregado) {
+        this.vueltoEntregado = vueltoEntregado;
     }
 
     public LocalDateTime getFecha() {
@@ -71,13 +75,5 @@ public class Venta {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    }
-
-    @Override
-    public String toString() {
-        return "Venta Registrada en " + fecha.toString() +
-                " | Producto ID: " + productoId.toHexString() +
-                " | Pagado: $" + montoPagado +
-                " | Vuelto: $" + vueltoEntregado;
     }
 }

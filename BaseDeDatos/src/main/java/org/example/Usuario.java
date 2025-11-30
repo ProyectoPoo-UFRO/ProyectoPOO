@@ -2,22 +2,25 @@ package org.example;
 
 import org.bson.types.ObjectId;
 
+/**
+ * Representa a un usuario (Técnico o Administrador)
+ */
 public class Usuario {
-
     private ObjectId id;
     private String usuario;
-    private String ContraEncriptada;
-    private String rol;
+    private String passwordHash; // Contraseña encriptada (o simple para el ejemplo)
+    private String rol; // "admin" o "tecnico"
 
-    public Usuario(){
+    public Usuario() {
     }
 
-    public Usuario(ObjectId id, String usuario, String contraEncriptada, String rol) {
-        this.id = id;
+    public Usuario(String usuario, String password, String rol) {
         this.usuario = usuario;
-        ContraEncriptada = contraEncriptada;
+        this.passwordHash = password; // Simulación simple de passwordHash
         this.rol = rol;
     }
+
+    // --- Getters y Setters ---
 
     public ObjectId getId() {
         return id;
@@ -35,12 +38,12 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    public String getContraEncriptada() {
-        return ContraEncriptada;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setContraEncriptada(String contraEncriptada) {
-        ContraEncriptada = contraEncriptada;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getRol() {
@@ -49,9 +52,5 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
-    }
-    @Override
-    public String toString() {
-        return "Usuario: " + usuario + " | Rol: " + rol;
     }
 }

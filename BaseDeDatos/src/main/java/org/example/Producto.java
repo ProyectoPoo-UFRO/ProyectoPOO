@@ -1,4 +1,5 @@
 package org.example;
+
 import org.bson.types.ObjectId;
 
 public class Producto {
@@ -6,24 +7,18 @@ public class Producto {
     private String nombre;
     private double precio;
     private String categoria;
-    private String codigo;
-    private int stock;
-    private String imagen;
+    private String imagenUrl;
 
-    public Producto(String cocaCola, double v, String bebida, String a1, int i, String image){
-
+    public Producto() {
     }
 
-
-    public Producto(ObjectId id, String nombre, double precio, String categoria, String codigo, int stock, String imagen) {
-        this.id = id;
+    public Producto(String nombre, double precio, String categoria, String imagenUrl) {
         this.nombre = nombre;
         this.precio = precio;
         this.categoria = categoria;
-        this.codigo = codigo;
-        this.stock = stock;
-        this.imagen = imagen;
+        this.imagenUrl = imagenUrl;
     }
+
 
     public ObjectId getId() {
         return id;
@@ -57,36 +52,16 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getImagenUrl() {
+        return imagenUrl;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     @Override
     public String toString() {
-        return "Slor: " + codigo +
-                " | Nombre: " + nombre +
-                " | Precio: $" + precio +
-                " | Stock: " + stock +
-                " | Categoría: " + categoria;
+        return nombre + " (ID: " + (id != null ? id.toHexString() : "N/A") + ")";
     }
 }
