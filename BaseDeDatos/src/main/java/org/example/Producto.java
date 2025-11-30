@@ -10,7 +10,7 @@ public class Producto {
     private int stock;
     private String imagen;
 
-    private Producto(){
+    public Producto(){
 
     }
 
