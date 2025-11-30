@@ -1,56 +1,44 @@
 package org.example;
 
-import org.bson.types.ObjectId;
-
-/**
- * Representa a un usuario (Técnico o Administrador)
- */
 public class Usuario {
-    private ObjectId id;
-    private String usuario;
-    private String passwordHash; // Contraseña encriptada (o simple para el ejemplo)
-    private String rol; // "admin" o "tecnico"
+    private String id;
+    private String nombre;
+    private String rol; // "admin", "tecnico", "usuario"
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
-    public Usuario(String usuario, String password, String rol) {
-        this.usuario = usuario;
-        this.passwordHash = password; // Simulación simple de passwordHash
+    public Usuario(String id, String nombre, String rol) {
+        this.id = id;
+        this.nombre = nombre;
         this.rol = rol;
     }
 
-    // --- Getters y Setters ---
-
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getRol() {
         return rol;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (id=%s, rol=%s)", nombre, id, rol);
     }
 }

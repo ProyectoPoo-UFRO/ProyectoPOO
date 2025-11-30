@@ -1,79 +1,77 @@
 package org.example;
 
-import org.bson.types.ObjectId;
-import java.time.LocalDateTime;
+import java.util.Date;
 
-/**
- * Registra cada transacción de venta.
- */
 public class Venta {
-    private ObjectId id;
-    private ObjectId productoId;
+    private String id;
+    private String idMaquina;
+    private String idProducto;
     private int cantidad;
-    private double montoPagado;
-    private double vueltoEntregado;
-    private LocalDateTime fecha;
+    private int total;
+    private Date fecha;
 
-    public Venta() {
-        this.fecha = LocalDateTime.now();
-    }
+    public Venta() {}
 
-    // Constructor principal (corregido)
-    public Venta(ObjectId productoId, int cantidad, double montoPagado, double vueltoEntregado) {
-        this.productoId = productoId;
+    public Venta(String id, String idMaquina, String idProducto, int cantidad, int total, Date fecha) {
+        this.id = id;
+        this.idMaquina = idMaquina;
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
-        this.montoPagado = montoPagado;
-        this.vueltoEntregado = vueltoEntregado;
-        this.fecha = LocalDateTime.now();
+        this.total = total;
+        this.fecha = fecha;
     }
 
-    // --- Getters y Setters (Necesarios para el Mapper) ---
-
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    public String getIdMaquina() {
+        return idMaquina;
     }
 
-    public ObjectId getProductoId() {
-        return productoId;
-    }
-
-    public void setProductoId(ObjectId productoId) {
-        this.productoId = productoId;
+    public String getIdProducto() {
+        return idProducto;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setIdMaquina(String idMaquina) {
+        this.idMaquina = idMaquina;
+    }
+
+    public void setIdProducto(String idProducto) {
+        this.idProducto = idProducto;
+    }
+
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public double getMontoPagado() {
-        return montoPagado;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public void setMontoPagado(double montoPagado) {
-        this.montoPagado = montoPagado;
-    }
-
-    public double getVueltoEntregado() {
-        return vueltoEntregado;
-    }
-
-    public void setVueltoEntregado(double vueltoEntregado) {
-        this.vueltoEntregado = vueltoEntregado;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Venta[id=%s, maquina=%s, producto=%s, cantidad=%d, total=%d, fecha=%s]",
+                id, idMaquina, idProducto, cantidad, total, fecha);
     }
 }

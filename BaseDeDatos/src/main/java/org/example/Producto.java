@@ -1,67 +1,46 @@
 package org.example;
 
-import org.bson.types.ObjectId;
-
 public class Producto {
-    private ObjectId id;
     private String nombre;
-    private double precio;
-    private String categoria;
-    private String imagenUrl;
+    private int stock;
+    private int precio;
 
-    public Producto() {
-    }
+    // ✔ Constructor vacío necesario para deserialización
+    public Producto() {}
 
-    public Producto(String nombre, double precio, String categoria, String imagenUrl) {
+    public Producto(String nombre, int stock, int precio) {
         this.nombre = nombre;
+        this.stock = stock;
         this.precio = precio;
-        this.categoria = categoria;
-        this.imagenUrl = imagenUrl;
     }
 
-
-    public ObjectId getId() {
-        return id;
+    // ✔ SETTERS necesarios para el mapper
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public int getStock() {
+        return stock;
     }
 
-    public double getPrecio() {
+    public int getPrecio() {
         return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getImagenUrl() {
-        return imagenUrl;
-    }
-
-    public void setImagenUrl(String imagenUrl) {
-        this.imagenUrl = imagenUrl;
     }
 
     @Override
     public String toString() {
-        return nombre + " (ID: " + (id != null ? id.toHexString() : "N/A") + ")";
+        return nombre + " | Stock: " + stock + " | $" + precio;
     }
 }

@@ -1,64 +1,67 @@
 package org.example;
 
-import org.bson.types.ObjectId;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Reposicion {
-    private ObjectId id;
-    private ObjectId productoId;
-    private int cantidadAgregada;
-    private String tecnico; // Nombre del técnico
-    private LocalDateTime fecha;
+    private String id;
+    private String idMaquina;
+    private String idProducto;
+    private int cantidad;
+    private Date fecha;
 
-    public Reposicion() {
-        this.fecha = LocalDateTime.now();
+    public Reposicion() {}
+
+    public Reposicion(String id, String idMaquina, String idProducto, int cantidad, Date fecha) {
+        this.id = id;
+        this.idMaquina = idMaquina;
+        this.idProducto = idProducto;
+        this.cantidad = cantidad;
+        this.fecha = fecha;
     }
 
-    public Reposicion(ObjectId productoId, int cantidadAgregada, String tecnico) {
-        this.productoId = productoId;
-        this.cantidadAgregada = cantidadAgregada;
-        this.tecnico = tecnico;
-        this.fecha = LocalDateTime.now();
-    }
-
-
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
+    public String getIdMaquina() {
+        return idMaquina;
     }
 
-    public ObjectId getProductoId() {
-        return productoId;
+    public String getIdProducto() {
+        return idProducto;
     }
 
-    public void setProductoId(ObjectId productoId) {
-        this.productoId = productoId;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public int getCantidadAgregada() {
-        return cantidadAgregada;
-    }
-
-    public void setCantidadAgregada(int cantidadAgregada) {
-        this.cantidadAgregada = cantidadAgregada;
-    }
-
-    public String getTecnico() {
-        return tecnico;
-    }
-
-    public void setTecnico(String tecnico) {
-        this.tecnico = tecnico;
-    }
-
-    public LocalDateTime getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setIdMaquina(String idMaquina) {
+        this.idMaquina = idMaquina;
+    }
+
+    public void setIdProducto(String idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Reposicion[id=%s, maquina=%s, producto=%s, cantidad=%d, fecha=%s]",
+                id, idMaquina, idProducto, cantidad, fecha);
     }
 }

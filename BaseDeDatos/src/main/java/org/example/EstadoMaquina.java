@@ -1,79 +1,31 @@
 package org.example;
 
-import org.bson.types.ObjectId;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.ArrayList;
-
 public class EstadoMaquina {
+    public static final String ONLINE = "ONLINE";
+    public static final String OFFLINE = "OFFLINE";
+    public static final String SIN_STOCK = "SIN_STOCK";
+    public static final String MANTENCION = "MANTENCION";
 
-    private ObjectId id;
-    private Map<String, Integer> dineroDisponible;
-    private String energia;
-    private double temperatura;
-    private List<String> errores;
+    private String estado;
 
-    public EstadoMaquina(){
-        this.dineroDisponible = new HashMap<>();
-        this.errores = new ArrayList<>();
+    public EstadoMaquina() {
+        this.estado = ONLINE;
     }
 
-    public EstadoMaquina(ObjectId id, Map<String, Integer> dineroDisponible, String energia, double temperatura, List<String> errores) {
-        this.id = id;
-        this.dineroDisponible = dineroDisponible;
-        this.energia = energia;
-        this.temperatura = temperatura;
-        this.errores = errores;
+    public EstadoMaquina(String estado) {
+        this.estado = estado;
     }
 
-    public ObjectId getId() {
-        return id;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public Map<String, Integer> getDineroDisponible() {
-        return dineroDisponible;
-    }
-
-    public void setDineroDisponible(Map<String, Integer> dineroDisponible) {
-        this.dineroDisponible = dineroDisponible;
-    }
-
-    public String getEnergia() {
-        return energia;
-    }
-
-    public void setEnergia(String energia) {
-        this.energia = energia;
-    }
-
-    public double getTemperatura() {
-        return temperatura;
-    }
-
-    public void setTemperatura(double temperatura) {
-        this.temperatura = temperatura;
-    }
-
-    public List<String> getErrores() {
-        return errores;
-    }
-
-    public void setErrores(List<String> errores) {
-        this.errores = errores;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "--- ESTADO DE LA MÁQUINA ---\n" +
-                "Energía: " + energia + "\n" +
-                "Temperatura: " + temperatura + "°C\n" +
-                "Errores: " + (errores.isEmpty() ? "Ninguno" : String.join(", ", errores)) + "\n" +
-                "Dinero en Caja: " + dineroDisponible;
+        return estado;
     }
-
 }

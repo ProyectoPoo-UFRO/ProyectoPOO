@@ -1,78 +1,63 @@
 package org.example;
 
-import org.bson.types.ObjectId;
+import java.util.ArrayList;
 
-/**
- * Representa la máquina expendedora en sí.
- */
 public class MaquinaExpendedora {
-    private ObjectId id;
-    private String codigo;
-    private double latitud;
-    private double longitud;
-    private String ubicacion;
+    private String id;
     private String estado;
+    private Coordenadas ubicacion;
+    private ArrayList<Producto> productos;
 
-    // Constructor vacío
+    // ✔ Constructor vacío (Mongo lo NECESITA)
     public MaquinaExpendedora() {
+        this.productos = new ArrayList<>();
     }
 
-    // Constructor principal
-    public MaquinaExpendedora(String codigo, double latitud, double longitud, String ubicacion, String estado) {
-        this.codigo = codigo;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.ubicacion = ubicacion;
+    public MaquinaExpendedora(String id, String estado, Coordenadas ubicacion) {
+        this.id = id;
         this.estado = estado;
+        this.ubicacion = ubicacion;
+        this.productos = new ArrayList<>();
     }
 
-    // --- Getters y Setters ---
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
+    // ✔ SETTERS obligatorios para el mapper
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public double getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(double latitud) {
-        this.latitud = latitud;
-    }
-
-    public double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(double longitud) {
-        this.longitud = longitud;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Coordenadas ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public Coordenadas getUbicacion() {
+        return ubicacion;
+    }
+
+    public ArrayList<Producto> getProductos() {
+        return productos;
+    }
+
+    public void agregarProducto(Producto p) {
+        productos.add(p);
+    }
+
+    @Override
+    public String toString() {
+        return "\nMAQUINA " + id +
+                "\nEstado: " + estado +
+                "\nUbicación: " + ubicacion +
+                "\nCant. Productos: " + productos.size();
     }
 }
