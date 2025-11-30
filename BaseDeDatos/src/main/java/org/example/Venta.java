@@ -12,7 +12,7 @@ public class Venta {
     private double vueltoEntregado;
     private LocalDateTime fecha;
 
-    public Venta() {
+    public Venta(ObjectId id, int i, double montoPagado, double vuelto) {
         this.fecha = LocalDateTime.now();
     }
 

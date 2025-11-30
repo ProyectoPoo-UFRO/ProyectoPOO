@@ -11,7 +11,7 @@ public class Reposicion {
     private LocalDateTime fechaReposicion;
     private String tecnico;
 
-    public Reposicion(){
+    public Reposicion(ObjectId productoId, int cantidad, String tecnico){
         this.fechaReposicion = LocalDateTime.now();
     }
 

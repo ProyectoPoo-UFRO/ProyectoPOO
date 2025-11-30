@@ -1,8 +1,7 @@
 package org.example;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
-import java.time.LocalDateTime;
+
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -13,7 +12,7 @@ public class Mapper {
 
     public static Producto documentToProducto (Document doc){
         if (doc == null) return null;
-        Producto producto = new Producto();
+        Producto producto = new Producto("Coca Cola", 700.00, "Bebida", "A1", 5, "cola.jpg");
         producto.setId(doc.getObjectId("_id"));
         producto.setNombre(doc.getString("nombre"));
 

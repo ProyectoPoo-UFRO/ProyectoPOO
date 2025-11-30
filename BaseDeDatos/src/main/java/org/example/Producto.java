@@ -10,7 +10,7 @@ public class Producto {
     private int stock;
     private String imagen;
 
-    public Producto(){
+    public Producto(String cocaCola, double v, String bebida, String a1, int i, String image){
 
     }
 
