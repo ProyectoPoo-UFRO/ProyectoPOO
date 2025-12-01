@@ -4,19 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
-        <relativePath/>
-    </parent>
 
     <groupId>com.maquina.expendedora</groupId>
     <artifactId>BaseDeDatos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <java.version>24</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <mongodb-driver.version>5.0.1</mongodb-driver.version>
     </properties>
 
@@ -26,26 +21,6 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>${mongodb-driver.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
