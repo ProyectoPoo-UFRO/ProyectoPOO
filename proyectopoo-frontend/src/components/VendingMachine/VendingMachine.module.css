@@ -158,3 +158,46 @@
         min-width: auto;
     }
 }
+
+/* --- NUEVA BARRA DE BÚSQUEDA ELEGANTE --- */
+
+.searchContainer {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column; /* Ponemos la etiqueta arriba del input */
+    gap: 10px;
+}
+
+.searchLabel {
+    color: #b0b0b0; /* Gris claro elegante, no blanco puro */
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Espaciado para un toque premium */
+    margin-left: 5px;
+}
+
+.searchInput {
+    background-color: #1e1e1e; /* Un gris oscuro, no negro total */
+    border: 1px solid #333; /* Borde sutil */
+    color: #ffffff; /* Texto blanco limpio */
+    padding: 14px 16px; /* Más espacio interno para que "respire" */
+    border-radius: 8px; /* Bordes redondeados modernos */
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; /* Fuente normal, no de código */
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease; /* Transición suave al enfocar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.searchInput::placeholder {
+    color: #666; /* Placeholder discreto */
+    font-style: italic;
+}
+
+/* Estado de enfoque (Focus) elegante */
+.searchInput:focus {
+    border-color: #007bff; /* Un azul profesional en lugar del verde chillón */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15); /* Halo azul sutil */
+    background-color: #252525; /* Ligeramente más claro al enfocar */
+}

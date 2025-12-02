@@ -1,0 +1,86 @@
+.container {
+    padding: 40px;
+    background-color: #121212;
+    min-height: 100vh;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.backButton {
+    background-color: transparent;
+    border: 1px solid #666;
+    color: #aaa;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.backButton:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+.tableContainer {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 15px;
+    border-bottom: 1px solid #2a2a2a;
+    color: #ccc;
+    vertical-align: top;
+}
+
+.table tr:hover {
+    background-color: #252525;
+}
+
+.totalColumn {
+    color: #4cd137;
+    font-weight: bold;
+}
+
+.itemList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-style: italic;
+}

@@ -1,63 +1,58 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+// Importamos nuestro nuevo servicio
+import { getAllMachines, saveProductUpdate, createProduct } from "../services/machineService";
 
-// Creamos el contexto
 const VendingContext = createContext();
-
-// Hook personalizado para usar el contexto
 export const useVending = () => useContext(VendingContext);
 
-// ESTE ES EL COMPONENTE "VendingProvider" QUE BUSCAS
 export function VendingProvider({ children }) {
+    // Estado inicial VACÍO (ahora esperamos que cargue del servicio)
+    const [machines, setMachines] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // 1. Estado de MÁQUINAS (antes era solo productos)
-    const [machines, setMachines] = useState([
-        {
-            id: 1,
-            name: "Máquina Hall Central",
-            location: "Edificio A - Piso 1",
-            products: [
-                { id: 101, name: "Coca-Cola", price: 1200, stock: 5 },
-                { id: 102, name: "Pepsi", price: 1100, stock: 3 },
-                { id: 103, name: "Agua Mineral", price: 800, stock: 10 }
-            ]
-        },
-        {
-            id: 2,
-            name: "Máquina Cafetería",
-            location: "Edificio B - Comedor",
-            products: [
-                { id: 201, name: "Súper 8", price: 500, stock: 20 },
-                { id: 202, name: "Gullón", price: 1500, stock: 8 },
-                { id: 203, name: "Jugo Naranja", price: 1000, stock: 0 }
-            ]
-        }
-    ]);
+    // 1. CARGA INICIAL (Simula GET /api/machines)
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const data = await getAllMachines();
+                setMachines(data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error cargando máquinas", error);
+                setLoading(false);
+            }
+        };
+        loadData();
+    }, []);
 
-    // Modificamos para aceptar una cantidad 'qty' (por defecto 1)
+    // 2. DISMINUIR STOCK (Compra)
     const decreaseStock = (machineId, productId, qty = 1) => {
+        // Actualizamos estado local visualmente (Optimistic UI)
         setMachines(prevMachines =>
             prevMachines.map(machine => {
                 if (machine.id !== machineId) return machine;
-
                 return {
                     ...machine,
                     products: machine.products.map(p =>
-                        p.id === productId && p.stock >= qty // Verificamos que haya stock suficiente
+                        p.id === productId && p.stock >= qty
                             ? { ...p, stock: p.stock - qty }
                             : p
                     )
                 };
             })
         );
+
+        // NOTA: Aquí en el futuro llamarás a la API para avisar la venta
+        // saveProductUpdate(machineId, ...);
     };
 
-    // 3. Función para ADMIN: Actualizar precio y stock
-    const updateProduct = (machineId, productId, newStock, newPrice) => {
+    // 3. ACTUALIZAR PRODUCTO (Admin)
+    const updateProduct = async (machineId, productId, newStock, newPrice) => {
+        // Primero actualizamos visualmente
         setMachines(prevMachines =>
             prevMachines.map(machine => {
                 if (machine.id !== machineId) return machine;
-
                 return {
                     ...machine,
                     products: machine.products.map(p =>
@@ -68,26 +63,39 @@ export function VendingProvider({ children }) {
                 };
             })
         );
+
+        // Llamamos al servicio (simulación de backend)
+        await saveProductUpdate(machineId, { id: productId, stock: newStock, price: newPrice });
     };
 
-    // 4. Función para ADMIN: Agregar nuevo producto
-    const addNewProduct = (machineId, productData) => {
+    // 4. AGREGAR NUEVO PRODUCTO (Admin)
+    const addNewProduct = async (machineId, productData) => {
+        // Llamamos al servicio primero para simular la creación
+        const newProductFromDB = await createProduct(machineId, productData);
+
+        // Agregamos al estado local lo que "respondió" la base de datos
         setMachines(prevMachines =>
             prevMachines.map(machine => {
                 if (machine.id !== machineId) return machine;
 
-                const newId = Math.floor(Math.random() * 100000); // ID temporal
                 return {
                     ...machine,
-                    products: [...machine.products, { id: newId, ...productData }]
+                    products: [
+                        ...machine.products,
+                        {
+                            ...newProductFromDB,
+                            image: newProductFromDB.image || "https://via.placeholder.com/150?text=Producto"
+                        }
+                    ]
                 };
             })
         );
     };
 
     return (
-        <VendingContext.Provider value={{ machines, decreaseStock, updateProduct, addNewProduct }}>
-            {children}
+        <VendingContext.Provider value={{ machines, decreaseStock, updateProduct, addNewProduct, loading }}>
+            {/* Si está cargando, podrías mostrar un spinner, por ahora mostramos null o children directo */}
+            {!loading && children}
         </VendingContext.Provider>
     );
 }

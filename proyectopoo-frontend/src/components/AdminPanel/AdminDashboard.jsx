@@ -16,16 +16,17 @@ export default function AdminDashboard() {
     const [newProdName, setNewProdName] = useState("");
     const [newProdPrice, setNewProdPrice] = useState("");
     const [newProdStock, setNewProdStock] = useState("");
+    const [newProdImage, setNewProdImage] = useState(""); // <--- NUEVO ESTADO PARA IMAGEN
 
-    // NUEVO: Estado para notificaciones (Toast)
-    const [notification, setNotification] = useState(null); // { message, type }
+    // Estado para notificaciones (Toast)
+    const [notification, setNotification] = useState(null);
 
     const currentMachine = machines.find(m => m.id === Number(selectedMachineId));
 
     // Función auxiliar para mostrar notificaciones
     const showNotification = (message, type = 'success') => {
         setNotification({ message, type });
-        setTimeout(() => setNotification(null), 3000); // Se borra a los 3 seg
+        setTimeout(() => setNotification(null), 3000);
     };
 
     const handleLogout = () => {
@@ -35,22 +36,25 @@ export default function AdminDashboard() {
 
     const handleAddProduct = (e) => {
         e.preventDefault();
-        // Validación
+
+        // Validación (La imagen es opcional, si está vacía el Context pone un placeholder)
         if(!newProdName.trim() || !newProdPrice || !newProdStock) {
-            showNotification("Por favor complete todos los campos", "error");
+            showNotification("Por favor complete nombre, precio y stock", "error");
             return;
         }
 
         addNewProduct(currentMachine.id, {
             name: newProdName,
             price: Number(newProdPrice),
-            stock: Number(newProdStock)
+            stock: Number(newProdStock),
+            image: newProdImage.trim() // <--- ENVIAMOS LA IMAGEN
         });
 
         // Limpiar inputs
         setNewProdName("");
         setNewProdPrice("");
         setNewProdStock("");
+        setNewProdImage(""); // <--- LIMPIAMOS EL CAMPO IMAGEN
 
         showNotification("Producto agregado correctamente", "success");
     };
@@ -101,6 +105,7 @@ export default function AdminDashboard() {
                         <table className={styles.table}>
                             <thead>
                             <tr>
+                                <th>Img</th> {/* Nueva columna opcional para ver foto pequeñita si quieres */}
                                 <th>Producto</th>
                                 <th>Precio ($)</th>
                                 <th>Stock</th>
@@ -114,7 +119,7 @@ export default function AdminDashboard() {
                                     product={p}
                                     machineId={currentMachine.id}
                                     updateProduct={updateProduct}
-                                    showNotification={showNotification} // Pasamos la función
+                                    showNotification={showNotification}
                                     styles={styles}
                                 />
                             ))}
@@ -126,6 +131,8 @@ export default function AdminDashboard() {
                     <div className={styles.addProductForm}>
                         <h3 style={{ marginTop: 0, marginBottom: '15px' }}>➕ Nuevo Producto</h3>
                         <form onSubmit={handleAddProduct} className={styles.formRow}>
+
+                            {/* Input Nombre */}
                             <div className={styles.inputGroup}>
                                 <span className={styles.inputLabel}>Nombre</span>
                                 <input
@@ -134,10 +141,11 @@ export default function AdminDashboard() {
                                     value={newProdName}
                                     onChange={e => setNewProdName(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '200px', marginLeft: 0 }}
+                                    style={{ width: '180px', marginLeft: 0 }}
                                 />
                             </div>
 
+                            {/* Input Precio */}
                             <div className={styles.inputGroup}>
                                 <span className={styles.inputLabel}>Precio</span>
                                 <input
@@ -146,10 +154,11 @@ export default function AdminDashboard() {
                                     value={newProdPrice}
                                     onChange={e => setNewProdPrice(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '100px', marginLeft: 0 }}
+                                    style={{ width: '90px', marginLeft: 0 }}
                                 />
                             </div>
 
+                            {/* Input Stock */}
                             <div className={styles.inputGroup}>
                                 <span className={styles.inputLabel}>Stock</span>
                                 <input
@@ -158,7 +167,20 @@ export default function AdminDashboard() {
                                     value={newProdStock}
                                     onChange={e => setNewProdStock(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '80px', marginLeft: 0 }}
+                                    style={{ width: '70px', marginLeft: 0 }}
+                                />
+                            </div>
+
+                            {/* NUEVO: Input Imagen URL */}
+                            <div className={styles.inputGroup}>
+                                <span className={styles.inputLabel}>URL Imagen (Opcional)</span>
+                                <input
+                                    type="text"
+                                    placeholder="https://..."
+                                    value={newProdImage}
+                                    onChange={e => setNewProdImage(e.target.value)}
+                                    className={styles.select}
+                                    style={{ width: '250px', marginLeft: 0 }}
                                 />
                             </div>
 
@@ -180,11 +202,19 @@ function ProductRow({ product, machineId, updateProduct, showNotification, style
 
     const handleSave = () => {
         updateProduct(machineId, product.id, stock, price);
-        showNotification("Producto actualizado", "success"); // Feedback visual
+        showNotification("Producto actualizado", "success");
     };
 
     return (
         <tr>
+            {/* Previsualización pequeña de la imagen */}
+            <td style={{ width: '50px' }}>
+                <img
+                    src={product.image || "https://via.placeholder.com/40"}
+                    alt="mini"
+                    style={{ width: '40px', height: '40px', objectFit: 'contain', borderRadius: '4px', backgroundColor: '#fff' }}
+                />
+            </td>
             <td>{product.name}</td>
             <td>
                 <input

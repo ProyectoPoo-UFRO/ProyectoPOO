@@ -10,28 +10,36 @@ export default function VendingMachine() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // decreaseStock ahora acepta cantidad (qty)
+    // Contextos
     const { machines, decreaseStock } = useVending();
-    const { user, deductBalance } = useUser();
+    const { user, deductBalance, addPurchase } = useUser();
     const { cart, addToCart, removeFromCart, clearCart } = useCart();
 
+    // Estados Locales
     const [message, setMessage] = useState("");
+    const [searchTerm, setSearchTerm] = useState(""); // Estado para el buscador
 
+    // Obtener la máquina actual
     const currentMachine = machines.find(m => m.id === Number(id));
 
+    // Redirección si la máquina no existe (seguridad)
     useEffect(() => {
         if (!currentMachine) navigate("/home");
     }, [currentMachine, navigate]);
 
     if (!currentMachine) return <p style={{color: 'white', padding: 20}}>Cargando...</p>;
 
-    // --- NUEVA LÓGICA: AGREGAR AL CARRITO ---
+    // --- LÓGICA DE FILTRADO (BUSCADOR) ---
+    const filteredProducts = currentMachine.products.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // --- AGREGAR AL CARRITO (Sin comprar aún) ---
     const handleAddToCart = (product) => {
-        // Verificamos cuánto de este producto ya tengo en el carrito
         const itemInCart = cart.find(item => item.id === product.id);
         const quantityInCart = itemInCart ? itemInCart.quantity : 0;
 
-        // Validamos que no agregue más del stock real disponible
+        // Validamos stock local vs cantidad en carrito
         if (quantityInCart + 1 > product.stock) {
             setMessage(`❌ No hay suficiente stock de ${product.name}`);
             return;
@@ -41,14 +49,13 @@ export default function VendingMachine() {
         setMessage(`🛒 ${product.name} agregado al carrito`);
     };
 
-    // --- NUEVA LÓGICA: CHECKOUT (COMPRA FINAL) ---
+    // --- CHECKOUT (Compra Final) ---
     const handleCheckout = () => {
         if (cart.length === 0) {
             setMessage("❌ El carrito está vacío");
             return;
         }
 
-        // Calcular total
         const total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
         // 1. Validar Saldo
@@ -57,7 +64,7 @@ export default function VendingMachine() {
             return;
         }
 
-        // 2. Validar Stock Final (Seguridad)
+        // 2. Validar Stock Real (Seguridad final)
         for (const item of cart) {
             const productReal = currentMachine.products.find(p => p.id === item.id);
             if (productReal.stock < item.quantity) {
@@ -69,13 +76,18 @@ export default function VendingMachine() {
         // 3. EJECUTAR COMPRA
         deductBalance(total); // Descontar dinero
 
-        // Descontar stock de cada producto según cantidad
+        // Descontar stock real
         cart.forEach(item => {
             decreaseStock(currentMachine.id, item.id, item.quantity);
         });
 
+        // Guardar en Historial
+        addPurchase(cart, total, currentMachine.name);
+
+        // Limpieza y Feedback
         clearCart();
         setMessage(`✔ ¡Compra realizada con éxito! Total: $${total}`);
+        setSearchTerm(""); // Limpiamos el buscador opcionalmente
     };
 
     return (
@@ -91,20 +103,40 @@ export default function VendingMachine() {
 
             <div className={styles.mainLayout}>
 
-                {/* IZQUIERDA: LISTA DE PRODUCTOS */}
+                {/* COLUMNA IZQUIERDA: PRODUCTOS Y BUSCADOR */}
                 <div className={styles.productsArea}>
+
+                    {/* BUSCADOR ELEGANTE */}
+                    <div className={styles.searchContainer}>
+                        <span className={styles.searchLabel}>Buscador</span>
+                        <input
+                            type="text"
+                            className={styles.searchInput}
+                            placeholder="Escribe para filtrar productos..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
+                    {/* GRILLA DE PRODUCTOS */}
                     <div className={styles.productsGrid}>
-                        {currentMachine.products.map((p) => (
-                            <ProductCard
-                                key={p.id}
-                                product={p}
-                                onBuy={handleAddToCart} // Acción: Agregar al carrito
-                            />
-                        ))}
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((p) => (
+                                <ProductCard
+                                    key={p.id}
+                                    product={p}
+                                    onBuy={handleAddToCart}
+                                />
+                            ))
+                        ) : (
+                            <p style={{ color: '#888', gridColumn: '1 / -1', textAlign: 'center', fontStyle: 'italic', padding: '20px' }}>
+                                No se encontraron productos con ese nombre.
+                            </p>
+                        )}
                     </div>
                 </div>
 
-                {/* DERECHA: SIDEBAR / CONTROLES */}
+                {/* COLUMNA DERECHA: SIDEBAR (SALDO + CARRITO) */}
                 <div className={styles.sidebar}>
 
                     {/* Panel de Saldo */}
@@ -148,7 +180,6 @@ export default function VendingMachine() {
                                     Total: ${cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)}
                                 </div>
 
-                                {/* BOTÓN FINAL DE COMPRA */}
                                 <button
                                     onClick={handleCheckout}
                                     className={styles.clearButton}
