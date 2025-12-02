@@ -1,0 +1,210 @@
+[{
+  "_id": "M010",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.73,
+    "longitud": -72.59
+  },
+  "productos": [
+    {
+      "lataId": "L01",
+      "stock": 99
+    },
+    {
+      "lataId": "L02",
+      "stock": 98
+    },
+    {
+      "lataId": "L03",
+      "stock": 100
+    }
+  ],
+  "maquinaImagenURL": "/images/maquinas/default.jpg",
+  "_class": "com.example.RESTAPIDB.Modelos.Sistema.Maquina"
+},
+{
+  "_id": "M011",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.731,
+    "longitud": -72.584
+  },
+  "productos": [
+    {
+      "lataId": "L01",
+      "stock": 80
+    },
+    {
+      "lataId": "L04",
+      "stock": 50
+    },
+    {
+      "lataId": "L05",
+      "stock": 120
+    }
+  ]
+},
+{
+  "_id": "M012",
+  "estado": "sin_stock",
+  "ubicacion": {
+    "latitud": -38.735,
+    "longitud": -72.6
+  },
+  "productos": [
+    {
+      "lataId": "L02",
+      "stock": 0
+    },
+    {
+      "lataId": "L03",
+      "stock": 0
+    }
+  ]
+},
+{
+  "_id": "M013",
+  "estado": "en_mantenimiento",
+  "ubicacion": {
+    "latitud": -38.736,
+    "longitud": -72.592
+  },
+  "productos": [
+    {
+      "lataId": "L05",
+      "stock": 20
+    },
+    {
+      "lataId": "L04",
+      "stock": 35
+    },
+    {
+      "lataId": "L03",
+      "stock": 40
+    }
+  ]
+},
+{
+  "_id": "M014",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.728,
+    "longitud": -72.555
+  },
+  "productos": [
+    {
+      "lataId": "L01",
+      "stock": 60
+    },
+    {
+      "lataId": "L02",
+      "stock": 20
+    },
+    {
+      "lataId": "L04",
+      "stock": 70
+    }
+  ]
+},
+{
+  "_id": "M015",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.74,
+    "longitud": -72.58
+  },
+  "productos": [
+    {
+      "lataId": "L03",
+      "stock": 90
+    },
+    {
+      "lataId": "L05",
+      "stock": 140
+    }
+  ]
+},
+{
+  "_id": "M016",
+  "estado": "fuera_servicio",
+  "ubicacion": {
+    "latitud": -38.742,
+    "longitud": -72.572
+  },
+  "productos": [
+    {
+      "lataId": "L01",
+      "stock": 30
+    },
+    {
+      "lataId": "L02",
+      "stock": 10
+    },
+    {
+      "lataId": "L05",
+      "stock": 5
+    }
+  ]
+},
+{
+  "_id": "M017",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.75,
+    "longitud": -72.6
+  },
+  "productos": [
+    {
+      "lataId": "L04",
+      "stock": 100
+    },
+    {
+      "lataId": "L03",
+      "stock": 80
+    }
+  ]
+},
+{
+  "_id": "M018",
+  "estado": "sin_stock",
+  "ubicacion": {
+    "latitud": -38.76,
+    "longitud": -72.61
+  },
+  "productos": [
+    {
+      "lataId": "L01",
+      "stock": 0
+    },
+    {
+      "lataId": "L02",
+      "stock": 0
+    },
+    {
+      "lataId": "L03",
+      "stock": 0
+    }
+  ]
+},
+{
+  "_id": "M019",
+  "estado": "operativa",
+  "ubicacion": {
+    "latitud": -38.77,
+    "longitud": -72.62
+  },
+  "productos": [
+    {
+      "lataId": "L05",
+      "stock": 200
+    },
+    {
+      "lataId": "L04",
+      "stock": 70
+    },
+    {
+      "lataId": "L02",
+      "stock": 40
+    }
+  ]
+}]

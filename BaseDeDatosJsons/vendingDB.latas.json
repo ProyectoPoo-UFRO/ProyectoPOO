@@ -1,0 +1,30 @@
+[{
+  "_id": "L01",
+  "nombre": "Coca-Cola",
+  "precio": 1000,
+  "imagen": "images/latas/coca.png"
+},
+{
+  "_id": "L02",
+  "nombre": "Fanta",
+  "precio": 1000,
+  "imagen": "images/latas/fanta.png"
+},
+{
+  "_id": "L03",
+  "nombre": "Sprite",
+  "precio": 1000,
+  "imagen": "images/latas/sprite.png"
+},
+{
+  "_id": "L04",
+  "nombre": "Pepsi",
+  "precio": 900,
+  "imagen": "images/latas/pepsi.png"
+},
+{
+  "_id": "L05",
+  "nombre": "Agua Mineral",
+  "precio": 700,
+  "imagen": "images/latas/agua.png"
+}]
