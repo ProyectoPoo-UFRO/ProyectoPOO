@@ -1,4 +1,4 @@
-import "./ControlPanel.css";
+import "./ControlPanel.module.css";
 
 export default function ControlPanel() {
     return (

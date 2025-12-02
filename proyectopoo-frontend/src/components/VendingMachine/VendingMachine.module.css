@@ -1,0 +1,160 @@
+/* El contenedor principal que envuelve toda la vista */
+.container {
+    padding: 20px;
+    background-color: #000000;
+    min-height: 100vh;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header con información de la máquina y botón volver */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #333;
+}
+
+.machineTitle {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #e0e0e0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.machineLocation {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+.backButton {
+    background-color: transparent;
+    border: 1px solid #666;
+    color: #aaa;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.backButton:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+/* Layout principal: Divide la pantalla en Productos (Izq) y Panel (Der) */
+.mainLayout {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Área de la vitrina de productos */
+.productsArea {
+    flex: 3; /* Ocupa el 75% del ancho */
+    background-color: #1a1a1a;
+    border: 10px solid #333; /* Marco de la máquina */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.8); /* Sombra interna para profundidad */
+}
+
+/* Grilla de productos */
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+/* Panel Lateral (Carrito, Saldo, Mensajes) */
+.sidebar {
+    flex: 1; /* Ocupa el 25% del ancho */
+    background-color: #222;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #111;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 300px;
+}
+
+/* Estilos específicos del Carrito dentro del sidebar */
+.cartContainer {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    flex-grow: 1; /* Para que ocupe el espacio sobrante */
+}
+
+.cartTitle {
+    margin-top: 0;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.cartList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #444;
+    font-size: 0.9rem;
+}
+
+.removeItemBtn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0 5px;
+}
+
+.cartTotal {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    color: #4cd137;
+}
+
+.clearButton {
+    width: 100%;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Media Query para celulares: Columna única */
+@media (max-width: 768px) {
+    .mainLayout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        min-width: auto;
+    }
+}

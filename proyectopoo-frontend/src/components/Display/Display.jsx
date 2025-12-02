@@ -1,4 +1,4 @@
-import "./Display.css";
+import "./Display.module.css";
 export default function Display() {
     return (
         <div style={{

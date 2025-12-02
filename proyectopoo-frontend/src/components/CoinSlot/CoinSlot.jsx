@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { VendingContext } from "../../context/VendingContext";
-import "./CoinSlot.css";
+import "./CoinSlot.module.css";
 
 export default function CoinSlot() {
     const { addMoney } = useContext(VendingContext);

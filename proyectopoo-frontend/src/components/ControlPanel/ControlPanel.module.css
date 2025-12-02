@@ -1,0 +1,32 @@
+.container {
+    background-color: #222;
+    padding: 20px;
+    border-left: 5px solid #111;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Si tienes botones numéricos o de letras */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.key {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #000;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.key:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 #000;
+}
