@@ -1,0 +1,19 @@
+.control-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.control-button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ddd;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.control-button:hover {
+    background-color: #bbb;
+}

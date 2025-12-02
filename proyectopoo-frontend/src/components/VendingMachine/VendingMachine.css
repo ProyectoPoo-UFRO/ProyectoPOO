@@ -1,0 +1,17 @@
+.vending-container {
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* GRID de productos */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 300px;
+    border: 2px solid #aaa;
+    padding: 10px;
+    border-radius: 10px;
+}
