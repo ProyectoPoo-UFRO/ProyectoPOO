@@ -14,13 +14,11 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 ## Tecnologías Utilizadas
 
 ### **Frontend**
-- React
+- React + Vite
 - JavaScript (ES6+)
 - HTML5 / CSS3
-- Axios para consumo de API REST (**extra**)
-- Librerías UI (Bootstrap / Tailwind opcional) (**extra**)
-- Jest para pruebas (**extra**)
-
+- Axios para consumo de API REST 
+- 
 ### **Backend**
 - Java
 - Spring Boot (API REST)
@@ -32,7 +30,6 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 ### **Herramientas de Desarrollo**
 - IntelliJ IDEA (Backend)
 - Git + GitHub (control de versiones)
-- Node.js (**extra**)
-- Postman (testing de endpoints) (**extra**)
+- Node.js
   
 ---
