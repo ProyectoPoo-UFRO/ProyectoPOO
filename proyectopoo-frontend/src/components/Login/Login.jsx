@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUser } from "../../context/UserContext";
-import styles from "./Login.module.css"; // Importamos los estilos
+import styles from "./Login.module.css";
 
 export default function Login() {
     const { login } = useUser();
@@ -32,38 +32,33 @@ export default function Login() {
 
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>
-                        <label className={styles.label}>Usuario:</label>
+                        <label className={styles.label}>Usuario</label>
                         <input
                             className={styles.input}
                             type="text"
-                            placeholder="Ej: admin"
+                            placeholder="Ingrese su usuario"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label className={styles.label}>Contraseña:</label>
+                        <label className={styles.label}>Contraseña</label>
                         <input
                             className={styles.input}
                             type="password"
-                            placeholder="Ej: 1234"
+                            placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
-                    {error && <p className={styles.errorMessage}>⚠️ {error}</p>}
+                    {error && <div className={styles.errorMessage}>⚠️ {error}</div>}
 
                     <button type="submit" className={styles.button}>
                         Ingresar
                     </button>
                 </form>
-
-                <div style={{ marginTop: "20px", fontSize: "0.8em", color: "#666" }}>
-                    <p>Admin: admin / 1234</p>
-                    <p>Cliente: Javier / user</p>
-                </div>
             </div>
         </div>
     );

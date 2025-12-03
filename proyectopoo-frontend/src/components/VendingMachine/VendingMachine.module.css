@@ -1,203 +1,267 @@
-/* El contenedor principal que envuelve toda la vista */
+/* src/components/VendingMachine/VendingMachine.module.css */
+
 .container {
-    padding: 20px;
-    background-color: #000000;
+    padding: 30px;
     min-height: 100vh;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
 }
 
-/* Header con información de la máquina y botón volver */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #333;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: var(--border-glass);
+    backdrop-filter: blur(10px);
 }
 
 .machineTitle {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin: 0;
-    color: #e0e0e0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .machineLocation {
     font-size: 0.9rem;
-    color: #888;
-    margin-top: 5px;
+    color: var(--text-muted);
+    margin-top: 4px;
 }
 
 .backButton {
-    background-color: transparent;
-    border: 1px solid #666;
-    color: #aaa;
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-muted);
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 0.9rem;
 }
 
 .backButton:hover {
-    border-color: #fff;
     color: #fff;
+    border-color: #fff;
 }
 
-/* Layout principal: Divide la pantalla en Productos (Izq) y Panel (Der) */
 .mainLayout {
     display: flex;
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Área de la vitrina de productos */
 .productsArea {
-    flex: 3; /* Ocupa el 75% del ancho */
-    background-color: #1a1a1a;
-    border: 10px solid #333; /* Marco de la máquina */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.8); /* Sombra interna para profundidad */
+    flex: 3;
 }
 
-/* Grilla de productos */
+.searchContainer {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.searchLabel {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: var(--bg-body);
+    padding: 0 10px;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+}
+
+.searchInput {
+    width: 100%;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid var(--border-glass);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.searchInput:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    background: rgba(30, 41, 59, 0.8);
+}
+
 .productsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
 }
 
-/* Panel Lateral (Carrito, Saldo, Mensajes) */
 .sidebar {
-    flex: 1; /* Ocupa el 25% del ancho */
-    background-color: #222;
-    padding: 20px;
-    border-radius: 8px;
-    border-left: 4px solid #111;
+    flex: 1;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    min-width: 300px;
 }
 
-/* Estilos específicos del Carrito dentro del sidebar */
-.cartContainer {
-    background-color: #2a2a2a;
+.balancePanel {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.balanceLabel {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.balanceAmount {
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    color: #fbbf24;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.messageBox {
     padding: 15px;
-    border-radius: 6px;
-    border: 1px solid #444;
-    flex-grow: 1; /* Para que ocupe el espacio sobrante */
+    border-radius: 12px;
+    font-size: 0.9rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.cartContainer {
+    background: var(--bg-card);
+    border: var(--border-glass);
+    border-radius: 16px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .cartTitle {
-    margin-top: 0;
-    border-bottom: 1px solid #555;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
     font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .cartList {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 300px;
+    flex-grow: 1;
     overflow-y: auto;
+    max-height: 400px;
 }
 
 .cartItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px dashed #444;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 8px;
+    border-radius: 8px;
     font-size: 0.9rem;
 }
 
 .removeItemBtn {
-    background: none;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    color: #ff6b6b;
+    color: var(--text-muted);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.removeItemBtn:hover {
+    background: var(--danger);
+    color: white;
 }
 
 .cartTotal {
-    margin-top: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.1);
     font-size: 1.2rem;
-    font-weight: bold;
-    text-align: right;
-    color: #4cd137;
-}
-
-.clearButton {
-    width: 100%;
-    background-color: #c0392b;
-    color: white;
-    border: none;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* Media Query para celulares: Columna única */
-@media (max-width: 768px) {
-    .mainLayout {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        min-width: auto;
-    }
-}
-
-/* --- NUEVA BARRA DE BÚSQUEDA ELEGANTE --- */
-
-.searchContainer {
-    margin-bottom: 25px;
+    font-weight: 700;
     display: flex;
-    flex-direction: column; /* Ponemos la etiqueta arriba del input */
-    gap: 10px;
+    justify-content: space-between;
 }
 
-.searchLabel {
-    color: #b0b0b0; /* Gris claro elegante, no blanco puro */
-    font-size: 0.85rem;
-    font-weight: 600;
+.totalPrice {
+    color: var(--success);
+}
+
+.checkoutBtn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--success);
+    color: #064e3b;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px; /* Espaciado para un toque premium */
-    margin-left: 5px;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
 }
 
-.searchInput {
-    background-color: #1e1e1e; /* Un gris oscuro, no negro total */
-    border: 1px solid #333; /* Borde sutil */
-    color: #ffffff; /* Texto blanco limpio */
-    padding: 14px 16px; /* Más espacio interno para que "respire" */
-    border-radius: 8px; /* Bordes redondeados modernos */
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; /* Fuente normal, no de código */
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease; /* Transición suave al enfocar */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.checkoutBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    filter: brightness(1.1);
 }
 
-.searchInput::placeholder {
-    color: #666; /* Placeholder discreto */
-    font-style: italic;
+.clearBtn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    opacity: 0.7;
 }
 
-/* Estado de enfoque (Focus) elegante */
-.searchInput:focus {
-    border-color: #007bff; /* Un azul profesional en lugar del verde chillón */
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15); /* Halo azul sutil */
-    background-color: #252525; /* Ligeramente más claro al enfocar */
+.clearBtn:hover {
+    opacity: 1;
+    color: var(--danger);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+    .mainLayout { flex-direction: column; }
+    .sidebar { min-width: auto; }
 }

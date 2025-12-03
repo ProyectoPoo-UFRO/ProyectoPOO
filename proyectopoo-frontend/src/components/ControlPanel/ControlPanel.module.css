@@ -7,7 +7,6 @@
     height: 100%;
 }
 
-/* Si tienes botones numéricos o de letras */
 .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

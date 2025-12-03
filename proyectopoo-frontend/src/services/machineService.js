@@ -1,6 +1,3 @@
-// SIMULACIÓN DE BASE DE DATOS (Moveremos aquí tus datos hardcodeados)
-// Cuando tengas Java, borrarás esta variable y usarás fetch()
-
 const MOCK_DATA = [
     {
         id: 1,
@@ -24,26 +21,27 @@ const MOCK_DATA = [
     }
 ];
 
-// --- FUNCIONES DEL SERVICIO ---
-// Todas son 'async' para simular que vienen de internet (Promise)
-
 export const getAllMachines = async () => {
-    // Simulamos un pequeño retraso de red (50ms)
     return new Promise((resolve) => {
+        console.log("⏳ Iniciando petición simulada...");
         setTimeout(() => {
+            console.log("✅ Petición finalizada.");
             resolve(MOCK_DATA);
-        }, 50);
+        }, 100);
     });
 };
 
-// En el futuro, aquí harás: return fetch('/api/machines', { method: 'POST'... })
 export const saveProductUpdate = async (machineId, product) => {
-    console.log(`[API FAKE] Actualizando producto ${product.id} en máquina ${machineId}`);
-    return Promise.resolve(true); // Retornamos éxito
+    console.log(`[MOCK API] Actualizando máquina ${machineId}`, product);
+    return new Promise((resolve) => setTimeout(() => resolve(true), 1000));
 };
 
 export const createProduct = async (machineId, productData) => {
-    console.log(`[API FAKE] Creando producto en máquina ${machineId}`, productData);
-    // Simulamos que la BD nos devuelve el objeto creado con un ID real
-    return Promise.resolve({ ...productData, id: Date.now() });
+    console.log(`[MOCK API] Creando producto en máquina ${machineId}`, productData);
+    return new Promise((resolve) => setTimeout(() => resolve({ ...productData, id: Date.now() }), 1000));
+};
+
+export const deleteProduct = async (machineId, productId) => {
+    console.log(`[MOCK API] Eliminando producto ${productId} de la máquina ${machineId}`);
+    return new Promise((resolve) => setTimeout(() => resolve(true), 1000));
 };

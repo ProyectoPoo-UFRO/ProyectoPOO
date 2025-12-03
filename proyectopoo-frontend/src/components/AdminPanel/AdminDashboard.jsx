@@ -2,28 +2,27 @@ import { useState } from "react";
 import { useVending } from "../../context/VendingContext";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
 import styles from "./AdminDashboard.module.css";
 
 export default function AdminDashboard() {
-    const { machines, updateProduct, addNewProduct } = useVending();
+    const { machines, updateProduct, addNewProduct, removeProduct, loading } = useVending();
     const { user, logout } = useUser();
     const navigate = useNavigate();
 
-    // Estado para saber qué máquina se está editando
-    const [selectedMachineId, setSelectedMachineId] = useState(machines[0]?.id || null);
-
-    // Estados para el formulario de nuevo producto
+    const [selectedMachineId, setSelectedMachineId] = useState(null);
     const [newProdName, setNewProdName] = useState("");
     const [newProdPrice, setNewProdPrice] = useState("");
     const [newProdStock, setNewProdStock] = useState("");
-    const [newProdImage, setNewProdImage] = useState(""); // <--- NUEVO ESTADO PARA IMAGEN
-
-    // Estado para notificaciones (Toast)
+    const [newProdImage, setNewProdImage] = useState("");
     const [notification, setNotification] = useState(null);
+    const [productToDelete, setProductToDelete] = useState(null);
 
-    const currentMachine = machines.find(m => m.id === Number(selectedMachineId));
+    if (loading) return <Spinner />;
 
-    // Función auxiliar para mostrar notificaciones
+    const activeMachineId = selectedMachineId ?? (machines.length > 0 ? machines[0].id : null);
+    const currentMachine = machines.find(m => m.id === Number(activeMachineId));
+
     const showNotification = (message, type = 'success') => {
         setNotification({ message, type });
         setTimeout(() => setNotification(null), 3000);
@@ -37,53 +36,89 @@ export default function AdminDashboard() {
     const handleAddProduct = (e) => {
         e.preventDefault();
 
-        // Validación (La imagen es opcional, si está vacía el Context pone un placeholder)
         if(!newProdName.trim() || !newProdPrice || !newProdStock) {
-            showNotification("Por favor complete nombre, precio y stock", "error");
+            showNotification("Complete todos los campos obligatorios", "error");
             return;
         }
 
+        const priceNum = Number(newProdPrice);
+        const stockNum = Number(newProdStock);
+
+        if (priceNum <= 0) {
+            showNotification("El precio debe ser mayor a $0", "error");
+            return;
+        }
+
+        if (stockNum < 0) {
+            showNotification("El stock no puede ser negativo", "error");
+            return;
+        }
+
+        if (!currentMachine) return;
+
         addNewProduct(currentMachine.id, {
             name: newProdName,
-            price: Number(newProdPrice),
-            stock: Number(newProdStock),
-            image: newProdImage.trim() // <--- ENVIAMOS LA IMAGEN
+            price: priceNum,
+            stock: stockNum,
+            image: newProdImage.trim()
         });
 
-        // Limpiar inputs
         setNewProdName("");
         setNewProdPrice("");
         setNewProdStock("");
-        setNewProdImage(""); // <--- LIMPIAMOS EL CAMPO IMAGEN
+        setNewProdImage("");
 
-        showNotification("Producto agregado correctamente", "success");
+        showNotification("Producto creado exitosamente", "success");
+    };
+
+    const confirmDelete = () => {
+        if (!productToDelete || !currentMachine) return;
+        removeProduct(currentMachine.id, productToDelete.id);
+        showNotification(`Producto eliminado: ${productToDelete.name}`, "success");
+        setProductToDelete(null);
     };
 
     return (
         <div className={styles.container}>
-            {/* Renderizado de Notificación Flotante */}
-            {notification && (
-                <div className={`${styles.notification} ${styles[notification.type]}`}>
-                    {notification.type === 'success' ? '✔' : '❌'} {notification.message}
+            {productToDelete && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h3 style={{marginTop:0, color:'#fff'}}>Confirmar Eliminación</h3>
+                        <p style={{color:'#ccc'}}>
+                            ¿Estás seguro de eliminar <strong>{productToDelete.name}</strong>?<br/>
+                            Esta acción es irreversible.
+                        </p>
+                        <div className={styles.modalActions}>
+                            <button className={styles.btnCancel} onClick={() => setProductToDelete(null)}>Cancelar</button>
+                            <button className={styles.btnConfirm} onClick={confirmDelete}>Eliminar</button>
+                        </div>
+                    </div>
                 </div>
             )}
 
-            {/* Cabecera */}
+            {notification && (
+                <div className={`${styles.notification} ${styles[notification.type]}`}>
+                    {notification.message}
+                </div>
+            )}
+
             <div className={styles.header}>
-                <h1 className={styles.title}>⚙️ Panel de Control</h1>
-                <div className={styles.userInfo}>
-                    <span>Admin: <strong>{user?.name}</strong></span>
+                <h1 className={styles.title}>Panel de Administración</h1>
+
+                <div className={styles.userActions}>
+                    <span className={styles.userName}>
+                        Hola, <strong>{user?.name}</strong>
+                    </span>
                     <button onClick={handleLogout} className={styles.logoutButton}>
                         Cerrar Sesión
                     </button>
                 </div>
             </div>
 
-            {/* Selector de Máquina */}
             <div className={styles.controls}>
-                <label><strong>Gestionar Máquina: </strong></label>
+                <label>Máquina Activa:</label>
                 <select
-                    value={selectedMachineId}
+                    value={activeMachineId || ""}
                     onChange={(e) => setSelectedMachineId(Number(e.target.value))}
                     className={styles.select}
                 >
@@ -95,147 +130,143 @@ export default function AdminDashboard() {
                 </select>
             </div>
 
-            {/* Contenido Principal */}
             {currentMachine ? (
-                <>
-                    <h2 style={{ marginBottom: '15px' }}>Inventario: {currentMachine.name}</h2>
+                <div className={styles.dashboardGrid}>
 
-                    {/* Tabla de Productos */}
-                    <div className={styles.tableContainer}>
-                        <table className={styles.table}>
-                            <thead>
-                            <tr>
-                                <th>Img</th> {/* Nueva columna opcional para ver foto pequeñita si quieres */}
-                                <th>Producto</th>
-                                <th>Precio ($)</th>
-                                <th>Stock</th>
-                                <th>Acción</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {currentMachine.products.map(p => (
-                                <ProductRow
-                                    key={p.id}
-                                    product={p}
-                                    machineId={currentMachine.id}
-                                    updateProduct={updateProduct}
-                                    showNotification={showNotification}
-                                    styles={styles}
-                                />
-                            ))}
-                            </tbody>
-                        </table>
+                    <div className={styles.sectionCard}>
+                        <h2 className={styles.sectionTitle}>Inventario: {currentMachine.name}</h2>
+                        <div className={styles.tableContainer}>
+                            <table className={styles.table}>
+                                <thead>
+                                <tr>
+                                    <th>Img</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {currentMachine.products.map(p => (
+                                    <ProductRow
+                                        key={p.id}
+                                        product={p}
+                                        machineId={currentMachine.id}
+                                        updateProduct={updateProduct}
+                                        onDeleteClick={() => setProductToDelete(p)}
+                                        showNotification={showNotification}
+                                        styles={styles}
+                                    />
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    {/* Formulario para Agregar */}
-                    <div className={styles.addProductForm}>
-                        <h3 style={{ marginTop: 0, marginBottom: '15px' }}>➕ Nuevo Producto</h3>
-                        <form onSubmit={handleAddProduct} className={styles.formRow}>
+                    <div className={`${styles.sectionCard} ${styles.addProductForm}`}>
+                        <h2 className={styles.sectionTitle}>+ Crear Producto</h2>
+                        <form onSubmit={handleAddProduct} className={styles.formStack}>
 
-                            {/* Input Nombre */}
                             <div className={styles.inputGroup}>
-                                <span className={styles.inputLabel}>Nombre</span>
+                                <label className={styles.inputLabel}>Nombre del Producto</label>
                                 <input
                                     type="text"
-                                    placeholder="Ej: Sprite"
+                                    placeholder="Ej: Sprite Zero"
                                     value={newProdName}
                                     onChange={e => setNewProdName(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '180px', marginLeft: 0 }}
                                 />
                             </div>
 
-                            {/* Input Precio */}
                             <div className={styles.inputGroup}>
-                                <span className={styles.inputLabel}>Precio</span>
+                                <label className={styles.inputLabel}>Precio ($)</label>
                                 <input
                                     type="number"
                                     placeholder="1000"
                                     value={newProdPrice}
                                     onChange={e => setNewProdPrice(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '90px', marginLeft: 0 }}
                                 />
                             </div>
 
-                            {/* Input Stock */}
                             <div className={styles.inputGroup}>
-                                <span className={styles.inputLabel}>Stock</span>
+                                <label className={styles.inputLabel}>Stock Inicial</label>
                                 <input
                                     type="number"
                                     placeholder="10"
                                     value={newProdStock}
                                     onChange={e => setNewProdStock(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '70px', marginLeft: 0 }}
                                 />
                             </div>
 
-                            {/* NUEVO: Input Imagen URL */}
                             <div className={styles.inputGroup}>
-                                <span className={styles.inputLabel}>URL Imagen (Opcional)</span>
+                                <label className={styles.inputLabel}>Imagen URL (Opcional)</label>
                                 <input
                                     type="text"
                                     placeholder="https://..."
                                     value={newProdImage}
                                     onChange={e => setNewProdImage(e.target.value)}
                                     className={styles.select}
-                                    style={{ width: '250px', marginLeft: 0 }}
                                 />
                             </div>
 
-                            <button type="submit" className={styles.addButton}>Agregar</button>
+                            <button type="submit" className={styles.addButton}>Guardar Producto</button>
                         </form>
                     </div>
-                </>
+
+                </div>
             ) : (
-                <p>No se encontró información de la máquina.</p>
+                <div style={{ padding: 40, textAlign: "center", color: "#888" }}>
+                    <p>No se encontró información de la máquina.</p>
+                </div>
             )}
         </div>
     );
 }
 
-// Subcomponente de Fila
-function ProductRow({ product, machineId, updateProduct, showNotification, styles }) {
+function ProductRow({ product, machineId, updateProduct, onDeleteClick, showNotification, styles }) {
     const [price, setPrice] = useState(product.price);
     const [stock, setStock] = useState(product.stock);
 
     const handleSave = () => {
-        updateProduct(machineId, product.id, stock, price);
-        showNotification("Producto actualizado", "success");
+        const priceNum = Number(price);
+        const stockNum = Number(stock);
+
+        if (priceNum <= 0) {
+            showNotification("El precio debe ser positivo", "error");
+            setPrice(product.price); return;
+        }
+        if (stockNum < 0) {
+            showNotification("El stock no puede ser negativo", "error");
+            setStock(product.stock); return;
+        }
+        updateProduct(machineId, product.id, stockNum, priceNum);
+        showNotification("Cambios guardados", "success");
     };
 
     return (
         <tr>
-            {/* Previsualización pequeña de la imagen */}
             <td style={{ width: '50px' }}>
                 <img
                     src={product.image || "https://via.placeholder.com/40"}
-                    alt="mini"
-                    style={{ width: '40px', height: '40px', objectFit: 'contain', borderRadius: '4px', backgroundColor: '#fff' }}
+                    alt="ico"
+                    onError={(e) => { e.target.src = "https://via.placeholder.com/40?text=?"; }}
+                    style={{ width: '40px', height: '40px', objectFit: 'contain', borderRadius: '4px', background: '#fff' }}
                 />
             </td>
-            <td>{product.name}</td>
+            <td><strong>{product.name}</strong></td>
             <td>
-                <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    className={styles.inputEdit}
-                />
+                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className={styles.inputEdit} />
             </td>
             <td>
-                <input
-                    type="number"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                    className={styles.inputEdit}
-                />
+                <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className={styles.inputEdit} />
             </td>
             <td>
-                <button onClick={handleSave} className={styles.saveButton}>
-                    💾 Guardar
-                </button>
+                <div className={styles.actionButtons}>
+                    <button onClick={handleSave} className={`${styles.iconBtn} ${styles.btnSave}`} title="Guardar">💾</button>
+                    <button onClick={onDeleteClick} className={`${styles.iconBtn} ${styles.btnDelete}`} title="Eliminar">🗑️</button>
+                </div>
             </td>
         </tr>
     );

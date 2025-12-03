@@ -14,14 +14,11 @@ export default function App() {
         <Routes>
             <Route path="/" element={!user ? <Login /> : <Navigate to={user.role === 'admin' ? "/admin" : "/home"} />} />
 
-            {/* Rutas Clientes */}
             <Route path="/home" element={user ? <MachineList /> : <Navigate to="/" />} />
             <Route path="/machine/:id" element={user ? <VendingMachine /> : <Navigate to="/" />} />
 
-            {/* NUEVA RUTA DE HISTORIAL */}
             <Route path="/history" element={user ? <HistoryPage /> : <Navigate to="/" />} />
 
-            {/* Ruta Protegida Admin */}
             <Route
                 path="/admin"
                 element={

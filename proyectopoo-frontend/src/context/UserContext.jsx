@@ -5,19 +5,16 @@ const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
 export function UserProvider({ children }) {
-    // 1. CARGAR USUARIO
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem("vending_user");
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
-    // 2. CARGAR HISTORIAL (Nuevo)
     const [history, setHistory] = useState(() => {
         const savedHistory = localStorage.getItem("vending_history");
         return savedHistory ? JSON.parse(savedHistory) : [];
     });
 
-    // Persistencia del Usuario
     useEffect(() => {
         if (user) {
             localStorage.setItem("vending_user", JSON.stringify(user));
@@ -26,7 +23,6 @@ export function UserProvider({ children }) {
         }
     }, [user]);
 
-    // Persistencia del Historial (Nuevo)
     useEffect(() => {
         localStorage.setItem("vending_history", JSON.stringify(history));
     }, [history]);
@@ -45,9 +41,6 @@ export function UserProvider({ children }) {
 
     const logout = () => {
         setUser(null);
-        // Opcional: ¿Quieres borrar el historial al salir?
-        // Si quieres que sea persistente entre sesiones, comenta la siguiente línea:
-        // setHistory([]);
     };
 
     const deductBalance = (amount) => {
@@ -55,17 +48,15 @@ export function UserProvider({ children }) {
         setUser(prev => ({ ...prev, balance: prev.balance - amount }));
     };
 
-    // NUEVA FUNCIÓN: Registrar compra
     const addPurchase = (cartItems, totalAmount, machineName) => {
         const newRecord = {
-            id: Date.now(), // ID único basado en tiempo
-            date: new Date().toLocaleString(), // Fecha y hora legible
+            id: Date.now(),
+            date: new Date().toLocaleString(),
             machine: machineName,
-            items: cartItems, // Guardamos una copia del carrito
+            items: cartItems,
             total: totalAmount
         };
 
-        // Agregamos al principio del array para que lo más nuevo salga primero
         setHistory(prev => [newRecord, ...prev]);
     };
 

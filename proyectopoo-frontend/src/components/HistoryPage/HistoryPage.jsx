@@ -1,6 +1,6 @@
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import styles from "./HistoryPage.module.css"; // Asegúrate de haber creado este CSS
+import styles from "./HistoryPage.module.css";
 
 export default function HistoryPage() {
     const { history } = useUser();

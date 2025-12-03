@@ -1,9 +1,11 @@
+/* src/components/HistoryPage/HistoryPage.module.css */
+
 .container {
     padding: 40px;
-    background-color: #121212;
     min-height: 100vh;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', sans-serif;
+    color: var(--text-main);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .header {
@@ -11,35 +13,42 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 15px;
+    border-bottom: var(--border-glass);
+    padding-bottom: 20px;
 }
 
 .title {
     font-size: 2rem;
     margin: 0;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
 }
 
 .backButton {
-    background-color: transparent;
-    border: 1px solid #666;
-    color: #aaa;
-    padding: 8px 16px;
-    border-radius: 4px;
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-muted);
+    padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 0.9rem;
 }
 
 .backButton:hover {
     border-color: #fff;
     color: #fff;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .tableContainer {
-    background-color: #1e1e1e;
-    border-radius: 8px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: var(--border-glass);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .table {
@@ -48,39 +57,56 @@
 }
 
 .table th {
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-muted);
+    padding: 18px 25px;
     text-align: left;
     font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
 }
 
 .table td {
-    padding: 15px;
-    border-bottom: 1px solid #2a2a2a;
-    color: #ccc;
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
     vertical-align: top;
 }
 
+.table tr:last-child td {
+    border-bottom: none;
+}
+
 .table tr:hover {
-    background-color: #252525;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .totalColumn {
-    color: #4cd137;
-    font-weight: bold;
+    color: var(--success);
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
 }
 
 .itemList {
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.itemList li {
+    margin-bottom: 4px;
 }
 
 .emptyState {
     text-align: center;
-    padding: 50px;
-    color: #666;
+    padding: 60px;
+    color: var(--text-muted);
     font-style: italic;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: var(--border-glass);
 }

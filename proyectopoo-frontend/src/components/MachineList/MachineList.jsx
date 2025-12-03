@@ -2,35 +2,30 @@ import { useVending } from "../../context/VendingContext";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./MachineList.module.css";
+import Spinner from "../Spinner/Spinner";
 
 export default function MachineList() {
-    const { machines } = useVending();
+    const { machines, loading } = useVending();
     const { user, logout } = useUser();
     const navigate = useNavigate();
+
+    if (loading) {
+        return <Spinner />;
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <div>
                     <h2>Hola, {user?.name}</h2>
-                    <span style={{color: '#888'}}>Selecciona una máquina para comprar</span>
+                    <span>Selecciona una máquina para comprar</span>
                 </div>
 
-                {/* BOTONES DE ACCIÓN */}
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className={styles.headerActions}>
 
-                    {/* NUEVO BOTÓN: IR AL HISTORIAL */}
                     <button
                         onClick={() => navigate("/history")}
-                        style={{
-                            backgroundColor: '#007bff',
-                            color: 'white',
-                            border: 'none',
-                            padding: '8px 16px',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold'
-                        }}
+                        className={styles.historyButton}
                     >
                         📜 Mis Compras
                     </button>
