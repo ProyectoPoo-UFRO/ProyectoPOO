@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/latas")
-@CrossOrigin(origins = "http://localhost:*")
 public class LataController {
 
     @Autowired
