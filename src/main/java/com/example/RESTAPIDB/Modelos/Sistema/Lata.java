@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection="latas")
 @Data
@@ -13,12 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Lata {
 
     @Id
-    private String _id;
+    @Field("_id")
+    private String id;
     private String nombre;
     private int precio;
     private String imagen;
 
-    public int getPrecio() {
-        return precio;
-    }
 }

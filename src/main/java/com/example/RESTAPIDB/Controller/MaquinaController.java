@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/maquinas")
+@CrossOrigin(origins = "http://localhost:*")
 public class MaquinaController {
 
     @Autowired

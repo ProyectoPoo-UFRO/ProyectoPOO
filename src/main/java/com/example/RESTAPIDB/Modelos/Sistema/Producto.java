@@ -10,16 +10,4 @@ import lombok.NoArgsConstructor;
 public class Producto {
     private String lataId;
     private int stock;
-
-    public String getLataId() {
-        return lataId;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/ventas")
+@CrossOrigin(origins = "http://localhost:*")
 public class VentaController {
 
     @Autowired
