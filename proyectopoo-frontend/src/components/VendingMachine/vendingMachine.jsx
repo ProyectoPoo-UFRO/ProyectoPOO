@@ -8,7 +8,7 @@ import Spinner from "../Spinner/Spinner";
 import styles from "./VendingMachine.module.css";
 
 export default function VendingMachine() {
-    const { id } = useParams();
+    const { id } = useParams(); // Obtenemos el ID de la URL (es un String)
     const navigate = useNavigate();
 
     const { machines, decreaseStock, loading } = useVending();
@@ -18,17 +18,26 @@ export default function VendingMachine() {
     const [message, setMessage] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
 
-    const currentMachine = machines.find(m => m.id === Number(id));
+    // --- CORRECCIÓN CRÍTICA ---
+    // Buscamos la máquina comparando Strings. NO usamos Number(id) porque los IDs de Mongo son texto.
+    const currentMachine = machines.find(m => String(m.id) === String(id));
 
+    // Redirección segura
     useEffect(() => {
+        // Solo redirigimos si ya terminó de cargar y aun así no encontró la máquina
         if (!loading && !currentMachine) {
+            console.warn("Máquina no encontrada, redirigiendo...");
             navigate("/home");
         }
     }, [currentMachine, loading, navigate]);
 
+    // 1. Mostrar Spinner mientras carga
     if (loading) return <Spinner />;
 
+    // 2. Si no hay máquina, no renderizar nada (el useEffect redirigirá)
     if (!currentMachine) return null;
+
+    // --- LÓGICA DEL COMPONENTE ---
 
     const filteredProducts = currentMachine.products.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -39,12 +48,12 @@ export default function VendingMachine() {
         const quantityInCart = itemInCart ? itemInCart.quantity : 0;
 
         if (quantityInCart + 1 > product.stock) {
-            setMessage(`❌ No hay suficiente stock de ${product.name}`);
+            setMessage(`❌ Stock insuficiente de ${product.name}`);
             return;
         }
 
         addToCart(product);
-        setMessage(`🛒 ${product.name} agregado al carrito`);
+        setMessage(`🛒 ${product.name} agregado`);
     };
 
     const handleCheckout = () => {
@@ -60,14 +69,16 @@ export default function VendingMachine() {
             return;
         }
 
+        // Verificación final de stock antes de comprar
         for (const item of cart) {
             const productReal = currentMachine.products.find(p => p.id === item.id);
-            if (productReal.stock < item.quantity) {
-                setMessage(`❌ Stock insuficiente para ${item.name}`);
+            if (!productReal || productReal.stock < item.quantity) {
+                setMessage(`❌ Error de stock con ${item.name}`);
                 return;
             }
         }
 
+        // Procesar compra
         deductBalance(total);
         cart.forEach(item => {
             decreaseStock(currentMachine.id, item.id, item.quantity);
@@ -75,7 +86,7 @@ export default function VendingMachine() {
         addPurchase(cart, total, currentMachine.name);
 
         clearCart();
-        setMessage(`✔ Compra exitosa! Total: $${total}`);
+        setMessage(`✔ ¡Compra exitosa! Total: $${total}`);
         setSearchTerm("");
     };
 
@@ -90,9 +101,7 @@ export default function VendingMachine() {
             </div>
 
             <div className={styles.mainLayout}>
-
                 <div className={styles.productsArea}>
-
                     <div className={styles.searchContainer}>
                         <span className={styles.searchLabel}>Buscador</span>
                         <input
@@ -114,7 +123,7 @@ export default function VendingMachine() {
                                 />
                             ))
                         ) : (
-                            <p style={{ color: '#94a3b8', gridColumn: '1 / -1', textAlign: 'center', fontStyle: 'italic', padding: '20px' }}>
+                            <p style={{ color: '#94a3b8', gridColumn: '1 / -1', textAlign: 'center', padding: '20px' }}>
                                 No se encontraron productos.
                             </p>
                         )}
@@ -122,7 +131,6 @@ export default function VendingMachine() {
                 </div>
 
                 <div className={styles.sidebar}>
-
                     <div className={styles.balancePanel}>
                         <p className={styles.balanceLabel}>Saldo Disponible</p>
                         <h2 className={styles.balanceAmount}>${user.balance}</h2>
@@ -143,9 +151,8 @@ export default function VendingMachine() {
 
                     <div className={styles.cartContainer}>
                         <h3 className={styles.cartTitle}>🛒 Carrito</h3>
-
                         {cart.length === 0 ? (
-                            <p style={{ color: '#64748b', fontStyle: 'italic', textAlign: 'center', padding: '20px 0', flexGrow: 1 }}>
+                            <p style={{ color: '#64748b', textAlign: 'center', padding: '20px 0', flexGrow: 1 }}>
                                 Carrito vacío...
                             </p>
                         ) : (
@@ -157,25 +164,21 @@ export default function VendingMachine() {
                                             <button
                                                 onClick={() => removeFromCart(item.id)}
                                                 className={styles.removeItemBtn}
-                                                title="Eliminar del carrito"
                                             >
                                                 ×
                                             </button>
                                         </li>
                                     ))}
                                 </ul>
-
                                 <div className={styles.cartTotal}>
                                     <span>Total:</span>
                                     <span className={styles.totalPrice}>
                                         ${cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)}
                                     </span>
                                 </div>
-
                                 <button onClick={handleCheckout} className={styles.checkoutBtn}>
                                     Pagar Ahora
                                 </button>
-
                                 <button onClick={clearCart} className={styles.clearBtn}>
                                     Vaciar carrito
                                 </button>

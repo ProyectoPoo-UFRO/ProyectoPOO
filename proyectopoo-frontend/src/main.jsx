@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'; // <--- Importante
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import { UserProvider } from './context/UserContext.jsx';
 import { VendingProvider } from './context/VendingContext.jsx';
 import { CartProvider } from './context/CartContext.jsx';
-import "./styles/global.css";
+import "./styles/global.css"; // Asegúrate de que este archivo exista con tu diseño nuevo
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>

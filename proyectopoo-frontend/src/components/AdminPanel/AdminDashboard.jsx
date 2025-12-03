@@ -10,18 +10,28 @@ export default function AdminDashboard() {
     const { user, logout } = useUser();
     const navigate = useNavigate();
 
+    // Estado para la selección manual
     const [selectedMachineId, setSelectedMachineId] = useState(null);
+
+    // Estados para el formulario de nuevo producto
     const [newProdName, setNewProdName] = useState("");
     const [newProdPrice, setNewProdPrice] = useState("");
     const [newProdStock, setNewProdStock] = useState("");
     const [newProdImage, setNewProdImage] = useState("");
+
+    // Estado para notificaciones
     const [notification, setNotification] = useState(null);
     const [productToDelete, setProductToDelete] = useState(null);
 
+    // SI ESTÁ CARGANDO -> MOSTRAR SPINNER
     if (loading) return <Spinner />;
 
+    // --- CORRECCIÓN CRÍTICA AQUÍ ---
+    // 1. Determinamos el ID activo (Si es null, usamos el de la primera máquina)
     const activeMachineId = selectedMachineId ?? (machines.length > 0 ? machines[0].id : null);
-    const currentMachine = machines.find(m => m.id === Number(activeMachineId));
+
+    // 2. Buscamos la máquina comparando como STRING (Texto), no como Número
+    const currentMachine = machines.find(m => String(m.id) === String(activeMachineId));
 
     const showNotification = (message, type = 'success') => {
         setNotification({ message, type });
@@ -80,6 +90,7 @@ export default function AdminDashboard() {
 
     return (
         <div className={styles.container}>
+            {/* MODAL DE CONFIRMACIÓN */}
             {productToDelete && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -96,15 +107,16 @@ export default function AdminDashboard() {
                 </div>
             )}
 
+            {/* TOAST */}
             {notification && (
                 <div className={`${styles.notification} ${styles[notification.type]}`}>
                     {notification.message}
                 </div>
             )}
 
+            {/* HEADER */}
             <div className={styles.header}>
                 <h1 className={styles.title}>Panel de Administración</h1>
-
                 <div className={styles.userActions}>
                     <span className={styles.userName}>
                         Hola, <strong>{user?.name}</strong>
@@ -115,11 +127,12 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
+            {/* SELECTOR DE MÁQUINA */}
             <div className={styles.controls}>
                 <label>Máquina Activa:</label>
                 <select
                     value={activeMachineId || ""}
-                    onChange={(e) => setSelectedMachineId(Number(e.target.value))}
+                    onChange={(e) => setSelectedMachineId(e.target.value)} // Guardamos el valor directo (String)
                     className={styles.select}
                 >
                     {machines.map(m => (
@@ -130,9 +143,11 @@ export default function AdminDashboard() {
                 </select>
             </div>
 
+            {/* LAYOUT PRINCIPAL */}
             {currentMachine ? (
                 <div className={styles.dashboardGrid}>
 
+                    {/* COLUMNA 1: TABLA DE INVENTARIO */}
                     <div className={styles.sectionCard}>
                         <h2 className={styles.sectionTitle}>Inventario: {currentMachine.name}</h2>
                         <div className={styles.tableContainer}>
@@ -163,6 +178,7 @@ export default function AdminDashboard() {
                         </div>
                     </div>
 
+                    {/* COLUMNA 2: FORMULARIO AGREGAR */}
                     <div className={`${styles.sectionCard} ${styles.addProductForm}`}>
                         <h2 className={styles.sectionTitle}>+ Crear Producto</h2>
                         <form onSubmit={handleAddProduct} className={styles.formStack}>
@@ -218,7 +234,7 @@ export default function AdminDashboard() {
                 </div>
             ) : (
                 <div style={{ padding: 40, textAlign: "center", color: "#888" }}>
-                    <p>No se encontró información de la máquina.</p>
+                    <p>No se encontró información de la máquina o no hay máquinas disponibles.</p>
                 </div>
             )}
         </div>

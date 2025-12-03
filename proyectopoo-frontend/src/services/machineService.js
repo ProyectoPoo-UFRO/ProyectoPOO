@@ -1,47 +1,88 @@
-const MOCK_DATA = [
-    {
-        id: 1,
-        name: "Máquina Hall Central",
-        location: "Edificio A - Piso 1",
-        products: [
-            { id: 101, name: "Coca-Cola", price: 1200, stock: 5, image: "https://http2.mlstatic.com/D_NQ_NP_727878-MLC50172087566_062022-O.webp" },
-            { id: 102, name: "Pepsi", price: 1100, stock: 3, image: "https://i5.walmartimages.com/asr/3910f545-207a-4411-a83d-3d4dfa6665a0.2b6d57741d45903b7470557342d453b3.jpeg" },
-            { id: 103, name: "Agua Mineral", price: 800, stock: 10, image: "https://jumbo.vtexassets.com/arquivos/ids/447547/Agua-mineral-sin-gas-16-L.jpg?v=637599602564200000" }
-        ]
-    },
-    {
-        id: 2,
-        name: "Máquina Cafetería",
-        location: "Edificio B - Comedor",
-        products: [
-            { id: 201, name: "Súper 8", price: 500, stock: 20, image: "https://images.tottus.cl/m/20002875_1.jpg" },
-            { id: 202, name: "Galletas Gullón", price: 1500, stock: 8, image: "https://jumbo.vtexassets.com/arquivos/ids/410657/Galletas-digestive-avena-y-choc-265-g.jpg?v=637469344234000000" },
-            { id: 203, name: "Jugo Naranja", price: 1000, stock: 0, image: "https://copuchas.cl/wp-content/uploads/2021/08/watts-naranja-15-litros.jpg" }
-        ]
-    }
-];
+// src/services/machineService.js
+
+// CONFIGURACIÓN: Puerto 8081
+const API_URL = "http://localhost:8081/api/v1";
 
 export const getAllMachines = async () => {
-    return new Promise((resolve) => {
-        console.log("⏳ Iniciando petición simulada...");
-        setTimeout(() => {
-            console.log("✅ Petición finalizada.");
-            resolve(MOCK_DATA);
-        }, 100);
-    });
+    try {
+        console.log("📡 Cargando datos del sistema...");
+
+        // 1. Pedimos las MÁQUINAS y las LATAS al mismo tiempo
+        const [machinesRes, latasRes] = await Promise.all([
+            fetch(`${API_URL}/maquinas`),
+            fetch(`${API_URL}/latas`)
+        ]);
+
+        if (!machinesRes.ok || !latasRes.ok) {
+            throw new Error("Error: Una de las peticiones al backend falló.");
+        }
+
+        // Convertimos a JSON
+        const machinesData = await machinesRes.json();
+        const latasData = await latasRes.json();
+
+        console.log("📦 Máquinas crudas:", machinesData);
+        console.log("🥫 Catálogo de Latas:", latasData);
+
+        // 2. EL GRAN CRUCE DE DATOS (Mapping)
+        const adaptedData = machinesData.map((machine, index) => {
+
+            // Nombre de la máquina (Fallback si no viene)
+            const machineName = machine.nombre || `Máquina ${index + 1} (${machine.estado})`;
+
+            return {
+                id: machine._id || `temp-${index}`,
+                name: machineName,
+                location: machine.ubicacion
+                    ? `Lat: ${machine.ubicacion.latitud}, Long: ${machine.ubicacion.longitud}`
+                    : "Ubicación desconocida",
+
+                // 3. AQUÍ OCURRE LA MAGIA: Unimos Stock con Info de Lata
+                products: (machine.productos || []).map(prod => {
+
+                    // CORRECCIÓN AQUÍ: Usamos 'l.id' en lugar de 'l._id'
+                    // (O soportamos ambos por si acaso cambia en el futuro)
+                    const infoLata = Array.isArray(latasData)
+                        ? latasData.find(l => (l.id || l._id) === prod.lataId)
+                        : null;
+
+                    if (!infoLata) {
+                        console.warn(`⚠️ No se encontró info para lataId: ${prod.lataId}`);
+                    }
+
+                    return {
+                        id: prod.lataId,
+                        stock: prod.stock,
+
+                        // Si encontramos la lata, usamos sus datos. Si no, mostramos el ID para depurar.
+                        name: infoLata?.nombre || `ID: ${prod.lataId} (Sin Datos)`,
+                        price: infoLata?.precio || 0,
+                        image: infoLata?.imagen || "https://via.placeholder.com/150?text=Sin+Imagen"
+                    };
+                })
+            };
+        });
+
+        return adaptedData;
+
+    } catch (error) {
+        console.error("🔥 Error cargando datos:", error);
+        return [];
+    }
 };
 
+// --- FUNCIONES DE ESCRITURA (Simuladas por ahora) ---
+
 export const saveProductUpdate = async (machineId, product) => {
-    console.log(`[MOCK API] Actualizando máquina ${machineId}`, product);
-    return new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+    // Aquí conectarás con PUT /ventas o similar en el futuro
+    return new Promise(r => setTimeout(r, 500));
 };
 
 export const createProduct = async (machineId, productData) => {
-    console.log(`[MOCK API] Creando producto en máquina ${machineId}`, productData);
-    return new Promise((resolve) => setTimeout(() => resolve({ ...productData, id: Date.now() }), 1000));
+    // Tu backend requiere crear una Lata primero. Por ahora simulamos.
+    return new Promise(r => setTimeout(r, 500));
 };
 
 export const deleteProduct = async (machineId, productId) => {
-    console.log(`[MOCK API] Eliminando producto ${productId} de la máquina ${machineId}`);
-    return new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+    return new Promise(r => setTimeout(r, 500));
 };
