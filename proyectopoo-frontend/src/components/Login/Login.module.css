@@ -1,11 +1,84 @@
 /* src/components/Login/Login.module.css */
 
-.container {
+/* --- NUEVA ESTRUCTURA: PANTALLA DIVIDIDA --- */
+
+.splitScreen {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: var(--bg-body);
+}
+
+/* PANEL IZQUIERDO (Formulario) */
+.leftPane {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    padding: 40px;
+    position: relative;
+    z-index: 2;
 }
+
+/* PANEL DERECHO (Imagen Gigante) */
+.rightPane {
+    flex: 1.2;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(
+            circle at center right,
+            #1e293b 0%,
+            #0f172a 100%
+    );
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.heroContent {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- LA IMAGEN GIGANTE (CON EL NUEVO EFECTO) --- */
+.heroImage {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: contain;
+    /* Estado normal: Flotando suave con sombra azul */
+    filter: drop-shadow(0 0 50px rgba(77, 77, 255, 0.3));
+    animation: slowFloat 8s ease-in-out infinite;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
+}
+
+/* EFECTO "CHROMATIC POP" AL PASAR EL CURSOR */
+.heroImage:hover {
+    animation-play-state: paused; /* 1. Pausa la flotación para enfocar */
+    transform: scale(1.15) rotate(-3deg); /* 2. Crece y se inclina con actitud */
+
+    /* 3. Doble sombra sólida (Cian y Neón) para efecto 3D + Brillo */
+    filter:
+            brightness(1.2)
+            drop-shadow(-15px -10px 0px rgba(6, 182, 212, 0.5)) /* Sombra Cian desplazada */
+            drop-shadow(15px 10px 0px rgba(77, 77, 255, 0.5));  /* Sombra Azul desplazada */
+
+    cursor: pointer;
+}
+
+@keyframes slowFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.02); }
+}
+
+
+/* --- ESTILOS DE LA TARJETA --- */
 
 .card {
     background: var(--bg-card);
@@ -15,7 +88,7 @@
     border: var(--border-glass);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -26,16 +99,45 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logoImage {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-body);
+    box-shadow: 0 0 25px var(--primary-glow);
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
 .title {
-    color: var(--text-main);
     margin-bottom: 2rem;
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    /* Degradado de texto sutil */
-    background: linear-gradient(to right, #fff, var(--text-muted));
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, var(--primary) 0%, #ffffff 50%, var(--accent) 100%);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    cursor: default;
+    transition: all 0.4s ease;
+}
+
+.title:hover {
+    background-position: right center;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px var(--primary-glow));
 }
 
 .formGroup {
@@ -45,11 +147,19 @@
 
 .label {
     display: block;
-    color: var(--text-muted);
+    color: var(--accent);
     margin-bottom: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(95, 112, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.formGroup:hover .label {
+    text-shadow: 0 0 15px rgba(95, 112, 255, 0.8);
+    color: #fff;
 }
 
 .input {
@@ -106,4 +216,39 @@
     justify-content: center;
     gap: 8px;
     font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+    .splitScreen {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .rightPane {
+        order: -1;
+        flex: none;
+        height: 250px;
+        border-left: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .heroImage {
+        max-width: 200px;
+        filter: drop-shadow(0 0 30px rgba(77, 77, 255, 0.4));
+    }
+
+    .leftPane {
+        padding: 30px 20px;
+        align-items: flex-start;
+    }
+
+    .card {
+        margin-top: 20px;
+    }
+
+    .logoContainer {
+        display: none;
+    }
 }

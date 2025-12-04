@@ -9,20 +9,36 @@ export default function MachineList() {
     const { user, logout } = useUser();
     const navigate = useNavigate();
 
-    if (loading) {
-        return <Spinner />;
-    }
+    if (loading) return <Spinner />;
+
+    // Función secreta del Easter Egg
+    const activateEasterEgg = () => {
+        navigate("/secret");
+    };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <div>
-                    <h2>Hola, {user?.name}</h2>
-                    <span>Selecciona una máquina para comprar</span>
+
+                {/* 1. IZQUIERDA: LOGO (CON CLICK SECRETO) */}
+                <img
+                    src="/img/logo-can.png"
+                    alt="LatApp"
+                    className={styles.logoCorner}
+                    onClick={activateEasterEgg} // <--- MANTENEMOS EL GATILLO
+                    title="LatApp"
+                />
+
+                {/* 2. CENTRO: SALUDO DESTACADO (RESTAURADO) */}
+                <div className={styles.headerCenter}>
+                    <h2>
+                        Hola, <strong className={styles.userNameHighlight}>{user?.name}</strong>
+                    </h2>
+                    <span>Selecciona una máquina</span>
                 </div>
 
+                {/* 3. DERECHA: BOTONES */}
                 <div className={styles.headerActions}>
-
                     <button
                         onClick={() => navigate("/history")}
                         className={styles.historyButton}

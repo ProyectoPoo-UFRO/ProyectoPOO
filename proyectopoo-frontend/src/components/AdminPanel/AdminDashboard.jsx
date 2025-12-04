@@ -10,27 +10,20 @@ export default function AdminDashboard() {
     const { user, logout } = useUser();
     const navigate = useNavigate();
 
-    // Estado para la selección manual
     const [selectedMachineId, setSelectedMachineId] = useState(null);
-
-    // Estados para el formulario de nuevo producto
     const [newProdName, setNewProdName] = useState("");
     const [newProdPrice, setNewProdPrice] = useState("");
     const [newProdStock, setNewProdStock] = useState("");
     const [newProdImage, setNewProdImage] = useState("");
-
-    // Estado para notificaciones
     const [notification, setNotification] = useState(null);
     const [productToDelete, setProductToDelete] = useState(null);
 
-    // SI ESTÁ CARGANDO -> MOSTRAR SPINNER
     if (loading) return <Spinner />;
 
-    // --- CORRECCIÓN CRÍTICA AQUÍ ---
-    // 1. Determinamos el ID activo (Si es null, usamos el de la primera máquina)
+    // Estado derivado para selección de máquina
     const activeMachineId = selectedMachineId ?? (machines.length > 0 ? machines[0].id : null);
 
-    // 2. Buscamos la máquina comparando como STRING (Texto), no como Número
+    // Buscamos máquina comparando como STRING
     const currentMachine = machines.find(m => String(m.id) === String(activeMachineId));
 
     const showNotification = (message, type = 'success') => {
@@ -114,13 +107,23 @@ export default function AdminDashboard() {
                 </div>
             )}
 
-            {/* HEADER */}
+            {/* HEADER LIMPIO (SIN LOGO) */}
             <div className={styles.header}>
-                <h1 className={styles.title}>Panel de Administración</h1>
-                <div className={styles.userActions}>
+
+                {/* 1. IZQUIERDA: TÍTULO APP SOLAMENTE */}
+                <div className={styles.headerLeft}>
+                    <h1 className={styles.title}>Panel de Administración</h1>
+                </div>
+
+                {/* 2. CENTRO: SALUDO DESTACADO */}
+                <div className={styles.headerCenter}>
                     <span className={styles.userName}>
-                        Hola, <strong>{user?.name}</strong>
+                        Hola, <strong className={styles.userNameHighlight}>{user?.name}</strong>
                     </span>
+                </div>
+
+                {/* 3. DERECHA: BOTÓN SALIR */}
+                <div className={styles.userActions}>
                     <button onClick={handleLogout} className={styles.logoutButton}>
                         Cerrar Sesión
                     </button>
@@ -132,7 +135,7 @@ export default function AdminDashboard() {
                 <label>Máquina Activa:</label>
                 <select
                     value={activeMachineId || ""}
-                    onChange={(e) => setSelectedMachineId(e.target.value)} // Guardamos el valor directo (String)
+                    onChange={(e) => setSelectedMachineId(e.target.value)}
                     className={styles.select}
                 >
                     {machines.map(m => (
@@ -143,7 +146,7 @@ export default function AdminDashboard() {
                 </select>
             </div>
 
-            {/* LAYOUT PRINCIPAL */}
+            {/* LAYOUT PRINCIPAL (GRID) */}
             {currentMachine ? (
                 <div className={styles.dashboardGrid}>
 
@@ -234,7 +237,7 @@ export default function AdminDashboard() {
                 </div>
             ) : (
                 <div style={{ padding: 40, textAlign: "center", color: "#888" }}>
-                    <p>No se encontró información de la máquina o no hay máquinas disponibles.</p>
+                    <p>No se encontró información de la máquina.</p>
                 </div>
             )}
         </div>

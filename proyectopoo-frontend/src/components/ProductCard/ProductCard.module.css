@@ -78,12 +78,14 @@
     background-color: var(--success);
 }
 
+/* CAMBIO AQUÍ: PRECIO RADIOACTIVO */
 .price {
     color: var(--primary);
     font-weight: 800;
     font-size: 1.2rem;
     margin-top: 5px;
     text-align: right;
+    text-shadow: 0 0 10px var(--primary-glow); /* Efecto Radioactivo */
 }
 
 .button {
