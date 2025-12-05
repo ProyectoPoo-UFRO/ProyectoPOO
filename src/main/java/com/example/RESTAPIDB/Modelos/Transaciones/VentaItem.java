@@ -8,14 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VentaItem {
+
     private String idLata;
     private int cantidad;
 
-    public String getIdLata() {
-        return idLata;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
 }

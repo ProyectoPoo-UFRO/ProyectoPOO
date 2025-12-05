@@ -13,10 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reposicion {
+
     @Id
     private String _id;
     private String idMaquina;
     private String idProducto;
     private int cantidad;
     private LocalDateTime fecha; //TODO ver opciones para usar mejor la fecha
+
 }

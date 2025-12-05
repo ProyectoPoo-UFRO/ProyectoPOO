@@ -1,7 +1,6 @@
 package com.example.RESTAPIDB.Controller;
 
-
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     @GetMapping("/")
-    public String apiRoot(){
-        return "Hola, soy la API y te estoy llamando LOL";
+    public ResponseEntity<String> apiRoot(){
+        String regresar="Hola, soy la API y te estoy llamando LOL\tsi ves esto, el backend funciona";
+        return ResponseEntity.ok(regresar);
     }
+
 }

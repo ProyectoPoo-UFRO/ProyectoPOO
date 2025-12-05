@@ -22,27 +22,4 @@ public class Venta {
     private int total;
     private LocalDateTime fecha;
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public void setIdMaquina(String idMaquina) {
-        this.idMaquina = idMaquina;
-    }
-
-    public void setItems(List<VentaItem> items) {
-        this.items = items;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
 }

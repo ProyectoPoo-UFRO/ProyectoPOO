@@ -9,20 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VentaRequest {
+
     private String idMaquina;
     private String idUsuario;
     private List<VentaItem> items;
 
-    public String getIdMaquina() {
-        return idMaquina;
-    }
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public List<VentaItem> getItems() {
-        return items;
-    }
 }
-

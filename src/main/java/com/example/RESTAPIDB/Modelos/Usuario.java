@@ -1,7 +1,5 @@
 package com.example.RESTAPIDB.Modelos;
 
-import com.example.RESTAPIDB.Modelos.Sistema.Lata;
-import com.example.RESTAPIDB.Modelos.Sistema.Maquina;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
+
     @Id
     @Field("_id")
     private String id;
     private String nombre;
     private String contrasenia;
-    private String rol; //TODO Pasar a enum
+    private Rol rol;
     private String avatarImage;
     private List<String> idLatasFavoritas;
     private List<String> idMaquinasFavoritas;
+
 }
