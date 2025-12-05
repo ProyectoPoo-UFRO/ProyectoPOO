@@ -1,10 +1,13 @@
 package com.example.RESTAPIDB.Controller;
 
+import com.example.RESTAPIDB.Controller.DTO.StockUpdateRequest;
 import com.example.RESTAPIDB.Modelos.Sistema.Maquina;
+import com.example.RESTAPIDB.Modelos.Sistema.Producto;
 import com.example.RESTAPIDB.Services.MaquinaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -39,9 +42,32 @@ public class MaquinaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}/setStock/{newStock}")
-    public void setStock(@PathVariable String id,@PathVariable int newStock){
+    @PutMapping("/{maquinaId}/stock")
+    public ResponseEntity<String> setStock(@PathVariable String maquinaId, @RequestBody StockUpdateRequest request) {
+        boolean actualizado = maquinaService.cambiarStock(maquinaId, request.getLataId(), request.getNewStock());
 
+        if (actualizado) {
+            return ResponseEntity.ok("Stock actualizado correctamente.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Máquina o producto no encontrado.");
+        }
+    }
+
+    @PostMapping("/{maquinaId}/productos")
+    public ResponseEntity<String> agregarProducto(@PathVariable String maquinaId, @RequestBody Producto producto) {
+
+        return maquinaService.agregarProducto(maquinaId, producto)
+                .map(maquina -> ResponseEntity.ok("Correctamente"))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Maquina o Lata no encontrada"));
+    }
+
+    @DeleteMapping("/{maquinaId}/productos/{lataId}")
+    public ResponseEntity<String> quitarProducto(@PathVariable String maquinaId, @PathVariable String lataId) {
+
+        return maquinaService.quitarProducto(maquinaId, lataId)
+                .map(maquina -> ResponseEntity.ok("Correcto"))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Maquina o producto no encontrado"));
     }
 
 }
