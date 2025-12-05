@@ -17,8 +17,7 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 - React + Vite
 - JavaScript (ES6+)
 - HTML5 / CSS3
-- Axios para consumo de API REST 
-- 
+  
 ### **Backend**
 - Java
 - Spring Boot (API REST)
@@ -29,7 +28,6 @@ El objetivo principal es crear una página web interactiva, modular y escalable 
 
 ### **Herramientas de Desarrollo**
 - IntelliJ IDEA (Backend)
-- Git + GitHub (control de versiones)
+- GitHub 
 - Node.js
-  
 ---
