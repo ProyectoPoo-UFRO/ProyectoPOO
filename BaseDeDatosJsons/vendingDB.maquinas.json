@@ -1,210 +1,119 @@
-[{
-  "_id": "M010",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.73,
-    "longitud": -72.59
+[
+  {
+    "_id": "M010",
+    "estado": "OPERATIVA",
+    "ubicacion": "Campus UFRO - Casino Central",
+    "stockMaximo": 100,
+    "productos": [
+      { "lataId": "L01", "stock": 99 },
+      { "lataId": "L02", "stock": 98 },
+      { "lataId": "L03", "stock": 100 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L01",
-      "stock": 99
-    },
-    {
-      "lataId": "L02",
-      "stock": 98
-    },
-    {
-      "lataId": "L03",
-      "stock": 100
-    }
-  ],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.Modelos.Sistema.Maquina"
-},
-{
-  "_id": "M011",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.731,
-    "longitud": -72.584
+  {
+    "_id": "M011",
+    "estado": "OPERATIVA",
+    "ubicacion": "Av. Alemania 123, Temuco",
+    "stockMaximo": 120,
+    "productos": [
+      { "lataId": "L01", "stock": 80 },
+      { "lataId": "L04", "stock": 50 },
+      { "lataId": "L05", "stock": 120 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L01",
-      "stock": 80
-    },
-    {
-      "lataId": "L04",
-      "stock": 50
-    },
-    {
-      "lataId": "L05",
-      "stock": 120
-    }
-  ]
-},
-{
-  "_id": "M012",
-  "estado": "sin_stock",
-  "ubicacion": {
-    "latitud": -38.735,
-    "longitud": -72.6
+  {
+    "_id": "M012",
+    "estado": "SIN_STOCK",
+    "ubicacion": "Portal Temuco - Nivel 1",
+    "stockMaximo": 100,
+    "productos": [
+      { "lataId": "L02", "stock": 0 },
+      { "lataId": "L03", "stock": 0 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L02",
-      "stock": 0
-    },
-    {
-      "lataId": "L03",
-      "stock": 0
-    }
-  ]
-},
-{
-  "_id": "M013",
-  "estado": "en_mantenimiento",
-  "ubicacion": {
-    "latitud": -38.736,
-    "longitud": -72.592
+  {
+    "_id": "M013",
+    "estado": "EN_MANTENIMIENTO",
+    "ubicacion": "Campus INACAP - Edificio A",
+    "stockMaximo": 40,
+    "productos": [
+      { "lataId": "L05", "stock": 20 },
+      { "lataId": "L04", "stock": 35 },
+      { "lataId": "L03", "stock": 40 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L05",
-      "stock": 20
-    },
-    {
-      "lataId": "L04",
-      "stock": 35
-    },
-    {
-      "lataId": "L03",
-      "stock": 40
-    }
-  ]
-},
-{
-  "_id": "M014",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.728,
-    "longitud": -72.555
+  {
+    "_id": "M014",
+    "estado": "OPERATIVA",
+    "ubicacion": "Mall Easton - Patio de Comidas",
+    "stockMaximo": 70,
+    "productos": [
+      { "lataId": "L01", "stock": 60 },
+      { "lataId": "L02", "stock": 20 },
+      { "lataId": "L04", "stock": 70 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L01",
-      "stock": 60
-    },
-    {
-      "lataId": "L02",
-      "stock": 20
-    },
-    {
-      "lataId": "L04",
-      "stock": 70
-    }
-  ]
-},
-{
-  "_id": "M015",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.74,
-    "longitud": -72.58
+  {
+    "_id": "M015",
+    "estado": "OPERATIVA",
+    "ubicacion": "Hospital Regional - Hall Principal",
+    "stockMaximo": 140,
+    "productos": [
+      { "lataId": "L03", "stock": 90 },
+      { "lataId": "L05", "stock": 140 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L03",
-      "stock": 90
-    },
-    {
-      "lataId": "L05",
-      "stock": 140
-    }
-  ]
-},
-{
-  "_id": "M016",
-  "estado": "fuera_servicio",
-  "ubicacion": {
-    "latitud": -38.742,
-    "longitud": -72.572
+  {
+    "_id": "M016",
+    "estado": "FUERA_SERVICIO",
+    "ubicacion": "Terminal Rodoviario de Temuco",
+    "stockMaximo": 30,
+    "productos": [
+      { "lataId": "L01", "stock": 30 },
+      { "lataId": "L02", "stock": 10 },
+      { "lataId": "L05", "stock": 5 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L01",
-      "stock": 30
-    },
-    {
-      "lataId": "L02",
-      "stock": 10
-    },
-    {
-      "lataId": "L05",
-      "stock": 5
-    }
-  ]
-},
-{
-  "_id": "M017",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.75,
-    "longitud": -72.6
+  {
+    "_id": "M017",
+    "estado": "OPERATIVA",
+    "ubicacion": "U. Mayor - Biblioteca Central",
+    "stockMaximo": 100,
+    "productos": [
+      { "lataId": "L04", "stock": 100 },
+      { "lataId": "L03", "stock": 80 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L04",
-      "stock": 100
-    },
-    {
-      "lataId": "L03",
-      "stock": 80
-    }
-  ]
-},
-{
-  "_id": "M018",
-  "estado": "sin_stock",
-  "ubicacion": {
-    "latitud": -38.76,
-    "longitud": -72.61
+  {
+    "_id": "M018",
+    "estado": "SIN_STOCK",
+    "ubicacion": "Portal Temuco - Nivel 3",
+    "stockMaximo": 100,
+    "productos": [
+      { "lataId": "L01", "stock": 0 },
+      { "lataId": "L02", "stock": 0 },
+      { "lataId": "L03", "stock": 0 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
   },
-  "productos": [
-    {
-      "lataId": "L01",
-      "stock": 0
-    },
-    {
-      "lataId": "L02",
-      "stock": 0
-    },
-    {
-      "lataId": "L03",
-      "stock": 0
-    }
-  ]
-},
-{
-  "_id": "M019",
-  "estado": "operativa",
-  "ubicacion": {
-    "latitud": -38.77,
-    "longitud": -72.62
-  },
-  "productos": [
-    {
-      "lataId": "L05",
-      "stock": 200
-    },
-    {
-      "lataId": "L04",
-      "stock": 70
-    },
-    {
-      "lataId": "L02",
-      "stock": 40
-    }
-  ]
-}]
+  {
+    "_id": "M019",
+    "estado": "OPERATIVA",
+    "ubicacion": "Centro de Justicia - Acceso Principal",
+    "stockMaximo": 200,
+    "productos": [
+      { "lataId": "L05", "stock": 200 },
+      { "lataId": "L04", "stock": 70 },
+      { "lataId": "L02", "stock": 40 }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg"
+  }
+]
