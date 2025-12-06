@@ -5,7 +5,6 @@ import com.example.RESTAPIDB.Modelos.Sistema.Producto;
 import com.example.RESTAPIDB.Repository.LataRepo;
 import com.example.RESTAPIDB.Repository.MaquinaRepo;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +45,6 @@ public class MaquinaService {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -95,4 +93,5 @@ public class MaquinaService {
         maquinaRepo.save(maquina);
         return Optional.of(maquina);
     }
+
 }
