@@ -5,9 +5,15 @@
   "nombre": "Patricio",
   "contrasenia": "$2a$05$ILbJZlRDuZJpKpZU4hgay.iM6MK7x8uuBbIAPcravr/Pc5ZUVqIHq",
   "rol": "USER",
-  "idLatasFavoritas": [],
-  "idMaquinasFavoritas": [],
-  "_class": "com.example.RESTAPIDB.Modelos.Usuario"
+  "saldo": 7050,
+  "idLatasFavoritas": [
+    "L01",
+    "L03"
+  ],
+  "idMaquinasFavoritas": [
+    "M010"
+  ],
+  "_class": "com.example.RESTAPIDB.model.Usuario"
 },
 {
   "_id": {
@@ -16,9 +22,10 @@
   "nombre": "Ignacio",
   "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
   "rol": "USER",
+  "saldo": 15000,
   "idLatasFavoritas": [],
   "idMaquinasFavoritas": [],
-  "_class": "com.example.RESTAPIDB.Modelos.Usuario"
+  "_class": "com.example.RESTAPIDB.model.Usuario"
 },
 {
   "_id": {

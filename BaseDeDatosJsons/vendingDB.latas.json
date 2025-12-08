@@ -1,30 +1,54 @@
 [{
-  "_id": "L01",
-  "nombre": "Coca-Cola",
-  "precio": 1000,
-  "imagen": "images/latas/coca.png"
+  "_id": {
+    "$oid": "6936ee8b5f974bc9c0023003"
+  },
+  "nombre": "Cerveza Cristal",
+  "precio": 1500,
+  "imagen": "images/latas/default.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
 },
 {
-  "_id": "L02",
+  "_id": {
+    "$oid": "693720f1ac41b6cb9411a933"
+  },
   "nombre": "Fanta",
   "precio": 1000,
-  "imagen": "images/latas/fanta.png"
+  "imagen": "images/latas/fanta.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
 },
 {
-  "_id": "L03",
-  "nombre": "Sprite",
-  "precio": 1000,
-  "imagen": "images/latas/sprite.png"
+  "_id": {
+    "$oid": "6937210dac41b6cb9411a934"
+  },
+  "nombre": "Coca-Cola",
+  "precio": 1500,
+  "imagen": "images/latas/coca.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
 },
 {
-  "_id": "L04",
-  "nombre": "Pepsi",
-  "precio": 900,
-  "imagen": "images/latas/pepsi.png"
-},
-{
-  "_id": "L05",
+  "_id": {
+    "$oid": "69372136ac41b6cb9411a935"
+  },
   "nombre": "Agua Mineral",
   "precio": 700,
-  "imagen": "images/latas/agua.png"
+  "imagen": "images/latas/agua.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+},
+{
+  "_id": {
+    "$oid": "69372149ac41b6cb9411a936"
+  },
+  "nombre": "Pepsi",
+  "precio": 900,
+  "imagen": "images/latas/pepsi.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+},
+{
+  "_id": {
+    "$oid": "6937215bac41b6cb9411a937"
+  },
+  "nombre": "Sprite",
+  "precio": 1000,
+  "imagen": "images/latas/sprite.png",
+  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
 }]

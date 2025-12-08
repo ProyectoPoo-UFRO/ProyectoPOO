@@ -28,4 +28,5 @@ public class AuthController {
         authService.registrar(user);
         return user;
     }
+
 }

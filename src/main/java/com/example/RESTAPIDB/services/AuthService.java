@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 
 @Service
@@ -27,29 +26,40 @@ public class AuthService {
         this.repo = repo;
     }
 
-    //TODO separar en verificar y crear token
-    public String verificarLogin(LoginRequest user) {
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getNombre(), user.getContrasenia())
+    public Authentication autenticarUsuario(LoginRequest user) {
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getNombre(),
+                        user.getContrasenia()
+                )
         );
+    }
 
-        if (auth.isAuthenticated()){
-            return jwtService.generarToken(user.getNombre());
+    public String generarToken(String username) {
+        return jwtService.generarToken(username);
+    }
+
+    public String verificarLogin(LoginRequest user) {
+        Authentication auth = autenticarUsuario(user);
+
+        if (auth.isAuthenticated()) {
+            return generarToken(user.getNombre());
         }
 
-        return "problema";
+        throw new RuntimeException("Error en autenticación");
     }
 
     public Usuario registrar(RegisterRequest request){
-        //TODO añadir meotodo para verificar si usuarioexiste
+        if (repo.existsByNombre(request.getNombre())) {
+            throw new RuntimeException("El nombre de usuario ya está en uso");
+        }
         return repo.save(crearUsuario(request));
     }
 
     public Usuario crearUsuario(RegisterRequest request){
         Usuario u = new Usuario();
-        String contraseniaCifrada = encoder.encode(request.getContrasenia());
-        u.setContrasenia(contraseniaCifrada);
         u.setNombre(request.getNombre());
+        u.setContrasenia(encoder.encode(request.getContrasenia()));
         u.setRol(Rol.USER);
         u.setIdLatasFavoritas(new ArrayList<>());
         u.setIdMaquinasFavoritas(new ArrayList<>());

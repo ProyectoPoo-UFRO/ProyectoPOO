@@ -1,8 +1,9 @@
-//TODO:simplificar con DTO
-
 package com.example.RESTAPIDB.controller;
 
+import com.example.RESTAPIDB.dto.request.CrearMaquinaRequest;
+import com.example.RESTAPIDB.dto.request.EstadoRequest;
 import com.example.RESTAPIDB.dto.request.StockUpdateRequest;
+import com.example.RESTAPIDB.dto.response.MaquinaResponse;
 import com.example.RESTAPIDB.model.sistema.Maquina;
 import com.example.RESTAPIDB.model.sistema.Producto;
 import com.example.RESTAPIDB.services.MaquinaService;
@@ -10,7 +11,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -24,9 +24,9 @@ public class MaquinaController {
     }
 
     @PostMapping
-    public ResponseEntity<Maquina> crearMaquina(@Valid @RequestBody Maquina maquina){
-        Maquina m = maquinaService.crearMaquina(maquina);
-        return ResponseEntity.status(HttpStatus.CREATED).body(m);
+    public ResponseEntity<MaquinaResponse> crearMaquina(@Valid @RequestBody CrearMaquinaRequest request) {
+        MaquinaResponse response = maquinaService.crearMaquina(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -71,17 +71,15 @@ public class MaquinaController {
                         .body("Máquina o producto no encontrado"));
     }
 
-    @PutMapping("/{id}/estado")
-    public ResponseEntity<String> cambiarEstado(@PathVariable("id") String maquinaId, @RequestBody String estadoBody) {
-        String estado = estadoBody.replace("\"", "").trim();
-        boolean exito = maquinaService.cambiarEstado(maquinaId, estado);
+    @PostMapping("/maquina/{id}/estado")
+    public ResponseEntity<?> cambiarEstado(@PathVariable String id, @RequestBody EstadoRequest request) {
+        boolean exito = maquinaService.cambiarEstado(id, request.getEstado());
         if (exito) {
-            return ResponseEntity.ok("Estado de la máquina actualizado a " + estado);
+            return ResponseEntity.ok("Estado actualizado a " + request.getEstado());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("No se pudo actualizar el estado. Verifica ID de la máquina o valor del estado.");
+                    .body("No se pudo actualizar el estado.");
         }
     }
-
 
 }

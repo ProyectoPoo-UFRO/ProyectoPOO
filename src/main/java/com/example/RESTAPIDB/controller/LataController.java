@@ -1,12 +1,13 @@
 package com.example.RESTAPIDB.controller;
 
+import com.example.RESTAPIDB.dto.request.CrearLataRequest;
+import com.example.RESTAPIDB.dto.response.LataResponse;
 import com.example.RESTAPIDB.model.sistema.Lata;
 import com.example.RESTAPIDB.services.LataService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -20,9 +21,9 @@ public class LataController {
     }
 
     @PostMapping
-    public ResponseEntity<Lata> crearLata(@Valid @RequestBody Lata lata){
-        Lata l = lataService.crearLata(lata);
-        return ResponseEntity.status(HttpStatus.CREATED).body(l);
+    public ResponseEntity<LataResponse> crearLata(@Valid @RequestBody CrearLataRequest request) {
+        LataResponse response = lataService.crearLata(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -45,13 +46,10 @@ public class LataController {
     @PatchMapping("/{id}/precio")
     public ResponseEntity<Void> actualizarPrecioLata(@PathVariable("id") String id, @RequestBody int nuevoPrecio){
         boolean actualizado = lataService.cambiarPrecio(id, nuevoPrecio);
-
         if (!actualizado) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.noContent().build();
     }
-
 
 }

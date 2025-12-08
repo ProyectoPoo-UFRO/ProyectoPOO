@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -54,14 +53,18 @@ public class VentaController {
         return ResponseEntity.ok(ventas);
     }
 
-
     @PostMapping
-    public ResponseEntity<Venta> createVenta(@RequestBody @Valid VentaRequest request) {
-        Venta nuevaVenta = ventaService.agregarVenta(
-                request.getIdMaquina(),
-                request.getItems(),
-                request.getIdUsuario()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaVenta);
+    public ResponseEntity<?> createVenta(@RequestBody @Valid VentaRequest request) {
+        try {
+            Venta nuevaVenta = ventaService.agregarVenta(
+                    request.getIdMaquina(),
+                    request.getItems(),
+                    request.getIdUsuario()
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaVenta);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
+
 }

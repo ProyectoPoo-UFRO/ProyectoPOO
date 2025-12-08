@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VentaItem {
 
-    private String idLata;
+    private String lataId;
     private int cantidad;
 
 }

@@ -27,4 +27,46 @@ public class UsuarioService {
         return usuarioRepo.findAll();
     }
 
+    public Optional<Usuario> recargarSaldo(String idUsuario, double monto) {
+        return usuarioRepo.findById(idUsuario).map(usuario -> {
+            if (monto <= 0) {
+                throw new IllegalArgumentException("El monto debe ser mayor a 0");
+            }
+            usuario.setSaldo(usuario.getSaldo() + monto);
+            return usuarioRepo.save(usuario);
+        });
+    }
+
+    public Optional<Usuario> agregarMaquinaFavorita(String idUsuario, String idMaquina) {
+        return usuarioRepo.findById(idUsuario).map(usuario -> {
+            if (!usuario.getIdMaquinasFavoritas().contains(idMaquina)) {
+                usuario.getIdMaquinasFavoritas().add(idMaquina);
+            }
+            return usuarioRepo.save(usuario);
+        });
+    }
+
+    public Optional<Usuario> quitarMaquinaFavorita(String idUsuario, String idMaquina) {
+        return usuarioRepo.findById(idUsuario).map(usuario -> {
+            usuario.getIdMaquinasFavoritas().remove(idMaquina);
+            return usuarioRepo.save(usuario);
+        });
+    }
+
+    public Optional<Usuario> agregarLataFavorita(String idUsuario, String idLata) {
+        return usuarioRepo.findById(idUsuario).map(usuario -> {
+            if (!usuario.getIdLatasFavoritas().contains(idLata)) {
+                usuario.getIdLatasFavoritas().add(idLata);
+            }
+            return usuarioRepo.save(usuario);
+        });
+    }
+
+    public Optional<Usuario> quitarLataFavorita(String idUsuario, String idLata) {
+        return usuarioRepo.findById(idUsuario).map(usuario -> {
+            usuario.getIdLatasFavoritas().remove(idLata);
+            return usuarioRepo.save(usuario);
+        });
+    }
+
 }
