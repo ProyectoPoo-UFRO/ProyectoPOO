@@ -4,8 +4,11 @@ import com.example.RESTAPIDB.model.Usuario;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UsuarioRepo extends MongoRepository<Usuario,String> {
     Usuario findByNombre(String nombre);
+    Optional<Usuario> findById(String id);
     boolean existsByNombre(String nombre);
 }

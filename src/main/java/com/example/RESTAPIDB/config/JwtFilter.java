@@ -1,5 +1,6 @@
 package com.example.RESTAPIDB.config;
 
+import com.example.RESTAPIDB.model.UsuarioDetails;
 import com.example.RESTAPIDB.services.JWTService;
 import com.example.RESTAPIDB.services.UsuarioDetailsService;
 import jakarta.servlet.FilterChain;
@@ -29,25 +30,28 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token = null;
-        String username = null;
+        String userId = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            username = jwtService.extraerNombre(token);
+            userId = jwtService.extraerIdUsuario(token); // ahora extraemos la ID
         }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usuarioDetailsService.loadUserByUsername(username);
 
-            if (jwtService.intentarValidarToken(token, userDetails)) {
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = usuarioDetailsService.loadUserById(userId); // cargar por ID
+
+            if (jwtService.intentarValidarToken(token, (UsuarioDetails) userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
-                System.out.println("Token no válido para el usuario: " + username);
+                System.out.println("Token no válido para el usuario: " + userId);
             }
         }
+
         filterChain.doFilter(request, response);
     }
+
 
 }

@@ -1,124 +1,362 @@
-[{
-  "_id": {
-    "$oid": "6937245bff73f50988c6d750"
-  },
-  "estado": "OPERATIVA",
-  "ubicacion": "Campus UFRO - Casino Central",
-  "stockMaximo": 100,
-  "productos": [
-    {
-      "lataId": "693720f1ac41b6cb9411a933",
-      "stock": 49
+[
+  {
+    "_id": {
+      "$oid": "6937245bff73f50988c6d750"
     },
-    {
-      "lataId": "6937210dac41b6cb9411a934",
-      "stock": 98
-    }
-  ],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "69372468ff73f50988c6d751"
+    "estado": "OPERATIVA",
+    "ubicacion": "Campus UFRO - Casino Central",
+    "stockMaximo": 100,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 15
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 12
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 14
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 13
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 13
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 20
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Av. Alemania 123, Temuco",
-  "stockMaximo": 120,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "69372471ff73f50988c6d752"
+  {
+    "_id": {
+      "$oid": "69372468ff73f50988c6d751"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Av. Alemania 123, Temuco",
+    "stockMaximo": 120,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 15
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 15
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 22
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 15
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 15
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 23
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Portal Temuco - Nivel 1",
-  "stockMaximo": 100,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "6937247aff73f50988c6d753"
+  {
+    "_id": {
+      "$oid": "69372471ff73f50988c6d752"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Portal Temuco - Nivel 1",
+    "stockMaximo": 100,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 21
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 12
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 13
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 14
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 17
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 11
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Campus INACAP - Edificio A",
-  "stockMaximo": 40,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "69372483ff73f50988c6d754"
+  {
+    "_id": {
+      "$oid": "6937247aff73f50988c6d753"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Campus INACAP - Edificio A",
+    "stockMaximo": 40,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 5
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 7
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 7
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 6
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 8
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 9
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Mall Easton - Patio de Comidas",
-  "stockMaximo": 70,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "6937248bff73f50988c6d755"
+  {
+    "_id": {
+      "$oid": "69372483ff73f50988c6d754"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Mall Easton - Patio de Comidas",
+    "stockMaximo": 70,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 11
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 7
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 14
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 9
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 16
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 15
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Hospital Regional - Hall Principal",
-  "stockMaximo": 140,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "69372494ff73f50988c6d756"
+  {
+    "_id": {
+      "$oid": "6937248bff73f50988c6d755"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Hospital Regional - Hall Principal",
+    "stockMaximo": 140,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 28
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 23
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 25
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 21
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 21
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 20
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Terminal Rodoviario de Temuco",
-  "stockMaximo": 30,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "6937249bff73f50988c6d757"
+  {
+    "_id": {
+      "$oid": "69372494ff73f50988c6d756"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Terminal Rodoviario de Temuco",
+    "stockMaximo": 30,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 9
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 9
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 3
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 2
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 3
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 2
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "U. Mayor - Biblioteca Central",
-  "stockMaximo": 100,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "693724a3ff73f50988c6d758"
+  {
+    "_id": {
+      "$oid": "6937249bff73f50988c6d757"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "U. Mayor - Biblioteca Central",
+    "stockMaximo": 100,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 19
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 12
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 19
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 20
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 19
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 21
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Portal Temuco - Nivel 3",
-  "stockMaximo": 100,
-  "productos": [
-    {
-      "lataId": "693720f1ac41b6cb9411a933",
-      "stock": 50
-    }
-  ],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-},
-{
-  "_id": {
-    "$oid": "693724abff73f50988c6d759"
+  {
+    "_id": {
+      "$oid": "693724a3ff73f50988c6d758"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Portal Temuco - Nivel 3",
+    "stockMaximo": 100,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 15
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 20
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 19
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 18
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 19
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 15
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
   },
-  "estado": "OPERATIVA",
-  "ubicacion": "Centro de Justicia - Acceso Principal",
-  "stockMaximo": 200,
-  "productos": [],
-  "maquinaImagenURL": "/images/maquinas/default.jpg",
-  "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
-}]
+  {
+    "_id": {
+      "$oid": "693724abff73f50988c6d759"
+    },
+    "estado": "OPERATIVA",
+    "ubicacion": "Centro de Justicia - Acceso Principal",
+    "stockMaximo": 200,
+    "productos": [
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 37
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 32
+      },
+      {
+        "lataId": "6937210dac41b6cb9411a934",
+        "stock": 38
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 29
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 35
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 29
+      }
+    ],
+    "maquinaImagenURL": "/images/maquinas/default.jpg",
+    "_class": "com.example.RESTAPIDB.model.sistema.Maquina"
+  }
+]

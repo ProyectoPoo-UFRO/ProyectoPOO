@@ -4,6 +4,7 @@ import com.example.RESTAPIDB.dto.request.LoginRequest;
 import com.example.RESTAPIDB.dto.request.RegisterRequest;
 import com.example.RESTAPIDB.model.Rol;
 import com.example.RESTAPIDB.model.Usuario;
+import com.example.RESTAPIDB.model.UsuarioDetails;
 import com.example.RESTAPIDB.repo.UsuarioRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +18,7 @@ public class AuthService {
 
     private final UsuarioRepo repo;
     private final AuthenticationManager authenticationManager;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(5);
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(5);
     private final JWTService jwtService;
 
     public AuthService(AuthenticationManager authenticationManager, JWTService jwtService, UsuarioRepo repo) {
@@ -35,15 +36,22 @@ public class AuthService {
         );
     }
 
-    public String generarToken(String username) {
-        return jwtService.generarToken(username);
+    public String generarToken(Usuario usuario) {
+        UsuarioDetails userDetails = new UsuarioDetails(usuario);
+        return jwtService.generarToken(userDetails);
     }
 
     public String verificarLogin(LoginRequest user) {
         Authentication auth = autenticarUsuario(user);
 
         if (auth.isAuthenticated()) {
-            return generarToken(user.getNombre());
+            Usuario usuario = repo.findByNombre(user.getNombre());
+
+            if (usuario == null) {
+                throw new RuntimeException("Usuario no encontrado");
+            }
+
+            return generarToken(usuario); // Genera el token usando la ID del usuario
         }
 
         throw new RuntimeException("Error en autenticación");

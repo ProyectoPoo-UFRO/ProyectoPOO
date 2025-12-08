@@ -1,5 +1,7 @@
 package com.example.RESTAPIDB.services;
 
+
+import com.example.RESTAPIDB.model.UsuarioDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -22,38 +24,37 @@ public class JWTService {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generarToken(String nombre) {
+    // Ahora recibe UsuarioDetails y genera token usando la ID
+    public String generarToken(UsuarioDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(nombre)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*60*10))
-                .and()
+                .setClaims(claims)
+                .setSubject(userDetails.getId()) // USAMOS LA ID
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(secretKey)
                 .compact();
     }
 
-    public String extraerNombre(String token) {
+    // Extraemos la id del token
+    public String extraerIdUsuario(String token) {
         return extraerClaim(token, Claims::getSubject);
     }
 
     private <T> T extraerClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extraerTodasClaims(token);
-        T value = claimResolver.apply(claims) ;
-        return value;
+        return claimResolver.apply(claims);
     }
 
     private Claims extraerTodasClaims(String token) {
-        Claims claims = Jwts.parser()
+        return Jwts.parser()
                 .verifyWith(secretKey)
-                .build().parseSignedClaims(token)
+                .build()
+                .parseSignedClaims(token)
                 .getPayload();
-        return claims;
     }
 
-    public boolean intentarValidarToken(String token, UserDetails userDetails){
+    public boolean intentarValidarToken(String token, UsuarioDetails userDetails){
         try {
             return validarToken(token, userDetails);
         } catch (Exception e) {
@@ -61,11 +62,10 @@ public class JWTService {
         }
     }
 
-    private boolean validarToken(String token, UserDetails userDetails) {
-        String username = extraerNombre(token);
-        return username.equals(userDetails.getUsername()) && !estaTokenExpirado(token);
+    private boolean validarToken(String token, UsuarioDetails userDetails) {
+        String userId = extraerIdUsuario(token);
+        return userId.equals(userDetails.getId()) && !estaTokenExpirado(token);
     }
-
 
     private boolean estaTokenExpirado(String token) {
         return extraerFechaExpiracion(token).before(new Date());
@@ -74,5 +74,4 @@ public class JWTService {
     private Date extraerFechaExpiracion(String token) {
         return extraerClaim(token, Claims::getExpiration);
     }
-
 }

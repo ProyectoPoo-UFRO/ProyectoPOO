@@ -15,6 +15,10 @@ public class UsuarioDetails implements UserDetails {
         this.user = user;
     }
 
+    public String getId() {
+        return user.getId(); // NUEVO getter para el id
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
