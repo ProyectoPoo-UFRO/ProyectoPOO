@@ -34,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            userId = jwtService.extraerIdUsuario(token); // ahora extraemos la ID
+            userId = jwtService.extraerIdUsuario(token);
         }
 
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {

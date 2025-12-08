@@ -34,53 +34,65 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable String id) {
+    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable("id") String id) {
         return usuarioService.obtenerUsuario(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}/recargar")
-    public ResponseEntity<Usuario> recargarSaldo(@PathVariable String id, @RequestBody Map<String, Double> request) {
-
+    public ResponseEntity<Usuario> recargarSaldo(
+            @PathVariable("id") String id,
+            @RequestBody Map<String, Double> request
+    ) {
         double monto = request.getOrDefault("monto", 0.0);
 
         try {
             return usuarioService.recargarSaldo(id, monto)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/{id}/favoritas/maquinas/{idMaquina}")
-    public ResponseEntity<Usuario> agregarMaquinaFavorita(@PathVariable String id, @PathVariable String idMaquina) {
+    public ResponseEntity<Usuario> agregarMaquinaFavorita(
+            @PathVariable("id") String id,
+            @PathVariable("idMaquina") String idMaquina
+    ) {
         return usuarioService.agregarMaquinaFavorita(id, idMaquina)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}/favoritas/maquinas/{idMaquina}")
-    public ResponseEntity<Usuario> quitarMaquinaFavorita(@PathVariable String id, @PathVariable String idMaquina) {
+    public ResponseEntity<Usuario> quitarMaquinaFavorita(
+            @PathVariable("id") String id,
+            @PathVariable("idMaquina") String idMaquina
+    ) {
         return usuarioService.quitarMaquinaFavorita(id, idMaquina)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/{id}/favoritas/latas/{idLata}")
-    public ResponseEntity<Usuario> agregarLataFavorita(@PathVariable String id, @PathVariable String idLata) {
+    public ResponseEntity<Usuario> agregarLataFavorita(
+            @PathVariable("id") String id,
+            @PathVariable("idLata") String idLata
+    ) {
         return usuarioService.agregarLataFavorita(id, idLata)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Usuario> quitarLataFavorita(@PathVariable String id, @PathVariable String idLata) {
-
+    @DeleteMapping("/{id}/favoritas/latas/{idLata}")
+    public ResponseEntity<Usuario> quitarLataFavorita(
+            @PathVariable("id") String id,
+            @PathVariable("idLata") String idLata
+    ) {
         return usuarioService.quitarLataFavorita(id, idLata)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
 }

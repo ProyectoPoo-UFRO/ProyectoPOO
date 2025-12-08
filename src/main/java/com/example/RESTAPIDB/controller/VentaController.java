@@ -19,8 +19,9 @@ public class VentaController {
         this.ventaService = ventaService;
     }
 
+    // Obtener todas las ventas
     @GetMapping
-    public ResponseEntity<List<Venta>> getAllVentas() {
+    public ResponseEntity<List<Venta>> obtenerVentas() {
         List<Venta> ventas = ventaService.obtenerVentas();
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -28,15 +29,17 @@ public class VentaController {
         return ResponseEntity.ok(ventas);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Venta> getVentaById(@PathVariable String id) {
-        return ventaService.obtenerVentaPorId(id)
+    // Obtener venta por ID
+    @GetMapping("/{ventaId}")
+    public ResponseEntity<Venta> obtenerVentaPorId(@PathVariable("ventaId") String ventaId) {
+        return ventaService.obtenerVentaPorId(ventaId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Obtener ventas por máquina
     @GetMapping("/maquina/{maquinaId}")
-    public ResponseEntity<List<Venta>> getVentasByMaquina(@PathVariable String maquinaId) {
+    public ResponseEntity<List<Venta>> obtenerVentasPorMaquina(@PathVariable("maquinaId") String maquinaId) {
         List<Venta> ventas = ventaService.obtenerVentasPorMaquina(maquinaId);
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -44,24 +47,26 @@ public class VentaController {
         return ResponseEntity.ok(ventas);
     }
 
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Venta>> getVentasByUsuario(@PathVariable String idUsuario) {
-        List<Venta> ventas = ventaService.obtenerVentasPorUsuario(idUsuario);
+    // Obtener ventas por usuario
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Venta>> obtenerVentasPorUsuario(@PathVariable("usuarioId") String usuarioId) {
+        List<Venta> ventas = ventaService.obtenerVentasPorUsuario(usuarioId);
         if (ventas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(ventas);
     }
 
+    // Crear venta
     @PostMapping
-    public ResponseEntity<?> createVenta(@RequestBody @Valid VentaRequest request) {
+    public ResponseEntity<?> crearVenta(@RequestBody @Valid VentaRequest ventaRequest) {
         try {
-            Venta nuevaVenta = ventaService.agregarVenta(
-                    request.getIdMaquina(),
-                    request.getItems(),
-                    request.getIdUsuario()
+            Venta ventaCreada = ventaService.agregarVenta(
+                    ventaRequest.getIdMaquina(),
+                    ventaRequest.getItems(),
+                    ventaRequest.getIdUsuario()
             );
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaVenta);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ventaCreada);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
