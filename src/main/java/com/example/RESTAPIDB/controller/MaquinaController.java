@@ -72,7 +72,7 @@ public class MaquinaController {
     }
 
     @PostMapping("/maquina/{id}/estado")
-    public ResponseEntity<?> cambiarEstado(@PathVariable String id, @RequestBody EstadoRequest request) {
+    public ResponseEntity<?> cambiarEstado(@PathVariable("id") String id, @RequestBody EstadoRequest request) {
         boolean exito = maquinaService.cambiarEstado(id, request.getEstado());
         if (exito) {
             return ResponseEntity.ok("Estado actualizado a " + request.getEstado());
