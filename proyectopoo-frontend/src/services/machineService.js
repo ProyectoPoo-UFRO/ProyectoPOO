@@ -1,88 +1,201 @@
-// src/services/machineService.js
-
-// CONFIGURACIÓN: Puerto 8081
 const API_URL = "http://localhost:8081/api/v1";
+const BASE_IMG_URL = "http://localhost:8081";
+
+const getAuthHeaders = () => {
+    try {
+        const userJson = localStorage.getItem("vending_user");
+        if (!userJson) return { 'Content-Type': 'application/json' };
+
+        const user = JSON.parse(userJson);
+        let token = user?.token;
+
+        if (token) {
+            token = token.replace(/^"|"$/g, '');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+    } catch (e) {
+        console.error("Error leyendo sesión local:", e);
+    }
+    return { 'Content-Type': 'application/json' };
+};
+
+const resolveImageUrl = (imagePath) => {
+    if (!imagePath) return "/img/logo-can.png";
+    if (imagePath.startsWith("http")) return imagePath;
+
+    const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+    return `${BASE_IMG_URL}/${cleanPath}`;
+};
 
 export const getAllMachines = async () => {
     try {
-        console.log("📡 Cargando datos del sistema...");
-
-        // 1. Pedimos las MÁQUINAS y las LATAS al mismo tiempo
+        const headers = getAuthHeaders();
         const [machinesRes, latasRes] = await Promise.all([
-            fetch(`${API_URL}/maquinas`),
-            fetch(`${API_URL}/latas`)
+            fetch(`${API_URL}/maquinas`, { headers }),
+            fetch(`${API_URL}/latas`, { headers })
         ]);
 
-        if (!machinesRes.ok || !latasRes.ok) {
-            throw new Error("Error: Una de las peticiones al backend falló.");
-        }
+        if (!machinesRes.ok || !latasRes.ok) throw new Error("Error obteniendo datos del backend");
 
-        // Convertimos a JSON
         const machinesData = await machinesRes.json();
         const latasData = await latasRes.json();
 
-        console.log("📦 Máquinas crudas:", machinesData);
-        console.log("🥫 Catálogo de Latas:", latasData);
+        return machinesData.map((machine, index) => {
+            const machineId = machine._id || machine.id || `temp-${index}`;
 
-        // 2. EL GRAN CRUCE DE DATOS (Mapping)
-        const adaptedData = machinesData.map((machine, index) => {
+            let locationText = "Ubicación desconocida";
+            if (machine.ubicacion) {
+                locationText = typeof machine.ubicacion === 'string'
+                    ? machine.ubicacion
+                    : `Lat: ${machine.ubicacion.latitud || 0}, Long: ${machine.ubicacion.longitud || 0}`;
+            }
 
-            // Nombre de la máquina (Fallback si no viene)
-            const machineName = machine.nombre || `Máquina ${index + 1} (${machine.estado})`;
+            const enrichedProducts = (machine.productos || []).map(prod => {
+                const infoLata = latasData.find(l => (l._id || l.id) === prod.lataId);
+                return {
+                    id: prod.lataId,
+                    stock: prod.stock,
+                    name: infoLata?.nombre || "Producto Desconocido",
+                    price: infoLata?.precio || 0,
+                    image: resolveImageUrl(infoLata?.imagen)
+                };
+            });
 
             return {
-                id: machine._id || `temp-${index}`,
-                name: machineName,
-                location: machine.ubicacion
-                    ? `Lat: ${machine.ubicacion.latitud}, Long: ${machine.ubicacion.longitud}`
-                    : "Ubicación desconocida",
-
-                // 3. AQUÍ OCURRE LA MAGIA: Unimos Stock con Info de Lata
-                products: (machine.productos || []).map(prod => {
-
-                    // CORRECCIÓN AQUÍ: Usamos 'l.id' en lugar de 'l._id'
-                    // (O soportamos ambos por si acaso cambia en el futuro)
-                    const infoLata = Array.isArray(latasData)
-                        ? latasData.find(l => (l.id || l._id) === prod.lataId)
-                        : null;
-
-                    if (!infoLata) {
-                        console.warn(`⚠️ No se encontró info para lataId: ${prod.lataId}`);
-                    }
-
-                    return {
-                        id: prod.lataId,
-                        stock: prod.stock,
-
-                        // Si encontramos la lata, usamos sus datos. Si no, mostramos el ID para depurar.
-                        name: infoLata?.nombre || `ID: ${prod.lataId} (Sin Datos)`,
-                        price: infoLata?.precio || 0,
-                        image: infoLata?.imagen || "https://via.placeholder.com/150?text=Sin+Imagen"
-                    };
-                })
+                id: machineId,
+                name: machine.nombre || `Máquina ${index + 1}`,
+                status: machine.estado || "OPERATIVA",
+                location: locationText,
+                stockMaximo: machine.stockMaximo || 0,
+                products: enrichedProducts
             };
         });
-
-        return adaptedData;
-
     } catch (error) {
-        console.error("🔥 Error cargando datos:", error);
+        console.error("Error en getAllMachines:", error);
         return [];
     }
 };
 
-// --- FUNCIONES DE ESCRITURA (Simuladas por ahora) ---
+export const updateMachineStatus = async (machineId, newStatus) => {
+    try {
+        const headers = getAuthHeaders();
+
+        if (!headers.Authorization) {
+            alert("Error: Sesión inválida. Por favor reinicie sesión.");
+            return false;
+        }
+
+        const response = await fetch(`${API_URL}/maquinas/maquina/${machineId}/estado`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ estado: newStatus })
+        });
+
+        if (!response.ok) {
+            console.error(`Error API Estado: ${response.status}`);
+        }
+        return response.ok;
+    } catch (error) {
+        console.error("Error en updateMachineStatus:", error);
+        return false;
+    }
+};
 
 export const saveProductUpdate = async (machineId, product) => {
-    // Aquí conectarás con PUT /ventas o similar en el futuro
-    return new Promise(r => setTimeout(r, 500));
+    try {
+        const headers = getAuthHeaders();
+
+        const stockRes = await fetch(`${API_URL}/maquinas/${machineId}/stock`, {
+            method: 'PUT',
+            headers,
+            body: JSON.stringify({
+                lataId: product.id,
+                newStock: product.stock
+            })
+        });
+
+        try {
+            await fetch(`${API_URL}/latas/${product.id}/precio`, {
+                method: 'PATCH',
+                headers,
+                body: JSON.stringify(product.price)
+            });
+        } catch (e) {
+            console.warn("No se pudo sincronizar el precio global");
+        }
+
+        return stockRes.ok;
+    } catch (error) {
+        console.error("Error en saveProductUpdate:", error);
+        return false;
+    }
 };
 
 export const createProduct = async (machineId, productData) => {
-    // Tu backend requiere crear una Lata primero. Por ahora simulamos.
-    return new Promise(r => setTimeout(r, 500));
+    try {
+        const headers = getAuthHeaders();
+
+        const lataResponse = await fetch(`${API_URL}/latas`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                nombre: productData.name,
+                precio: productData.price,
+                imagen: productData.image || "images/latas/default.png"
+            })
+        });
+
+        if (!lataResponse.ok) throw new Error("Fallo al crear Lata base");
+
+        const newLata = await lataResponse.json();
+        const newLataId = newLata.id || newLata._id;
+
+        const assignResponse = await fetch(`${API_URL}/maquinas/${machineId}/productos`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                lataId: newLataId,
+                stock: productData.stock
+            })
+        });
+
+        if (!assignResponse.ok) throw new Error("Fallo al asignar producto a máquina");
+
+        return { ...productData, id: newLataId };
+    } catch (error) {
+        console.error("Error en createProduct:", error);
+        return null;
+    }
 };
 
 export const deleteProduct = async (machineId, productId) => {
-    return new Promise(r => setTimeout(r, 500));
+    try {
+        const response = await fetch(`${API_URL}/maquinas/${machineId}/productos/${productId}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        return response.ok;
+    } catch (error) {
+        console.error("Error en deleteProduct:", error);
+        return false;
+    }
+};
+
+export const registerSale = async (saleData) => {
+    try {
+        const response = await fetch(`${API_URL}/ventas`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(saleData)
+        });
+
+        if (!response.ok) return null;
+        return await response.json();
+    } catch (error) {
+        console.error("Error en registerSale:", error);
+        return null;
+    }
 };

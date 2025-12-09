@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/UserContext"; // <--- IMPORTANTE
+import { useUser } from "../../context/UserContext";
 import styles from "./SecretPage.module.css";
 
 export default function SecretPage() {
     const canvasRef = useRef(null);
     const navigate = useNavigate();
-    const { logout } = useUser(); // <--- Traemos la función para cerrar sesión
+    const { logout } = useUser();
 
-    // Estados para la narrativa del hackeo
     const [message, setMessage] = useState("Inicializando...");
     const [progress, setProgress] = useState(0);
     const [denied, setDenied] = useState(false);
 
-    // 1. EFECTO MATRIX
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
@@ -30,7 +28,6 @@ export default function SecretPage() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Si fue denegado, rojo. Si no, azul cian.
             ctx.fillStyle = denied ? "#ff003c" : "#06b6d4";
             ctx.font = `${fontSize}px monospace`;
 
@@ -49,7 +46,6 @@ export default function SecretPage() {
         return () => clearInterval(interval);
     }, [denied]);
 
-    // 2. GUIÓN DEL HACKEO
     useEffect(() => {
         const timeline = [
             { time: 1000, msg: "Accediendo al Núcleo...", prog: 10 },
@@ -64,10 +60,9 @@ export default function SecretPage() {
             setTimeout(() => {
                 if (error) {
                     setDenied(true);
-                    // Esperamos 4 segundos para que lean el mensaje y luego expulsamos
                     setTimeout(() => {
-                        logout(); // <--- Cierra sesión
-                        navigate("/"); // <--- Manda al Login
+                        logout();
+                        navigate("/");
                     }, 4000);
                 } else {
                     setMessage(msg);

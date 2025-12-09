@@ -1,141 +1,125 @@
-/* src/components/ProductCard/ProductCard.module.css */
-
 .card {
-    background: rgba(30, 41, 59, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: var(--border-glass);
     border-radius: 16px;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
+    gap: 15px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .card:hover {
-    background: rgba(30, 41, 59, 0.9);
-    border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.favBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    z-index: 5;
+    padding: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    opacity: 0.7;
+}
+
+.favBtn:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+.favBtnActive {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px #ec4899);
 }
 
 .imageContainer {
     width: 100%;
     height: 140px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
-    border-radius: 12px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
     padding: 10px;
-    box-sizing: border-box;
 }
 
-.productImage {
+.image {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
     transition: transform 0.3s;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
 }
 
-.card:hover .productImage {
-    transform: scale(1.1) rotate(2deg);
+.card:hover .image {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .info {
-    text-align: left;
-    width: 100%;
-}
-
-.name {
-    font-weight: 600;
-    color: var(--text-main);
-    font-size: 1rem;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.stock {
-    font-size: 0.75rem;
-    color: var(--text-muted);
+    flex-grow: 1;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 5px;
 }
 
-.stock::before {
-    content: '';
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--success);
+.name {
+    font-size: 1rem;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
 }
 
-/* CAMBIO AQUÍ: PRECIO RADIOACTIVO */
+.priceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .price {
-    color: var(--primary);
-    font-weight: 800;
-    font-size: 1.2rem;
-    margin-top: 5px;
-    text-align: right;
-    text-shadow: 0 0 10px var(--primary-glow); /* Efecto Radioactivo */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
 }
 
-.button {
+.stock {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.buyBtn {
     width: 100%;
     padding: 10px;
+    background: var(--primary);
     border: none;
-    border-radius: 8px;
     color: white;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.button:hover {
-    filter: brightness(1.1);
-    transform: translateY(-1px);
-}
-
-.button:active {
-    transform: translateY(1px);
-}
-
-.button:disabled {
-    background-color: #334155 !important;
-    color: #64748b;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-}
-
-.outOfStockOverlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(2px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    color: var(--danger);
-    font-weight: 800;
-    font-size: 1.4rem;
-    letter-spacing: 2px;
     text-transform: uppercase;
-    transform: rotate(-10deg);
-    pointer-events: none;
-    border: 2px solid var(--danger);
-    border-radius: 16px;
-    margin: 10px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.buyBtn:hover:not(:disabled) {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.buyBtn:disabled {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.3);
+    cursor: not-allowed;
 }

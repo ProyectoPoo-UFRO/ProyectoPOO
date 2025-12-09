@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useVending } from "../../context/VendingContext";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import Spinner from "../Spinner/Spinner";
 import styles from "./AdminDashboard.module.css";
 
 export default function AdminDashboard() {
-    const { machines, updateProduct, addNewProduct, removeProduct, loading } = useVending();
+    const { machines, updateProduct, addNewProduct, removeProduct, changeMachineStatus, loading } = useVending();
     const { user, logout } = useUser();
     const navigate = useNavigate();
 
@@ -18,12 +18,15 @@ export default function AdminDashboard() {
     const [notification, setNotification] = useState(null);
     const [productToDelete, setProductToDelete] = useState(null);
 
+    useEffect(() => {
+        if (machines.length > 0 && !selectedMachineId) {
+            setSelectedMachineId(machines[0].id);
+        }
+    }, [machines, selectedMachineId]);
+
     if (loading) return <Spinner />;
 
-    // Estado derivado para selección de máquina
-    const activeMachineId = selectedMachineId ?? (machines.length > 0 ? machines[0].id : null);
-
-    // Buscamos máquina comparando como STRING
+    const activeMachineId = selectedMachineId || (machines.length > 0 ? machines[0].id : null);
     const currentMachine = machines.find(m => String(m.id) === String(activeMachineId));
 
     const showNotification = (message, type = 'success') => {
@@ -36,7 +39,20 @@ export default function AdminDashboard() {
         navigate("/");
     };
 
-    const handleAddProduct = (e) => {
+    const handleStatusChange = async (e) => {
+        const newStatus = e.target.value;
+        if (!currentMachine) return;
+
+        const success = await changeMachineStatus(currentMachine.id, newStatus);
+
+        if (success) {
+            showNotification(`Estado cambiado a: ${newStatus}`, "success");
+        } else {
+            showNotification("Error al cambiar estado", "error");
+        }
+    };
+
+    const handleAddProduct = async (e) => {
         e.preventDefault();
 
         if(!newProdName.trim() || !newProdPrice || !newProdStock) {
@@ -47,31 +63,30 @@ export default function AdminDashboard() {
         const priceNum = Number(newProdPrice);
         const stockNum = Number(newProdStock);
 
-        if (priceNum <= 0) {
-            showNotification("El precio debe ser mayor a $0", "error");
+        if (priceNum <= 0) { showNotification("El precio debe ser mayor a $0", "error"); return; }
+        if (stockNum < 0) { showNotification("El stock no puede ser negativo", "error"); return; }
+
+        if (!currentMachine) {
+            showNotification("Error: No hay máquina seleccionada", "error");
             return;
         }
 
-        if (stockNum < 0) {
-            showNotification("El stock no puede ser negativo", "error");
-            return;
-        }
-
-        if (!currentMachine) return;
-
-        addNewProduct(currentMachine.id, {
+        const success = await addNewProduct(currentMachine.id, {
             name: newProdName,
             price: priceNum,
             stock: stockNum,
             image: newProdImage.trim()
         });
 
-        setNewProdName("");
-        setNewProdPrice("");
-        setNewProdStock("");
-        setNewProdImage("");
-
-        showNotification("Producto creado exitosamente", "success");
+        if (success) {
+            setNewProdName("");
+            setNewProdPrice("");
+            setNewProdStock("");
+            setNewProdImage("");
+            showNotification("Producto creado exitosamente", "success");
+        } else {
+            showNotification("Error al crear: Verifique conexión o datos", "error");
+        }
     };
 
     const confirmDelete = () => {
@@ -81,9 +96,15 @@ export default function AdminDashboard() {
         setProductToDelete(null);
     };
 
+    const getStatusColor = (status) => {
+        const s = String(status).toUpperCase();
+        if (s === 'OPERATIVA') return '#10b981';
+        if (s === 'EN_MANTENIMIENTO') return '#f59e0b';
+        return '#ef4444';
+    };
+
     return (
         <div className={styles.container}>
-            {/* MODAL DE CONFIRMACIÓN */}
             {productToDelete && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -100,29 +121,21 @@ export default function AdminDashboard() {
                 </div>
             )}
 
-            {/* TOAST */}
             {notification && (
                 <div className={`${styles.notification} ${styles[notification.type]}`}>
                     {notification.message}
                 </div>
             )}
 
-            {/* HEADER LIMPIO (SIN LOGO) */}
             <div className={styles.header}>
-
-                {/* 1. IZQUIERDA: TÍTULO APP SOLAMENTE */}
                 <div className={styles.headerLeft}>
                     <h1 className={styles.title}>Panel de Administración</h1>
                 </div>
-
-                {/* 2. CENTRO: SALUDO DESTACADO */}
                 <div className={styles.headerCenter}>
                     <span className={styles.userName}>
                         Hola, <strong className={styles.userNameHighlight}>{user?.name}</strong>
                     </span>
                 </div>
-
-                {/* 3. DERECHA: BOTÓN SALIR */}
                 <div className={styles.userActions}>
                     <button onClick={handleLogout} className={styles.logoutButton}>
                         Cerrar Sesión
@@ -130,7 +143,6 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* SELECTOR DE MÁQUINA */}
             <div className={styles.controls}>
                 <label>Máquina Activa:</label>
                 <select
@@ -140,19 +152,43 @@ export default function AdminDashboard() {
                 >
                     {machines.map(m => (
                         <option key={m.id} value={m.id}>
-                            {m.name} — {m.location}
+                            {m.name} — {m.location} (ID: {String(m.id).substring(0,6)}...)
                         </option>
                     ))}
                 </select>
             </div>
 
-            {/* LAYOUT PRINCIPAL (GRID) */}
             {currentMachine ? (
                 <div className={styles.dashboardGrid}>
-
-                    {/* COLUMNA 1: TABLA DE INVENTARIO */}
                     <div className={styles.sectionCard}>
-                        <h2 className={styles.sectionTitle}>Inventario: {currentMachine.name}</h2>
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'15px'}}>
+                            <h2 className={styles.sectionTitle} style={{marginBottom:0}}>
+                                Inventario: {currentMachine.name}
+                            </h2>
+
+                            <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                                <span style={{fontSize:'0.85rem', color:'var(--text-muted)', fontWeight:'bold'}}>ESTADO:</span>
+                                <select
+                                    value={currentMachine.status}
+                                    onChange={handleStatusChange}
+                                    className={styles.select}
+                                    style={{
+                                        width:'auto',
+                                        padding:'5px 10px',
+                                        fontSize:'0.85rem',
+                                        borderColor: getStatusColor(currentMachine.status),
+                                        color: getStatusColor(currentMachine.status),
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    <option value="OPERATIVA">🟢 Operativa</option>
+                                    <option value="EN_MANTENIMIENTO">🟠 En Mantenimiento</option>
+
+                                    <option value="FUERA_SERVICIO">🔴 Fuera de Servicio</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div className={styles.tableContainer}>
                             <table className={styles.table}>
                                 <thead>
@@ -181,63 +217,32 @@ export default function AdminDashboard() {
                         </div>
                     </div>
 
-                    {/* COLUMNA 2: FORMULARIO AGREGAR */}
                     <div className={`${styles.sectionCard} ${styles.addProductForm}`}>
                         <h2 className={styles.sectionTitle}>+ Crear Producto</h2>
                         <form onSubmit={handleAddProduct} className={styles.formStack}>
-
                             <div className={styles.inputGroup}>
                                 <label className={styles.inputLabel}>Nombre del Producto</label>
-                                <input
-                                    type="text"
-                                    placeholder="Ej: Sprite Zero"
-                                    value={newProdName}
-                                    onChange={e => setNewProdName(e.target.value)}
-                                    className={styles.select}
-                                />
+                                <input type="text" placeholder="Ej: Sprite Zero" value={newProdName} onChange={e => setNewProdName(e.target.value)} className={styles.select} />
                             </div>
-
                             <div className={styles.inputGroup}>
                                 <label className={styles.inputLabel}>Precio ($)</label>
-                                <input
-                                    type="number"
-                                    placeholder="1000"
-                                    value={newProdPrice}
-                                    onChange={e => setNewProdPrice(e.target.value)}
-                                    className={styles.select}
-                                />
+                                <input type="number" placeholder="1000" value={newProdPrice} onChange={e => setNewProdPrice(e.target.value)} className={styles.select} />
                             </div>
-
                             <div className={styles.inputGroup}>
                                 <label className={styles.inputLabel}>Stock Inicial</label>
-                                <input
-                                    type="number"
-                                    placeholder="10"
-                                    value={newProdStock}
-                                    onChange={e => setNewProdStock(e.target.value)}
-                                    className={styles.select}
-                                />
+                                <input type="number" placeholder="10" value={newProdStock} onChange={e => setNewProdStock(e.target.value)} className={styles.select} />
                             </div>
-
                             <div className={styles.inputGroup}>
                                 <label className={styles.inputLabel}>Imagen URL (Opcional)</label>
-                                <input
-                                    type="text"
-                                    placeholder="https://..."
-                                    value={newProdImage}
-                                    onChange={e => setNewProdImage(e.target.value)}
-                                    className={styles.select}
-                                />
+                                <input type="text" placeholder="https://..." value={newProdImage} onChange={e => setNewProdImage(e.target.value)} className={styles.select} />
                             </div>
-
                             <button type="submit" className={styles.addButton}>Guardar Producto</button>
                         </form>
                     </div>
-
                 </div>
             ) : (
                 <div style={{ padding: 40, textAlign: "center", color: "#888" }}>
-                    <p>No se encontró información de la máquina.</p>
+                    <p>No se encontró información de la máquina seleccionada.</p>
                 </div>
             )}
         </div>
@@ -251,15 +256,8 @@ function ProductRow({ product, machineId, updateProduct, onDeleteClick, showNoti
     const handleSave = () => {
         const priceNum = Number(price);
         const stockNum = Number(stock);
-
-        if (priceNum <= 0) {
-            showNotification("El precio debe ser positivo", "error");
-            setPrice(product.price); return;
-        }
-        if (stockNum < 0) {
-            showNotification("El stock no puede ser negativo", "error");
-            setStock(product.stock); return;
-        }
+        if (priceNum <= 0) { showNotification("El precio debe ser positivo", "error"); setPrice(product.price); return; }
+        if (stockNum < 0) { showNotification("El stock no puede ser negativo", "error"); setStock(product.stock); return; }
         updateProduct(machineId, product.id, stockNum, priceNum);
         showNotification("Cambios guardados", "success");
     };
@@ -275,12 +273,8 @@ function ProductRow({ product, machineId, updateProduct, onDeleteClick, showNoti
                 />
             </td>
             <td><strong>{product.name}</strong></td>
-            <td>
-                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className={styles.inputEdit} />
-            </td>
-            <td>
-                <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className={styles.inputEdit} />
-            </td>
+            <td><input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className={styles.inputEdit} /></td>
+            <td><input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className={styles.inputEdit} /></td>
             <td>
                 <div className={styles.actionButtons}>
                     <button onClick={handleSave} className={`${styles.iconBtn} ${styles.btnSave}`} title="Guardar">💾</button>

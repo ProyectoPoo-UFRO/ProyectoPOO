@@ -1,7 +1,5 @@
 /* src/components/Login/Login.module.css */
 
-/* --- NUEVA ESTRUCTURA: PANTALLA DIVIDIDA --- */
-
 .splitScreen {
     display: flex;
     height: 100vh;
@@ -10,7 +8,6 @@
     background: var(--bg-body);
 }
 
-/* PANEL IZQUIERDO (Formulario) */
 .leftPane {
     flex: 1;
     display: flex;
@@ -21,7 +18,6 @@
     z-index: 2;
 }
 
-/* PANEL DERECHO (Imagen Gigante) */
 .rightPane {
     flex: 1.2;
     position: relative;
@@ -46,28 +42,24 @@
     align-items: center;
 }
 
-/* --- LA IMAGEN GIGANTE (CON EL NUEVO EFECTO) --- */
 .heroImage {
     width: 100%;
     max-width: 600px;
     height: auto;
     object-fit: contain;
-    /* Estado normal: Flotando suave con sombra azul */
     filter: drop-shadow(0 0 50px rgba(77, 77, 255, 0.3));
     animation: slowFloat 8s ease-in-out infinite;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* EFECTO "CHROMATIC POP" AL PASAR EL CURSOR */
 .heroImage:hover {
-    animation-play-state: paused; /* 1. Pausa la flotación para enfocar */
-    transform: scale(1.15) rotate(-3deg); /* 2. Crece y se inclina con actitud */
+    animation-play-state: paused;
+    transform: scale(1.15) rotate(-3deg);
 
-    /* 3. Doble sombra sólida (Cian y Neón) para efecto 3D + Brillo */
     filter:
             brightness(1.2)
-            drop-shadow(-15px -10px 0px rgba(6, 182, 212, 0.5)) /* Sombra Cian desplazada */
-            drop-shadow(15px 10px 0px rgba(77, 77, 255, 0.5));  /* Sombra Azul desplazada */
+            drop-shadow(-15px -10px 0px rgba(6, 182, 212, 0.5))
+            drop-shadow(15px 10px 0px rgba(77, 77, 255, 0.5));
 
     cursor: pointer;
 }
@@ -76,9 +68,6 @@
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-20px) scale(1.02); }
 }
-
-
-/* --- ESTILOS DE LA TARJETA --- */
 
 .card {
     background: var(--bg-card);
@@ -218,7 +207,6 @@
     font-weight: 600;
 }
 
-/* RESPONSIVE */
 @media (max-width: 960px) {
     .splitScreen {
         flex-direction: column;
@@ -251,4 +239,28 @@
     .logoContainer {
         display: none;
     }
+}
+
+.passwordWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.eyeBtn {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: color 0.3s;
+}
+
+.eyeBtn:hover {
+    color: var(--primary);
 }

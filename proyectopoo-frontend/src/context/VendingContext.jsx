@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from "react";
-// Importamos el servicio que conecta con la API
-import { getAllMachines, saveProductUpdate, createProduct, deleteProduct } from "../services/machineService";
+import { getAllMachines, saveProductUpdate, createProduct, deleteProduct, updateMachineStatus } from "../services/machineService";
 
 const VendingContext = createContext();
 export const useVending = () => useContext(VendingContext);
@@ -10,26 +9,41 @@ export function VendingProvider({ children }) {
     const [machines, setMachines] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // 1. Cargar datos al iniciar
+    const refreshData = async () => {
+        setLoading(true);
+        try {
+            const data = await getAllMachines();
+            setMachines(data);
+        } catch (error) {
+            console.error("Error refrescando datos:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const loadData = async () => {
-            try {
-                const data = await getAllMachines();
-                setMachines(data);
-            } catch (error) {
-                console.error("Error cargando máquinas del backend:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadData();
+        refreshData();
     }, []);
 
-    // 2. Disminuir Stock (Cliente)
+    const changeMachineStatus = async (machineId, newStatus) => {
+        const success = await updateMachineStatus(machineId, newStatus);
+
+        if (success) {
+            setMachines(prevMachines =>
+                prevMachines.map(m =>
+                    String(m.id) === String(machineId)
+                        ? { ...m, status: newStatus }
+                        : m
+                )
+            );
+            return true;
+        }
+        return false;
+    };
+
     const decreaseStock = (machineId, productId, qty = 1) => {
         setMachines(prevMachines =>
             prevMachines.map(machine => {
-                // Comparamos IDs como texto
                 if (String(machine.id) !== String(machineId)) return machine;
 
                 return {
@@ -44,13 +58,10 @@ export function VendingProvider({ children }) {
         );
     };
 
-    // 3. Admin: Actualizar Producto (Precio/Stock)
     const updateProduct = async (machineId, productId, newStock, newPrice) => {
         setMachines(prevMachines =>
             prevMachines.map(machine => {
-                // Comparamos IDs como texto
                 if (String(machine.id) !== String(machineId)) return machine;
-
                 return {
                     ...machine,
                     products: machine.products.map(p =>
@@ -64,34 +75,36 @@ export function VendingProvider({ children }) {
         await saveProductUpdate(machineId, { id: productId, stock: newStock, price: newPrice });
     };
 
-    // 4. Admin: Agregar Producto
     const addNewProduct = async (machineId, productData) => {
         const newProductFromDB = await createProduct(machineId, productData);
+
+        if (!newProductFromDB) {
+            console.error("❌ Fallo en Backend al crear producto");
+            return false;
+        }
 
         setMachines(prevMachines =>
             prevMachines.map(machine => {
                 if (String(machine.id) !== String(machineId)) return machine;
-
                 return {
                     ...machine,
                     products: [
                         ...machine.products,
                         {
                             ...newProductFromDB,
-                            image: newProductFromDB.image || "https://via.placeholder.com/150?text=Producto"
+                            image: newProductFromDB.image || "/img/logo-can.png"
                         }
                     ]
                 };
             })
         );
+        return true;
     };
 
-    // 5. Admin: Eliminar Producto
     const removeProduct = async (machineId, productId) => {
         setMachines(prevMachines =>
             prevMachines.map(machine => {
                 if (String(machine.id) !== String(machineId)) return machine;
-
                 return {
                     ...machine,
                     products: machine.products.filter(p => p.id !== productId)
@@ -109,7 +122,9 @@ export function VendingProvider({ children }) {
                 updateProduct,
                 addNewProduct,
                 removeProduct,
-                loading
+                changeMachineStatus,
+                loading,
+                refreshData
             }}
         >
             {children}

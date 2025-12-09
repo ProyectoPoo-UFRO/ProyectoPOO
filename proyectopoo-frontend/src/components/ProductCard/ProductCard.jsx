@@ -1,44 +1,38 @@
-import React from "react";
 import styles from "./ProductCard.module.css";
+import { useUser } from "../../context/UserContext";
 
 export default function ProductCard({ product, onBuy }) {
-
-    const handleImageError = (e) => {
-        e.target.src = "https://via.placeholder.com/150?text=Sin+Imagen";
-        e.target.onerror = null;
-    };
+    const { user, toggleProductFavorite } = useUser();
+    const isFavorite = user?.idLatasFavoritas?.includes(product.id);
 
     return (
         <div className={styles.card}>
+            <button
+                className={`${styles.favBtn} ${isFavorite ? styles.favBtnActive : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleProductFavorite(product.id); }}
+            >
+                {isFavorite ? "❤️" : "🤍"}
+            </button>
+
             <div className={styles.imageContainer}>
-                <img
-                    src={product.image || "https://via.placeholder.com/150?text=Producto"}
-                    alt={product.name}
-                    className={styles.productImage}
-                    onError={handleImageError}
-                />
+                <img src={product.image} alt={product.name} className={styles.image} />
             </div>
 
             <div className={styles.info}>
-                <div className={styles.name}>{product.name}</div>
-                <div className={styles.stock}>Stock: {product.stock}</div>
-                <div className={styles.price}>${product.price}</div>
+                <h3 className={styles.name}>{product.name}</h3>
+                <div className={styles.priceRow}>
+                    <span className={styles.price}>${product.price}</span>
+                    <span className={styles.stock}>Stock: {product.stock}</span>
+                </div>
             </div>
 
             <button
+                className={styles.buyBtn}
                 onClick={() => onBuy(product)}
                 disabled={product.stock === 0}
-                className={styles.button}
-                style={{ backgroundColor: product.stock > 0 ? '#f39c12' : '#555' }}
             >
-                {product.stock > 0 ? "Agregar al Carrito" : "Agotado"}
+                {product.stock > 0 ? "Comprar" : "Agotado"}
             </button>
-
-            {product.stock === 0 && (
-                <div className={styles.outOfStockOverlay}>
-                    AGOTADO
-                </div>
-            )}
         </div>
     );
 }

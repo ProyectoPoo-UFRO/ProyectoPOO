@@ -6,42 +6,36 @@ import { useState, useEffect } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import Spinner from "../Spinner/Spinner";
 import styles from "./VendingMachine.module.css";
+import { registerSale } from "../../services/machineService";
 
 export default function VendingMachine() {
-    const { id } = useParams(); // Obtenemos el ID de la URL (es un String)
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const { machines, decreaseStock, loading } = useVending();
-    const { user, deductBalance, addPurchase } = useUser();
+    const { user, deductBalance, addPurchase, logout } = useUser();
     const { cart, addToCart, removeFromCart, clearCart } = useCart();
 
     const [message, setMessage] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-    // --- CORRECCIÓN CRÍTICA ---
-    // Buscamos la máquina comparando Strings. NO usamos Number(id) porque los IDs de Mongo son texto.
     const currentMachine = machines.find(m => String(m.id) === String(id));
 
-    // Redirección segura
     useEffect(() => {
-        // Solo redirigimos si ya terminó de cargar y aun así no encontró la máquina
         if (!loading && !currentMachine) {
-            console.warn("Máquina no encontrada, redirigiendo...");
             navigate("/home");
         }
     }, [currentMachine, loading, navigate]);
 
-    // 1. Mostrar Spinner mientras carga
     if (loading) return <Spinner />;
-
-    // 2. Si no hay máquina, no renderizar nada (el useEffect redirigirá)
     if (!currentMachine) return null;
 
-    // --- LÓGICA DEL COMPONENTE ---
-
-    const filteredProducts = currentMachine.products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredProducts = currentMachine.products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesFav = showFavoritesOnly ? user?.idLatasFavoritas?.includes(product.id) : true;
+        return matchesSearch && matchesFav;
+    });
 
     const handleAddToCart = (product) => {
         const itemInCart = cart.find(item => item.id === product.id);
@@ -51,53 +45,51 @@ export default function VendingMachine() {
             setMessage(`❌ Stock insuficiente de ${product.name}`);
             return;
         }
-
         addToCart(product);
         setMessage(`🛒 ${product.name} agregado`);
     };
 
-    const handleCheckout = () => {
-        if (cart.length === 0) {
-            setMessage("❌ El carrito está vacío");
-            return;
-        }
-
+    const handleCheckout = async () => {
+        if (cart.length === 0) { setMessage("❌ El carrito está vacío"); return; }
         const total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        if (user.balance < total) { setMessage("❌ Saldo insuficiente"); return; }
 
-        if (user.balance < total) {
-            setMessage("❌ Saldo insuficiente");
-            return;
+        const ventaPayload = {
+            idMaquina: currentMachine.id,
+            idUsuario: user.id,
+            items: cart.map(item => ({ lataId: item.id, cantidad: item.quantity }))
+        };
+
+        try {
+            const response = await registerSale(ventaPayload);
+            if (!response) { setMessage("❌ Error al procesar venta"); return; }
+
+            deductBalance(total);
+            cart.forEach(item => decreaseStock(currentMachine.id, item.id, item.quantity));
+            addPurchase(cart, total, currentMachine.name);
+            clearCart();
+            setMessage(`✔ ¡Compra exitosa! Total: $${total}`);
+            setSearchTerm("");
+        } catch (error) {
+            console.error("Error en checkout:", error);
+            setMessage("❌ Error de conexión al comprar");
         }
-
-        // Verificación final de stock antes de comprar
-        for (const item of cart) {
-            const productReal = currentMachine.products.find(p => p.id === item.id);
-            if (!productReal || productReal.stock < item.quantity) {
-                setMessage(`❌ Error de stock con ${item.name}`);
-                return;
-            }
-        }
-
-        // Procesar compra
-        deductBalance(total);
-        cart.forEach(item => {
-            decreaseStock(currentMachine.id, item.id, item.quantity);
-        });
-        addPurchase(cart, total, currentMachine.name);
-
-        clearCart();
-        setMessage(`✔ ¡Compra exitosa! Total: $${total}`);
-        setSearchTerm("");
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <div>
-                    <h1 className={styles.machineTitle}>{currentMachine.name}</h1>
-                    <p className={styles.machineLocation}>{currentMachine.location}</p>
+                <div className={styles.headerLeft}>
+                    <button onClick={() => navigate("/home")} className={styles.backButton}>← Volver</button>
                 </div>
-                <button onClick={() => navigate("/home")} className={styles.backButton}>← Volver</button>
+                <div className={styles.headerCenter}>
+                    <h2>Hola, <strong className={styles.userNameHighlight}>{user?.name}</strong></h2>
+                    <span>Selecciona una máquina</span>
+                </div>
+                <div className={styles.headerActions}>
+                    <button onClick={() => navigate("/history")} className={styles.historyButton}>📜 Mis Compras</button>
+                    <button onClick={() => { logout(); navigate("/"); }} className={styles.logoutButton}>Cerrar sesión</button>
+                </div>
             </div>
 
             <div className={styles.mainLayout}>
@@ -111,20 +103,24 @@ export default function VendingMachine() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
+
+                        <button
+                            className={`${styles.filterFavBtn} ${showFavoritesOnly ? styles.active : ''}`}
+                            onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                            title="Ver solo mis favoritos"
+                        >
+                            {showFavoritesOnly ? "❤️ Favoritos" : "🤍 Favoritos"}
+                        </button>
                     </div>
 
                     <div className={styles.productsGrid}>
                         {filteredProducts.length > 0 ? (
                             filteredProducts.map((p) => (
-                                <ProductCard
-                                    key={p.id}
-                                    product={p}
-                                    onBuy={handleAddToCart}
-                                />
+                                <ProductCard key={p.id} product={p} onBuy={handleAddToCart} />
                             ))
                         ) : (
                             <p style={{ color: '#94a3b8', gridColumn: '1 / -1', textAlign: 'center', padding: '20px' }}>
-                                No se encontraron productos.
+                                {showFavoritesOnly ? "No tienes favoritos en esta máquina." : "No se encontraron productos."}
                             </p>
                         )}
                     </div>
@@ -135,53 +131,33 @@ export default function VendingMachine() {
                         <p className={styles.balanceLabel}>Saldo Disponible</p>
                         <h2 className={styles.balanceAmount}>${user.balance}</h2>
                     </div>
-
                     {message && (
-                        <div
-                            className={styles.messageBox}
-                            style={{
-                                backgroundColor: message.includes('❌') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                                color: message.includes('❌') ? '#fca5a5' : '#6ee7b7',
-                                border: message.includes('❌') ? '1px solid rgba(239, 68, 68, 0.2)' : '1px solid rgba(16, 185, 129, 0.2)'
-                            }}
-                        >
-                            {message}
-                        </div>
+                        <div className={styles.messageBox} style={{
+                            backgroundColor: message.includes('❌') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                            color: message.includes('❌') ? '#fca5a5' : '#6ee7b7',
+                            border: message.includes('❌') ? '1px solid rgba(239, 68, 68, 0.2)' : '1px solid rgba(16, 185, 129, 0.2)'
+                        }}>{message}</div>
                     )}
-
                     <div className={styles.cartContainer}>
                         <h3 className={styles.cartTitle}>🛒 Carrito</h3>
                         {cart.length === 0 ? (
-                            <p style={{ color: '#64748b', textAlign: 'center', padding: '20px 0', flexGrow: 1 }}>
-                                Carrito vacío...
-                            </p>
+                            <p style={{ color: '#64748b', textAlign: 'center', padding: '20px 0', flexGrow: 1 }}>Carrito vacío...</p>
                         ) : (
                             <>
                                 <ul className={styles.cartList}>
                                     {cart.map(item => (
                                         <li key={item.id} className={styles.cartItem}>
                                             <span>{item.quantity}x {item.name}</span>
-                                            <button
-                                                onClick={() => removeFromCart(item.id)}
-                                                className={styles.removeItemBtn}
-                                            >
-                                                ×
-                                            </button>
+                                            <button onClick={() => removeFromCart(item.id)} className={styles.removeItemBtn}>×</button>
                                         </li>
                                     ))}
                                 </ul>
                                 <div className={styles.cartTotal}>
                                     <span>Total:</span>
-                                    <span className={styles.totalPrice}>
-                                        ${cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)}
-                                    </span>
+                                    <span className={styles.totalPrice}>${cart.reduce((acc, item) => acc + (item.price * item.quantity), 0)}</span>
                                 </div>
-                                <button onClick={handleCheckout} className={styles.checkoutBtn}>
-                                    Pagar Ahora
-                                </button>
-                                <button onClick={clearCart} className={styles.clearBtn}>
-                                    Vaciar carrito
-                                </button>
+                                <button onClick={handleCheckout} className={styles.checkoutBtn}>Pagar Ahora</button>
+                                <button onClick={clearCart} className={styles.clearBtn}>Vaciar carrito</button>
                             </>
                         )}
                     </div>

@@ -8,12 +8,13 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     if (user) {
         return <Navigate to={user.role === 'admin' ? "/admin" : "/home"} replace />;
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         setError("");
 
@@ -22,7 +23,7 @@ export default function Login() {
             return;
         }
 
-        const isSuccess = login(username, password);
+        const isSuccess = await login(username, password);
 
         if (!isSuccess) {
             setError("Usuario o contraseña incorrectos");
@@ -32,11 +33,9 @@ export default function Login() {
     return (
         <div className={styles.splitScreen}>
 
-            {/* SECCIÓN IZQUIERDA: EL FORMULARIO */}
             <div className={styles.leftPane}>
                 <div className={styles.card}>
                     <div className={styles.logoContainer}>
-                        {/* Esta sigue siendo tu imagen pequeña actual */}
                         <img
                             src="/img/logo-circle.png"
                             alt="LatApp Logo"
@@ -58,15 +57,32 @@ export default function Login() {
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Contraseña</label>
-                            <input
-                                className={styles.input}
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                            <div className={styles.passwordWrapper}>
+                                <input
+                                    className={styles.input}
+                                    type={showPassword ? "text" : "password"} // Cambio dinámico
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    style={{ paddingRight: '45px' }}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeBtn}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    tabIndex="-1"
+                                >
+                                    {showPassword ? (
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    ) : (
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                    )}
+                                </button>
+                            </div>
                         </div>
+
                         {error && <div className={styles.errorMessage}>⚠️ {error}</div>}
+
                         <button type="submit" className={styles.button}>
                             Ingresar
                         </button>
@@ -74,10 +90,8 @@ export default function Login() {
                 </div>
             </div>
 
-            {/* SECCIÓN DERECHA: IMAGEN GIGANTE */}
             <div className={styles.rightPane}>
                 <div className={styles.heroContent}>
-                    {/* CAMBIO AQUÍ: Usamos la nueva imagen de la argolla */}
                     <img
                         src="/img/logo-hero.png"
                         alt="LatApp Giant Logo"
