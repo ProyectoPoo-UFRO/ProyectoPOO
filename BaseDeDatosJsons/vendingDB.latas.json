@@ -1,54 +1,114 @@
-[{
-  "_id": {
-    "$oid": "6936ee8b5f974bc9c0023003"
+[
+  {
+    "_id": { "$oid": "6936ee8b5f974bc9c0023003" },
+    "nombre": "Cerveza Cristal",
+    "precio": 1500,
+    "imagen": "images/latas/cristal.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Cerveza Cristal",
-  "precio": 1500,
-  "imagen": "images/latas/default.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-},
-{
-  "_id": {
-    "$oid": "693720f1ac41b6cb9411a933"
+  {
+    "_id": { "$oid": "693720f1ac41b6cb9411a933" },
+    "nombre": "Fanta",
+    "precio": 1000,
+    "imagen": "images/latas/fanta.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Fanta",
-  "precio": 1000,
-  "imagen": "images/latas/fanta.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-},
-{
-  "_id": {
-    "$oid": "6937210dac41b6cb9411a934"
+  {
+    "_id": { "$oid": "6937210dac41b6cb9411a934" },
+    "nombre": "Coca-Cola",
+    "precio": 1500,
+    "imagen": "images/latas/coca.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Coca-Cola",
-  "precio": 1500,
-  "imagen": "images/latas/coca.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-},
-{
-  "_id": {
-    "$oid": "69372136ac41b6cb9411a935"
+  {
+    "_id": { "$oid": "69372136ac41b6cb9411a935" },
+    "nombre": "Agua Mineral",
+    "precio": 700,
+    "imagen": "images/latas/agua.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Agua Mineral",
-  "precio": 700,
-  "imagen": "images/latas/agua.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-},
-{
-  "_id": {
-    "$oid": "69372149ac41b6cb9411a936"
+  {
+    "_id": { "$oid": "69372149ac41b6cb9411a936" },
+    "nombre": "Pepsi",
+    "precio": 900,
+    "imagen": "images/latas/pepsi.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Pepsi",
-  "precio": 900,
-  "imagen": "images/latas/pepsi.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-},
-{
-  "_id": {
-    "$oid": "6937215bac41b6cb9411a937"
+  {
+    "_id": { "$oid": "6937215bac41b6cb9411a937" },
+    "nombre": "Sprite",
+    "precio": 1000,
+    "imagen": "images/latas/sprite.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
   },
-  "nombre": "Sprite",
-  "precio": 1000,
-  "imagen": "images/latas/sprite.png",
-  "_class": "com.example.RESTAPIDB.model.sistema.Lata"
-}]
+  {
+    "_id": { "$oid": "693725000000000000000001" },
+    "nombre": "Red Bull",
+    "precio": 2000,
+    "imagen": "images/latas/redbull.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000002" },
+    "nombre": "Coca-Cola Zero",
+    "precio": 1500,
+    "imagen": "images/latas/cocazero.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000003" },
+    "nombre": "Sprite Zero",
+    "precio": 1500,
+    "imagen": "images/latas/spritezero.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000004" },
+    "nombre": "Fanta Zero",
+    "precio": 1000,
+    "imagen": "images/latas/fantazero.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000005" },
+    "nombre": "Jugo Watts Durazno",
+    "precio": 1200,
+    "imagen": "images/latas/default.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000006" },
+    "nombre": "Jugo Watts Piña",
+    "precio": 1200,
+    "imagen": "images/latas/default.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000007" },
+    "nombre": "Bilz",
+    "precio": 1300,
+    "imagen": "images/latas/bilz.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000008" },
+    "nombre": "Pap",
+    "precio": 1300,
+    "imagen": "images/latas/pap.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000009" },
+    "nombre": "Monster Energy",
+    "precio": 2200,
+    "imagen": "images/latas/monster.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  },
+  {
+    "_id": { "$oid": "693725000000000000000010" },
+    "nombre": "Agua Mineral Gas",
+    "precio": 800,
+    "imagen": "images/latas/agua.png",
+    "_class": "com.example.RESTAPIDB.model.sistema.Lata"
+  }
+]

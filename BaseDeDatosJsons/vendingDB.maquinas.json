@@ -8,28 +8,40 @@
     "stockMaximo": 100,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 15
+        "lataId": "693725000000000000000003",
+        "stock": 10
       },
       {
-        "lataId": "693720f1ac41b6cb9411a933",
+        "lataId": "693725000000000000000007",
+        "stock": 4
+      },
+      {
+        "lataId": "6937215bac41b6cb9411a937",
+        "stock": 14
+      },
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 5
+      },
+      {
+        "lataId": "693725000000000000000010",
+        "stock": 13
+      },
+      {
+        "lataId": "693725000000000000000004",
+        "stock": 5
+      },
+      {
+        "lataId": "693725000000000000000002",
         "stock": 12
       },
       {
         "lataId": "6937210dac41b6cb9411a934",
-        "stock": 14
+        "stock": 10
       },
       {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 13
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 13
-      },
-      {
-        "lataId": "6937215bac41b6cb9411a937",
-        "stock": 20
+        "lataId": "693725000000000000000009",
+        "stock": 5
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -44,28 +56,20 @@
     "stockMaximo": 120,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 15
+        "lataId": "693725000000000000000001",
+        "stock": 24
+      },
+      {
+        "lataId": "693725000000000000000009",
+        "stock": 34
       },
       {
         "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 15
-      },
-      {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 22
+        "stock": 29
       },
       {
         "lataId": "69372136ac41b6cb9411a935",
-        "stock": 15
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 15
-      },
-      {
-        "lataId": "6937215bac41b6cb9411a937",
-        "stock": 23
+        "stock": 5
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -80,28 +84,24 @@
     "stockMaximo": 100,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 21
-      },
-      {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 12
-      },
-      {
         "lataId": "6937210dac41b6cb9411a934",
-        "stock": 13
-      },
-      {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 14
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 17
+        "stock": 18
       },
       {
         "lataId": "6937215bac41b6cb9411a937",
-        "stock": 11
+        "stock": 6
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 1
+      },
+      {
+        "lataId": "693725000000000000000006",
+        "stock": 24
+      },
+      {
+        "lataId": "693725000000000000000005",
+        "stock": 17
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -111,33 +111,37 @@
     "_id": {
       "$oid": "6937247aff73f50988c6d753"
     },
-    "estado": "OPERATIVA",
+    "estado": "FUERA_SERVICIO",
     "ubicacion": "Campus INACAP - Edificio A",
     "stockMaximo": 40,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 5
-      },
-      {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 7
-      },
-      {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 7
-      },
-      {
-        "lataId": "69372136ac41b6cb9411a935",
+        "lataId": "693725000000000000000006",
         "stock": 6
       },
       {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 8
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 7
       },
       {
-        "lataId": "6937215bac41b6cb9411a937",
-        "stock": 9
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 2
+      },
+      {
+        "lataId": "693725000000000000000010",
+        "stock": 2
+      },
+      {
+        "lataId": "693725000000000000000001",
+        "stock": 1
+      },
+      {
+        "lataId": "693725000000000000000002",
+        "stock": 5
+      },
+      {
+        "lataId": "693725000000000000000004",
+        "stock": 8
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -152,28 +156,40 @@
     "stockMaximo": 70,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 11
+        "lataId": "693725000000000000000001",
+        "stock": 4
       },
       {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 7
-      },
-      {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 14
-      },
-      {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 9
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 16
+        "lataId": "693725000000000000000002",
+        "stock": 3
       },
       {
         "lataId": "6937215bac41b6cb9411a937",
-        "stock": 15
+        "stock": 12
+      },
+      {
+        "lataId": "693725000000000000000008",
+        "stock": 11
+      },
+      {
+        "lataId": "693725000000000000000006",
+        "stock": 7
+      },
+      {
+        "lataId": "693725000000000000000009",
+        "stock": 5
+      },
+      {
+        "lataId": "693725000000000000000007",
+        "stock": 2
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 11
+      },
+      {
+        "lataId": "693725000000000000000004",
+        "stock": 7
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -188,28 +204,36 @@
     "stockMaximo": 140,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 28
-      },
-      {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 23
-      },
-      {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 25
+        "lataId": "693725000000000000000006",
+        "stock": 9
       },
       {
         "lataId": "69372136ac41b6cb9411a935",
+        "stock": 7
+      },
+      {
+        "lataId": "693725000000000000000001",
+        "stock": 16
+      },
+      {
+        "lataId": "693725000000000000000002",
+        "stock": 17
+      },
+      {
+        "lataId": "6936ee8b5f974bc9c0023003",
+        "stock": 17
+      },
+      {
+        "lataId": "693725000000000000000004",
         "stock": 21
       },
       {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 21
+        "lataId": "693725000000000000000005",
+        "stock": 16
       },
       {
         "lataId": "6937215bac41b6cb9411a937",
-        "stock": 20
+        "stock": 9
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -224,28 +248,20 @@
     "stockMaximo": 30,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 9
+        "lataId": "693725000000000000000004",
+        "stock": 10
       },
       {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 9
+        "lataId": "693725000000000000000010",
+        "stock": 7
       },
       {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 3
+        "lataId": "693725000000000000000003",
+        "stock": 8
       },
       {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 2
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 3
-      },
-      {
-        "lataId": "6937215bac41b6cb9411a937",
-        "stock": 2
+        "lataId": "693725000000000000000006",
+        "stock": 5
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -255,33 +271,41 @@
     "_id": {
       "$oid": "6937249bff73f50988c6d757"
     },
-    "estado": "OPERATIVA",
+    "estado": "FUERA_SERVICIO",
     "ubicacion": "U. Mayor - Biblioteca Central",
     "stockMaximo": 100,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 19
-      },
-      {
         "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 12
+        "stock": 9
       },
       {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 19
-      },
-      {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 20
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 19
+        "lataId": "693725000000000000000008",
+        "stock": 13
       },
       {
         "lataId": "6937215bac41b6cb9411a937",
-        "stock": 21
+        "stock": 1
+      },
+      {
+        "lataId": "693725000000000000000004",
+        "stock": 10
+      },
+      {
+        "lataId": "693725000000000000000002",
+        "stock": 3
+      },
+      {
+        "lataId": "69372136ac41b6cb9411a935",
+        "stock": 16
+      },
+      {
+        "lataId": "69372149ac41b6cb9411a936",
+        "stock": 14
+      },
+      {
+        "lataId": "693725000000000000000006",
+        "stock": 17
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -291,33 +315,33 @@
     "_id": {
       "$oid": "693724a3ff73f50988c6d758"
     },
-    "estado": "OPERATIVA",
+    "estado": "SIN_STOCK",
     "ubicacion": "Portal Temuco - Nivel 3",
     "stockMaximo": 100,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 15
+        "lataId": "693725000000000000000006",
+        "stock": 0
       },
       {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 20
-      },
-      {
-        "lataId": "6937210dac41b6cb9411a934",
-        "stock": 19
-      },
-      {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 18
-      },
-      {
-        "lataId": "69372149ac41b6cb9411a936",
-        "stock": 19
+        "lataId": "693725000000000000000004",
+        "stock": 0
       },
       {
         "lataId": "6937215bac41b6cb9411a937",
-        "stock": 15
+        "stock": 0
+      },
+      {
+        "lataId": "693725000000000000000010",
+        "stock": 0
+      },
+      {
+        "lataId": "693725000000000000000001",
+        "stock": 0
+      },
+      {
+        "lataId": "693725000000000000000005",
+        "stock": 0
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",
@@ -332,28 +356,36 @@
     "stockMaximo": 200,
     "productos": [
       {
-        "lataId": "6936ee8b5f974bc9c0023003",
-        "stock": 37
-      },
-      {
-        "lataId": "693720f1ac41b6cb9411a933",
-        "stock": 32
-      },
-      {
         "lataId": "6937210dac41b6cb9411a934",
-        "stock": 38
+        "stock": 13
       },
       {
-        "lataId": "69372136ac41b6cb9411a935",
-        "stock": 29
+        "lataId": "693725000000000000000009",
+        "stock": 30
+      },
+      {
+        "lataId": "693725000000000000000002",
+        "stock": 25
+      },
+      {
+        "lataId": "693725000000000000000007",
+        "stock": 8
       },
       {
         "lataId": "69372149ac41b6cb9411a936",
-        "stock": 35
+        "stock": 8
       },
       {
-        "lataId": "6937215bac41b6cb9411a937",
-        "stock": 29
+        "lataId": "693725000000000000000001",
+        "stock": 30
+      },
+      {
+        "lataId": "693725000000000000000003",
+        "stock": 19
+      },
+      {
+        "lataId": "693720f1ac41b6cb9411a933",
+        "stock": 18
       }
     ],
     "maquinaImagenURL": "/images/maquinas/default.jpg",

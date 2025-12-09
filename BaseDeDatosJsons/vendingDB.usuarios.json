@@ -1,40 +1,127 @@
-[{
-  "_id": {
-    "$oid": "6935cc925702783660727be9"
+[
+  {
+    "_id": {
+      "$oid": "6935cc925702783660727be9"
+    },
+    "nombre": "Patricio",
+    "contrasenia": "$2a$05$ILbJZlRDuZJpKpZU4hgay.iM6MK7x8uuBbIAPcravr/Pc5ZUVqIHq",
+    "rol": "USER",
+    "saldo": 7050,
+    "idLatasFavoritas": [
+      "L01",
+      "L03"
+    ],
+    "idMaquinasFavoritas": [
+      "M010"
+    ],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
   },
-  "nombre": "Patricio",
-  "contrasenia": "$2a$05$ILbJZlRDuZJpKpZU4hgay.iM6MK7x8uuBbIAPcravr/Pc5ZUVqIHq",
-  "rol": "USER",
-  "saldo": 7050,
-  "idLatasFavoritas": [
-    "L01",
-    "L03"
-  ],
-  "idMaquinasFavoritas": [
-    "M010"
-  ],
-  "_class": "com.example.RESTAPIDB.model.Usuario"
-},
-{
-  "_id": {
-    "$oid": "6936061d1b051ffa91c470b1"
+  {
+    "_id": {
+      "$oid": "6936061d1b051ffa91c470b1"
+    },
+    "nombre": "Ignacio",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 15000,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
   },
-  "nombre": "Ignacio",
-  "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
-  "rol": "USER",
-  "saldo": 15000,
-  "idLatasFavoritas": [],
-  "idMaquinasFavoritas": [],
-  "_class": "com.example.RESTAPIDB.model.Usuario"
-},
-{
-  "_id": {
-    "$oid": "693606671b051ffa91c470b2"
+  {
+    "_id": {
+      "$oid": "693606671b051ffa91c470b2"
+    },
+    "nombre": "Admin",
+    "contrasenia": "$2a$05$XgQsRGm7N9s1IgzcoG2MHOEBkQvgT1CX3KzZGp5APeLekuFfLeULq",
+    "rol": "ADMIN",
+    "saldo": 999999,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
   },
-  "nombre": "Admin",
-  "contrasenia": "$2a$05$XgQsRGm7N9s1IgzcoG2MHOEBkQvgT1CX3KzZGp5APeLekuFfLeULq",
-  "rol": "ADMIN",
-  "idLatasFavoritas": [],
-  "idMaquinasFavoritas": [],
-  "_class": "com.example.RESTAPIDB.Modelos.Usuario"
-}]
+  {
+    "_id": {
+      "$oid": "693726000000000000000001"
+    },
+    "nombre": "Sofia",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 5000,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000002"
+    },
+    "nombre": "Mateo",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 25000,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000003"
+    },
+    "nombre": "Valentina",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 12500,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000004"
+    },
+    "nombre": "Nicolas",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 800,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000005"
+    },
+    "nombre": "Fernanda",
+    "contrasenia": "$2a$05$Pc8tCsvXUk8/BJn7syig3.Kw.T6jWPEj5EfPjDdMFr7ZWbmBc2CfW",
+    "rol": "USER",
+    "saldo": 50000,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000006"
+    },
+    "nombre": "Soporte",
+    "contrasenia": "$2a$05$XgQsRGm7N9s1IgzcoG2MHOEBkQvgT1CX3KzZGp5APeLekuFfLeULq",
+    "rol": "ADMIN",
+    "saldo": 0,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  },
+  {
+    "_id": {
+      "$oid": "693726000000000000000007"
+    },
+    "nombre": "Gerente",
+    "contrasenia": "$2a$05$XgQsRGm7N9s1IgzcoG2MHOEBkQvgT1CX3KzZGp5APeLekuFfLeULq",
+    "rol": "ADMIN",
+    "saldo": 100000,
+    "idLatasFavoritas": [],
+    "idMaquinasFavoritas": [],
+    "_class": "com.example.RESTAPIDB.model.Usuario"
+  }
+]
