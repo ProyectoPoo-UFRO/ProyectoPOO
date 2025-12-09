@@ -51,7 +51,7 @@ public class AuthService {
                 throw new RuntimeException("Usuario no encontrado");
             }
 
-            return generarToken(usuario); // Genera el token usando la ID del usuario
+            return generarToken(usuario);
         }
 
         throw new RuntimeException("Error en autenticación");

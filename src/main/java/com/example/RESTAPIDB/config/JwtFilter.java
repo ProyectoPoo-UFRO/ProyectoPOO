@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usuarioDetailsService.loadUserById(userId); // cargar por ID
+            UserDetails userDetails = usuarioDetailsService.loadUserById(userId);
 
             if (jwtService.intentarValidarToken(token, (UsuarioDetails) userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
@@ -52,6 +52,5 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 
 }

@@ -1,12 +1,10 @@
 package com.example.RESTAPIDB.services;
 
-
 import com.example.RESTAPIDB.model.UsuarioDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -24,19 +22,17 @@ public class JWTService {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    // Ahora recibe UsuarioDetails y genera token usando la ID
     public String generarToken(UsuarioDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userDetails.getId()) // USAMOS LA ID
+                .setSubject(userDetails.getId())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(secretKey)
                 .compact();
     }
 
-    // Extraemos la id del token
     public String extraerIdUsuario(String token) {
         return extraerClaim(token, Claims::getSubject);
     }

@@ -41,10 +41,7 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}/recargar")
-    public ResponseEntity<Usuario> recargarSaldo(
-            @PathVariable("id") String id,
-            @RequestBody Map<String, Double> request
-    ) {
+    public ResponseEntity<Usuario> recargarSaldo(@PathVariable("id") String id, @RequestBody Map<String, Double> request) {
         double monto = request.getOrDefault("monto", 0.0);
 
         try {
@@ -57,9 +54,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/{id}/favoritas/maquinas/{idMaquina}")
-    public ResponseEntity<Usuario> agregarMaquinaFavorita(
-            @PathVariable("id") String id,
-            @PathVariable("idMaquina") String idMaquina
+    public ResponseEntity<Usuario> agregarMaquinaFavorita(@PathVariable("id") String id, @PathVariable("idMaquina") String idMaquina
     ) {
         return usuarioService.agregarMaquinaFavorita(id, idMaquina)
                 .map(ResponseEntity::ok)
@@ -67,9 +62,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}/favoritas/maquinas/{idMaquina}")
-    public ResponseEntity<Usuario> quitarMaquinaFavorita(
-            @PathVariable("id") String id,
-            @PathVariable("idMaquina") String idMaquina
+    public ResponseEntity<Usuario> quitarMaquinaFavorita(@PathVariable("id") String id, @PathVariable("idMaquina") String idMaquina
     ) {
         return usuarioService.quitarMaquinaFavorita(id, idMaquina)
                 .map(ResponseEntity::ok)
@@ -77,9 +70,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/{id}/favoritas/latas/{idLata}")
-    public ResponseEntity<Usuario> agregarLataFavorita(
-            @PathVariable("id") String id,
-            @PathVariable("idLata") String idLata
+    public ResponseEntity<Usuario> agregarLataFavorita(@PathVariable("id") String id, @PathVariable("idLata") String idLata
     ) {
         return usuarioService.agregarLataFavorita(id, idLata)
                 .map(ResponseEntity::ok)
@@ -87,12 +78,10 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}/favoritas/latas/{idLata}")
-    public ResponseEntity<Usuario> quitarLataFavorita(
-            @PathVariable("id") String id,
-            @PathVariable("idLata") String idLata
-    ) {
+    public ResponseEntity<Usuario> quitarLataFavorita(@PathVariable("id") String id, @PathVariable("idLata") String idLata) {
         return usuarioService.quitarLataFavorita(id, idLata)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
 }

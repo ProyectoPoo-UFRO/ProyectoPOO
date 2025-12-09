@@ -1,7 +1,6 @@
 package com.example.RESTAPIDB.services;
 
 import com.example.RESTAPIDB.model.Usuario;
-import com.example.RESTAPIDB.model.sistema.Lata;
 import com.example.RESTAPIDB.model.sistema.Maquina;
 import com.example.RESTAPIDB.model.sistema.Producto;
 import com.example.RESTAPIDB.model.transaciones.Venta;
@@ -36,23 +35,28 @@ public class VentaService {
 
         validarItems(items);
 
-        Maquina maquina = maquinaRepo.findById(idMaquina)
-                .orElseThrow(() -> new RuntimeException("La máquina con id " + idMaquina + " no existe"));
+        Maquina maquina = obtenerMaquina(idMaquina);
+        Usuario usuario = obtenerUsuario(idUsuario);
 
-        Usuario usuario = usuarioRepo.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("El usuario con id " + idUsuario + " no existe"));
+        int total = obtenerTotal(maquina, items);
 
-        int total = procesarItems(maquina, items);
-
-        verificarSaldo(usuario, total);
-        usuario.setSaldo(usuario.getSaldo() - total);
-        usuarioRepo.save(usuario);
+        descontarSaldoUsuario(usuario, total);
 
         Venta venta = crearVenta(idMaquina, idUsuario, items, total);
-        ventaRepo.save(venta);
 
-        maquinaRepo.save(maquina);
+        guardarCambios(usuario, maquina, venta);
+
         return venta;
+    }
+
+    private Maquina obtenerMaquina(String idMaquina) {
+        return maquinaRepo.findById(idMaquina)
+                .orElseThrow(() -> new RuntimeException("La máquina con id " + idMaquina + " no existe"));
+    }
+
+    private Usuario obtenerUsuario(String idUsuario) {
+        return usuarioRepo.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("El usuario con id " + idUsuario + " no existe"));
     }
 
     private void validarItems(List<VentaItem> items) {
@@ -61,35 +65,62 @@ public class VentaService {
         }
     }
 
-    private int procesarItems(Maquina maquina, List<VentaItem> items) {
+    private int obtenerTotal(Maquina maquina, List<VentaItem> items) {
         int total = 0;
 
         for (VentaItem item : items) {
-            if (item.getCantidad() <= 0) {
-                throw new RuntimeException("Cantidad inválida para el producto " + item.getLataId());
-            }
+            validarCantidad(item);
 
-            Producto producto = maquina.getProductos().stream()
-                    .filter(p -> p.getLataId().equals(item.getLataId()))
-                    .findFirst()
-                    .orElseThrow(() ->
-                            new RuntimeException("El producto " + item.getLataId() + " no está en la máquina")
-                    );
+            Producto producto = obtenerProducto(maquina, item);
 
-            if (producto.getStock() < item.getCantidad()) {
-                throw new RuntimeException("Stock insuficiente para el producto " + item.getLataId());
-            }
+            validarStock(producto, item);
 
             producto.setStock(producto.getStock() - item.getCantidad());
 
-            int precio = lataRepo.findById(item.getLataId())
-                    .orElseThrow(() -> new RuntimeException("La lata " + item.getLataId() + " no existe"))
-                    .getPrecio();
+            int precio = obtenerPrecioLata(item);
 
             total += precio * item.getCantidad();
         }
 
         return total;
+    }
+
+    private void validarCantidad(VentaItem item){
+        if (item.getCantidad() <= 0) {
+            throw new RuntimeException("Cantidad inválida para el producto " + item.getLataId());
+        }
+    }
+
+    private Producto obtenerProducto(Maquina maquina, VentaItem item){
+        return maquina.getProductos().stream()
+                .filter(p -> p.getLataId().equals(item.getLataId()))
+                .findFirst()
+                .orElseThrow(() ->
+                        new RuntimeException("El producto " + item.getLataId() + " no está en la máquina")
+                );
+    }
+
+    private void validarStock(Producto producto, VentaItem item){
+        if (producto.getStock() < item.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente para el producto " + item.getLataId());
+        }
+    }
+
+    private int obtenerPrecioLata(VentaItem item){
+        return lataRepo.findById(item.getLataId())
+                .orElseThrow(() -> new RuntimeException("La lata " + item.getLataId() + " no existe"))
+                .getPrecio();
+    }
+
+    private void descontarSaldoUsuario(Usuario usuario, int total) {
+        verificarSaldo(usuario, total);
+        usuario.setSaldo(usuario.getSaldo() - total);
+    }
+
+    private void guardarCambios(Usuario usuario, Maquina maquina, Venta venta) {
+        usuarioRepo.save(usuario);
+        maquinaRepo.save(maquina);
+        ventaRepo.save(venta);
     }
 
     private void verificarSaldo(Usuario usuario, int total) {
@@ -107,7 +138,6 @@ public class VentaService {
         venta.setFecha(LocalDateTime.now());
         return venta;
     }
-
 
     public Optional<Venta> obtenerVentaPorId(String id) {
         return ventaRepo.findById(id);
